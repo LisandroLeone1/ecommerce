@@ -1,0 +1,36 @@
+{% extends 'ecommerce/base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="carro__grid">
+    {% for key, item in carro.items %}
+        <div class="carro__item">
+            <img src="{{ item.imagen }}" alt="{{ item.nombre }}">
+            <div class="carro__data">
+                <h3>{{ item.nombre }}</h3>
+                <p>Cantidad: {{ item.cantidad }}</p>
+                <h4>Precio: ${{ item.precio|floatformat:2 }}</h4>
+                <button class="eliminar" data-id="{{ key }}">Eliminar</button>
+            </div>
+        </div>
+    {% empty %}
+        <p>No hay productos en el carrito.</p>
+    {% endfor %}
+</div>
+
+<div class="container-precio">
+    <div class="total">
+        <p>Total:</p>
+        <p id="total-precio">$0.00</p> <!-- Actualiza esto con JavaScript si es necesario -->
+    </div>
+    <div class="comprar">
+        <button>Comprar</button>
+        <a href="">Ver más productos</a>
+    </div>
+</div>
+
+
+
+{% endblock content %}
