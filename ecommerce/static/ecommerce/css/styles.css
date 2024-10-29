@@ -215,7 +215,6 @@ form {
 .container__genero a.activar {
     color: var(--color-terciario);
     font-weight: bold;
-    border-bottom: 2px solid var(--color-terciario);
 }
 
 .container__flex-filtros {
