@@ -178,13 +178,53 @@ form {
 
 /* ASIDE */
 
+.aside-filters {
+    border-right: 1px solid var(--color-principal);
+}
+
+
+.container__genero {
+    margin-top: 30px;
+    margin-left: 40px;
+    padding: 10px;
+}
+
+.container__genero h3 {
+    font-size: 21px;
+    margin-bottom: 15px;
+    color: var(--color-quinto);
+}
+
+.container__genero li {
+    list-style: none;
+    margin-top: 15px;
+    margin-left: 10px;
+}
+
+.container__genero a {
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 15px;
+    color: var(--color-quinto);
+}
+
+.container__genero a:hover {
+    color: var(--color-cuarto);
+}
+
+.container__genero a.activar {
+    color: var(--color-terciario);
+    font-weight: bold;
+    border-bottom: 2px solid var(--color-terciario);
+}
+
 .container__flex-filtros {
     display: flex;
     flex-direction: column;
     height: 100%; 
+    margin-left: 40px;
     gap: 15px;
     padding: 10px;
-    border-right: 1px solid var(--color-principal); /* Borde opcional */
 }
 
 .container__filtros-tittle span {
@@ -192,15 +232,15 @@ form {
 }
 
 .filtros-tittle {
-    margin-top: 40px;
-    margin-left: 50px;
+    margin-top: 20px;
+    margin-left: 40px;
+    padding: 10px;
     font-size: 21px;
     color: var(--color-quinto);
 }
 
 .container__filtro {
     margin-top: 15px;
-    margin-left: 50px;
 }
 
 .container__filtro label {
@@ -219,6 +259,7 @@ form {
 
 .container__filtro span {
     margin-left: 3px; /* Margen entre checkbox y texto */
+    color: var(--color-quinto);
 }
 
 .container__filtro i {

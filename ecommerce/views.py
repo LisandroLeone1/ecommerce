@@ -71,7 +71,7 @@ def construir_filtros_aplicados(genero, color_ids, talle_ids, marca_ids, categor
     filtros_aplicados = {}
 
     if genero:
-        filtros_aplicados['Género'] = genero
+        filtros_aplicados['genero'] = genero
 
     if color_ids:
         colores = Color.objects.filter(id__in=color_ids)
@@ -171,22 +171,28 @@ def productos_lista(request):
         'checked_marcas': checked_marcas,
     })
 
-
-def indumentaria_view(request):
+def indumentaria_view(request, genero=None):
     filtros = obtener_filtros(request)
 
     # Filtrar productos de indumentaria
     indumentarias = Producto.objects.filter(tipo_producto='indumentaria')
+    if genero:
+        indumentarias = indumentarias.filter(genero=genero)
+
+    # Aplicar filtro de género si se proporciona
+
+
     indumentarias = filtrar_productos(
         indumentarias,
-        filtros['genero'],
+        genero,  # Usa el género de la URL o el del formulario
         filtros['color_ids'],
         filtros['talle_ids'],
         filtros['marca_ids'],
         filtros['categoria_id'],
-        'indumentaria'  # Aquí fijamos el tipo de producto
+        'indumentaria'
     )
 
+    # Ordenar productos
     ordenar = request.GET.get('ordenar')
     if ordenar == 'precio_asc':
         indumentarias = indumentarias.order_by('precio')
@@ -201,7 +207,7 @@ def indumentaria_view(request):
         indumentaria.cuota = cuotas_sin_interes(indumentaria.precio, 3)
 
     filtros_aplicados = construir_filtros_aplicados(
-        filtros['genero'],
+        genero, 
         filtros['color_ids'],
         filtros['talle_ids'],
         filtros['marca_ids'],
@@ -214,14 +220,15 @@ def indumentaria_view(request):
     colores = Color.objects.all()
     talles_ind = TalleIndumentaria.objects.all()
 
-
     return render(request, 'ecommerce/indumentaria.html', {
         'indumentarias': indumentarias,
         'filtros_aplicados': filtros_aplicados,
         'marcas': marcas,
         'colores': colores,
         'talles_ind': talles_ind,
+        'genero': genero,
     })
+
 
 
 def calzados_view(request):

@@ -5,7 +5,24 @@
 
 <div class="wrapper">
     <aside id="aside-filters" class="aside-filters">
-        <form method="GET" action="{% url 'ecommerce:lista_indumentaria' %}">
+        <div class="container__genero">
+            <h3>Género</h3>
+            <ul>
+                <li>
+                    <a class="{% if filtros_aplicados.genero == 'hombre' %}activar{% endif %}" href="{% url 'ecommerce:indumentaria_por_genero' 'hombre' %}?genero=hombre">Hombre</a>
+                </li>
+                <li>
+                    <a class="{% if filtros_aplicados.genero == 'mujer' %}activar{% endif %}" href="{% url 'ecommerce:indumentaria_por_genero' 'mujer' %}?genero=mujer">Mujer</a>
+                </li>
+                <li>
+                    <a class="{% if filtros_aplicados.género == 'niño' %}activar{% endif %}" href="{% url 'ecommerce:indumentaria_por_genero' 'niño' %}?genero=niño">Niño</a>
+                </li>
+            </ul>
+        </div>
+        <pre>{{ filtros_aplicados }}</pre>
+        
+        <form method="GET" action="{% if genero %}{% url 'ecommerce:indumentaria_por_genero' genero %}{% else %}{% url 'ecommerce:lista_indumentaria' %}{% endif %}">
+
             <div class="container__filtros-tittle">
                 <span id="close-filters">X</span>
                 <h2 class="filtros-tittle">Filtrar Por</h2>
@@ -102,7 +119,6 @@
                             <button id="button-filtro-talles" type="button">Ver todos</button>
                         {% endif %}
                     </div>
-
                     <button type="submit" class="button-filtrar">Filtrar</button>
                 </div>   
             </form>
