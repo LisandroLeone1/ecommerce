@@ -36,7 +36,8 @@ def obtener_filtros(request):
         'talle_ids': request.GET.getlist('talles'),
         'marca_ids': request.GET.getlist('marca'),
         'categoria_id': request.GET.get('categoria', None),
-        'tipo_producto': request.GET.get('tipo_producto', None),  # Asegúrate de que este campo se envíe
+        'tipo_producto': request.GET.get('tipo_producto', None),
+        'estado': request.GET.get('estado', None),
     }
 
 
@@ -96,10 +97,8 @@ def construir_filtros_aplicados(genero, color_ids, talle_ids, marca_ids, categor
     return filtros_aplicados
 
 
-
-def productos_lista(request):
+def index_list(request):
     filtros = obtener_filtros(request)
-
     # Filtrar productos
     productos = Producto.objects.all()
 
@@ -108,68 +107,37 @@ def productos_lista(request):
     if busqueda:
         productos = productos.filter(
             Q(nombre__icontains=busqueda) | 
-            Q(marca__nombre__icontains=busqueda) |  # Busca en el nombre de la marca
-            Q(genero__icontains=busqueda) |         # Busca en el género
-            Q(categoria__nombre__icontains=busqueda)  # Busca en el nombre de la categoría
+            Q(marca__nombre__icontains=busqueda) | 
+            Q(genero__icontains=busqueda) |         
+            Q(categoria__nombre__icontains=busqueda)  
         )
 
-    
-    # Filtrar por otros filtros
-    productos = filtrar_productos(
-        productos,
-        filtros['genero'],
-        filtros['color_ids'],
-        filtros['talle_ids'],
-        filtros['marca_ids'],
-        filtros['categoria_id'],
-        None
-    )
-    print(f"Talle IDs en productos_lista: {filtros['talle_ids']}")
+    novedades = Producto.objects.filter(estado='novedades')
 
-    #Ordenar productos
-    ordenar = request.GET.get('ordenar')
-    if ordenar == 'precio_asc':
-        productos = productos.order_by('precio')
-    elif ordenar == 'precio_desc':
-        productos = productos.order_by('-precio')
-    elif ordenar == 'nombre_asc':
-        productos = productos.order_by('nombre')
-    elif ordenar == 'nombre_desc':
-        productos = productos.order_by('-nombre')
+    for novedad in novedades:
+        novedad.cuota = cuotas_sin_interes(novedad.precio, 3)
 
-    # Calcular cuotas
-    for producto in productos:
-        producto.cuota = cuotas_sin_interes(producto.precio, 3)
+    destacados = Producto.objects.filter(estado='destacados')
 
-    filtros_aplicados = construir_filtros_aplicados(
-        filtros['genero'],
-        filtros['color_ids'],
-        filtros['talle_ids'],
-        filtros['marca_ids'],
-        filtros['categoria_id'],
-        filtros['tipo_producto']
-    )
+    for destacado in destacados:
+        destacado.cuota = cuotas_sin_interes(destacado.precio, 3)
 
-    checked_marcas = request.GET.getlist('marca_ids')
+    sales = Producto.objects.filter(estado='sale')
 
-    # Obtener listas de marcas y colores para el formulario
-    marcas = Marca.objects.all()
-    colores = Color.objects.all()
-    talles_ind = TalleIndumentaria.objects.all()
-    talles_cal = TalleCalzado.objects.all()
+    for sale in sales:
+        sale.cuota = cuotas_sin_interes(sale.precio, 3)
 
-    # Combinar talles y asegurarse de que no haya duplicados
-    talles_all = list(set(list(talles_ind) + list(talles_cal)))
 
     return render(request, 'ecommerce/index.html', {
         'productos': productos,
-        'filtros_aplicados': filtros_aplicados,
-        'marcas': marcas,
-        'colores': colores,
-        'talles_all': talles_all,
-        'busqueda': busqueda,  
-        'checked_marcas': checked_marcas,
+        'busqueda': busqueda,
+        'novedades': novedades,
+        'destacados': destacados,
+        'sales': sales,
     })
+
+
+
 
 def indumentaria_view(request, genero=None):
     filtros = obtener_filtros(request)
@@ -231,12 +199,17 @@ def indumentaria_view(request, genero=None):
 
 
 
-def calzados_view(request):
+def calzados_view(request, genero=None):
     filtros = obtener_filtros(request)
     
     # Filtrar productos de calzado
-    calzados = Producto.objects.filter(tipo_producto='calzado')  # Filtrar por tipo de producto
-    calzados = filtrar_productos(calzados, filtros['genero'], filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], filtros['categoria_id'],'calzado')
+    calzados = Producto.objects.filter(tipo_producto='calzado') 
+    if genero:
+        calzados = calzados.filter(genero=genero)
+    
+    
+    # Filtrar por tipo de producto
+    calzados = filtrar_productos(calzados, genero, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], filtros['categoria_id'],'calzado')
 
     ordenar = request.GET.get('ordenar')
     if ordenar == 'precio_asc':
@@ -253,7 +226,7 @@ def calzados_view(request):
         calzado.cuota = cuotas_sin_interes(calzado.precio, 3)
 
     filtros_aplicados = construir_filtros_aplicados(
-        filtros['genero'], 
+        genero, 
         filtros['color_ids'], 
         filtros['talle_ids'], 
         filtros['marca_ids'], 
@@ -271,7 +244,8 @@ def calzados_view(request):
         'filtros_aplicados': filtros_aplicados,
         'marcas': marcas,
         'colores': colores,
-        'talles_cal': talles_cal
+        'talles_cal': talles_cal,
+        'genero': genero,
     })
 
 
@@ -292,8 +266,81 @@ def producto_detalle(request, producto_id):
     return render(request, 'ecommerce/producto.html', {'producto': producto, 'talles': talles, 'colores': colores, 'cuota': cuota})
 
 
+"""
+def productos_lista(request):
+    filtros = obtener_filtros(request)
 
+    # Filtrar productos
+    productos = Producto.objects.all()
 
+    # Manejar búsqueda
+    busqueda = request.GET.get('busqueda', '')
+    if busqueda:
+        productos = productos.filter(
+            Q(nombre__icontains=busqueda) | 
+            Q(marca__nombre__icontains=busqueda) | 
+            Q(genero__icontains=busqueda) |         
+            Q(categoria__nombre__icontains=busqueda)  
+        )
+
+    
+    # Filtrar por otros filtros
+    productos = filtrar_productos(
+        productos,
+        filtros['genero'],
+        filtros['color_ids'],
+        filtros['talle_ids'],
+        filtros['marca_ids'],
+        filtros['categoria_id'],
+        None
+    )
+    print(f"Talle IDs en productos_lista: {filtros['talle_ids']}")
+
+    #Ordenar productos
+    ordenar = request.GET.get('ordenar')
+    if ordenar == 'precio_asc':
+        productos = productos.order_by('precio')
+    elif ordenar == 'precio_desc':
+        productos = productos.order_by('-precio')
+    elif ordenar == 'nombre_asc':
+        productos = productos.order_by('nombre')
+    elif ordenar == 'nombre_desc':
+        productos = productos.order_by('-nombre')
+
+    # Calcular cuotas
+    for producto in productos:
+        producto.cuota = cuotas_sin_interes(producto.precio, 3)
+
+    filtros_aplicados = construir_filtros_aplicados(
+        filtros['genero'],
+        filtros['color_ids'],
+        filtros['talle_ids'],
+        filtros['marca_ids'],
+        filtros['categoria_id'],
+        filtros['tipo_producto']
+    )
+
+    checked_marcas = request.GET.getlist('marca_ids')
+
+    # Obtener listas de marcas y colores para el formulario
+    marcas = Marca.objects.all()
+    colores = Color.objects.all()
+    talles_ind = TalleIndumentaria.objects.all()
+    talles_cal = TalleCalzado.objects.all()
+
+    # Combinar talles y asegurarse de que no haya duplicados
+    talles_all = list(set(list(talles_ind) + list(talles_cal)))
+
+    return render(request, 'ecommerce/index.html', {
+        'productos': productos,
+        'filtros_aplicados': filtros_aplicados,
+        'marcas': marcas,
+        'colores': colores,
+        'talles_all': talles_all,
+        'busqueda': busqueda,  
+        'checked_marcas': checked_marcas,
+    })
+"""
 
 """
 def indumentaria_view(request):

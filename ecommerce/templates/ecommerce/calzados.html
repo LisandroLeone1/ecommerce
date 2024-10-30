@@ -5,7 +5,22 @@
 
 <div class="wrapper">
         <aside id="aside-filters" class="aside-filters">
-            <form method="GET" action="{% url 'ecommerce:lista_calzados' %}">
+            <div class="container__genero">
+                <h3>Género</h3>
+                <ul>
+                    <li>
+                        <a class="{% if filtros_aplicados.genero == 'hombre' %}activar{% endif %}" href="{% url 'ecommerce:calzado_por_genero' 'hombre' %}?genero=hombre">Hombre</a>
+                    </li>
+                    <li>
+                        <a class="{% if filtros_aplicados.genero == 'mujer' %}activar{% endif %}" href="{% url 'ecommerce:calzado_por_genero' 'mujer' %}?genero=mujer">Mujer</a>
+                    </li>
+                    <li>
+                        <a class="{% if filtros_aplicados.genero == 'niño' %}activar{% endif %}" href="{% url 'ecommerce:calzado_por_genero' 'niño' %}?genero=niño">Niño</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <form method="GET" action="{% if genero %}{% url 'ecommerce:calzado_por_genero' genero %}{% else %}{% url 'ecommerce:lista_calzados' %}{% endif %}">
                 <div class="container__filtros-tittle">
                     <span id="close-filters">X</span>
                     <h2 class="filtros-tittle">Filtrar Por</h2>
@@ -106,7 +121,7 @@
         
 
     </aside>
-    <main>
+    <main id="main">
         
         <div class="container" id="container-principal">
         
@@ -136,7 +151,7 @@
                     <li>{{ valor }}</li>
                 {% endfor %}
                 {% if filtros_aplicados %}
-                <a href="{% url 'ecommerce:lista' %}">Borrar Filtros</a>
+                <a href="{% url 'ecommerce:lista_calzados' %}">Borrar Filtros</a>
                 {% endif %}
             </ul>
                 
@@ -145,16 +160,28 @@
         <div class="container__grid">
 
             {% for calzado in calzados  %}
-            <div class="card__container" id="card">
-                <img src="{{calzado.imagen_principal.url}}" class="card-img-top">
+            <div class="card__container categorias" id="card">
+                <img src="{{calzado.imagen_principal.url}}" class="card-img-top" {% if calzado.imagen_secundaria_1 %}
+                data-secondary="{{ calzado.imagen_secundaria_1.url }}{% endif %} ">
                 <div class="card__body">
                     <div class="card__body-data">
                         <h4>{{calzado.marca}}</h4>
                         <h3>{{calzado.nombre}}</h3>
                     </div>
-                    <h5>${{calzado.precio}}</h5>
-                    <div class="card-precio">
-                        <h6>3 cuotas de ${{calzado.cuota}}</h6>
+                    {% if calzado.estado == 'sale' %}
+                    <div class="container__sale">
+                        <p>{{calzado.descuento}}%</p>
+                        <p>OFF</p>
+                    </div>
+                    <div class="container__descuento">
+                        <h5 class="precio__descuento">${{calzado.precio}}</h5>
+                        <h5 class="precio__total"> ${{calzado.precio_con_descuento}}</h5>
+                    </div>
+                    {% else %}
+                    <h5 class="precio__total">${{calzado.precio}}</h5>
+                    {% endif %}
+                    <div class="card__cuotas">
+                        <h6>3 cuotas de <span> ${{calzado.cuota}}</span></h6>
                         <p>Envio gratis</p>
                     </div>
                     <div class="card-footer">

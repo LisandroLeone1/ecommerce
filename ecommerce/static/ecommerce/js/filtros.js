@@ -6,7 +6,6 @@ const boton_marcas = document.getElementById('button-filtro-marca')
 const filtro_marcas = document.getElementById('filters-marca')
 
 
-
 const VerFiltros = (element, element2, className) => {
     if (element.classList.contains(className)) {
         element.classList.remove(className);
@@ -24,3 +23,5 @@ const AgregarEvento = (element, element2, className) => {
 AgregarEvento(filtro_colores, boton_colores, 'more-filters');
 AgregarEvento(filtro_talles, boton_talles, 'more-filters-talles');
 AgregarEvento(filtro_marcas, boton_marcas, 'more-filters-marca');
+
+

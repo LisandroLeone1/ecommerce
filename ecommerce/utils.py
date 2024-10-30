@@ -2,8 +2,8 @@ def cuotas_sin_interes (precio, cuotas):
     if cuotas <= 0:
         raise ValueError("El numero de cuotas debe ser mayor a 0")
     
-    cuota = precio / cuotas
-    return round(cuota, 2)
+    cuota = int(precio / cuotas)
+    return cuota
 
 
 def cuotas_con_interes(precio, tasa_interes_anual, cuotas):
@@ -14,4 +14,4 @@ def cuotas_con_interes(precio, tasa_interes_anual, cuotas):
     n = cuotas
     pago_mensual = (r * precio) / (1 - (1 + r) ** -n)
     
-    return round(pago_mensual, 2)  # Redondear a dos decimales
+    return pago_mensual

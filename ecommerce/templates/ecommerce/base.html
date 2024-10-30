@@ -16,6 +16,7 @@
     <script defer src="{% static 'ecommerce/js/aside.js' %}"></script>
     <script defer src="{% static 'ecommerce/js/order.js' %}"></script>
     <script defer src="{% static 'ecommerce/js/order_and_filter.js' %}"></script>
+    <script defer src="{% static 'ecommerce/js/card_img.js' %}"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
@@ -29,7 +30,7 @@
                 <span>SportDigital</span>
             </div>
         
-            <form method="GET" action="{% url 'ecommerce:lista' %}">
+            <form method="GET" action="{% url 'ecommerce:index' %}">
                 <div class="header__search">
                     <input type="text" name="busqueda" placeholder="¿Qué estás buscando?" value="{{ busqueda }}">
                     <button type="submit" aria-label="Buscar"><i class="bi bi-search"></i></button>
@@ -53,7 +54,7 @@
             <button class="header__button" id="button"><i class="bi bi-list"></i></button>
             <nav>
                 <ul class="header__nav-list" id="lista">
-                    <li class="header__nav-item"><a href="{% url 'ecommerce:lista' %}">Inicio</a></li>
+                    <li class="header__nav-item"><a href="{% url 'ecommerce:index' %}">Inicio</a></li>
                     <li class="header__nav-item"><a href="{% url 'ecommerce:lista_indumentaria' %}">Indumentaria</a></li>
                     <li class="header__nav-item"><a href="{% url 'ecommerce:lista_calzados' %}">Calzado</a></li>
                     <li class="header__nav-item"><a href="">Accesorios</a></li>

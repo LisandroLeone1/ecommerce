@@ -38,7 +38,6 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
     background-color: var(--color-principal);
     border-top: 1px solid white;
 }
-
 .header__nav-list {
     display: flex;
     gap: 45px;
@@ -46,11 +45,23 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
 
 .header__nav-item {
     list-style: none;
+    height: 50px;
+    padding: 0px 10px;
+    align-content: center;
+    transition: all 0.5s ease;
 }
 
 .header__nav-item a {
     color: beige;
     text-decoration: none;
+}
+
+.header__nav-item:hover {
+    background-color: beige;
+}
+
+.header__nav-item:hover a {
+    color: var(--color-principal);
 }
 
 .header__extra {
@@ -126,6 +137,7 @@ form {
         padding: 20px;
         opacity: 0;
         visibility: hidden;
+        z-index: 1000;
     }
     .header__nav-list.visible {
         opacity: 1;
@@ -184,14 +196,13 @@ form {
 
 
 .container__genero {
-    margin-top: 30px;
+    margin-top: 50px;
     margin-left: 40px;
-    padding: 10px;
 }
 
 .container__genero h3 {
     font-size: 21px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     color: var(--color-quinto);
 }
 
@@ -217,29 +228,30 @@ form {
     font-weight: bold;
 }
 
-.container__flex-filtros {
-    display: flex;
-    flex-direction: column;
-    height: 100%; 
-    margin-left: 40px;
-    gap: 15px;
-    padding: 10px;
-}
-
 .container__filtros-tittle span {
     display: none;
 }
 
 .filtros-tittle {
-    margin-top: 20px;
+    margin-top: 50px;
     margin-left: 40px;
-    padding: 10px;
     font-size: 21px;
     color: var(--color-quinto);
 }
 
+.container__flex-filtros {
+    display: flex;
+    flex-direction: column;
+    height: 100%; 
+    margin-left: 40px;
+    margin-right: 10px;
+    gap: 15px;
+
+}
+
+
 .container__filtro {
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
 .container__filtro label {
@@ -364,7 +376,7 @@ input[type="checkbox"]:checked::after {
         width: 100%;
         height: 100%;
         background: var(--color-secundario);
-        z-index: 100;
+        z-index: 1000;
         padding: 0;
         transition: left 0.5s ease;
     }
@@ -423,7 +435,8 @@ input[type="checkbox"]:checked::after {
 
 .container__categoria h3 {
     text-align: center;
-    color: var(--color-quinto);
+    color: var(--color-cuarto);
+    font-size: 22px;
 }
 
 .container__button-filtros{
@@ -542,6 +555,19 @@ input[type="checkbox"]:checked::after {
     color: #c5c4c4;
 }
 
+/* ENCABEZADO INDEX */
+
+.container__estados {
+    max-width: 100%;
+    margin-top: 30px;
+}
+
+.container__estados h2 {
+    text-align: center;
+    color: var(--color-cuarto);
+    font-size: 30px;
+}
+
 
 /* MAIN CARDS */
 
@@ -550,28 +576,52 @@ input[type="checkbox"]:checked::after {
     grid-template-columns: repeat(auto-fit, 240px);
     grid-auto-rows: 400px;
     justify-content: center;
-    gap: 10px 10px;
+    gap: 10px;
+    margin: 20px 30px 40px 30px;
+}
+
+.container__grid-index {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 270px);
+    grid-auto-rows: 430px;
+    justify-content: center;
+    gap: 30px;
     margin: 20px 0px;
 }
 
+
 .card__container {
-    text-transform: uppercase;
     position: relative;
     border-radius: 8px;
     border: 1px solid var(--color-cuarto);
-    transition: height 0.3s ease, box-shadow 0.3s ease; /* Transiciones para height y box-shadow */
-    overflow: hidden; /* Para evitar desbordes */
-    height: 400px; /* Altura inicial */
+    transition: height 0.3s ease, box-shadow 0.3s ease; 
+    overflow: hidden; 
     background-color: white;
 }
 
-.card__container.activa {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8); /* Nueva sombra */
-    height: 440px; /* Nueva altura */
+.card-activa {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8); 
     z-index: 1;
+
 }
 
-.card__container img {
+.card__container.index {
+    height: 420px; /* Altura inicial */
+}
+
+.card__container.index.card-activa {
+    height: 470px; /* Nueva altura */
+}
+
+.card__container.categorias {
+    height: 400px; /* Altura inicial */
+}
+
+.card__container.categorias.card-activa {
+    height: 440px; /* Nueva altura */
+}
+
+.card-img-top {
     max-width: 100%;
 }
 
@@ -583,6 +633,7 @@ input[type="checkbox"]:checked::after {
 .card__body-data {
     width: 100%;
     height: 80px;
+    text-transform: uppercase;
 }
 
 .card__body-data h4 {
@@ -592,32 +643,35 @@ input[type="checkbox"]:checked::after {
 }
 
 .card__body-data h3 {
-    font-weight: 650;
+    font-weight: bold;
     font-size: 16px;
     overflow: hidden; /* Oculta el texto que se desborda */
     text-overflow: ellipsis; /* Añade "..." al final del texto que se corta */
 }
 
-.card__container h5 {
-    color: var(--color-principal);
-    font-size: 21px;
-    margin-top: 10px;
-}
-
-.card-precio {
+.card__cuotas {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.card-precio p {
+.card__cuotas p {
+    padding: 3px;
+    background-color: red;
+    color: white;
+    border-radius: 2px;
+    margin-right: 5px;
     font-size: 10px;
     font-weight: 700;
 }
 
-.card-precio h6 {
+.card__cuotas h6 {
     font-weight: 500;
-    font-size: 10px;
+    font-size: 12px;
+}
+
+.card__cuotas span {
+    font-weight: bold;
 }
 
 .boton-compra {
@@ -632,6 +686,11 @@ input[type="checkbox"]:checked::after {
     text-transform: uppercase;
     font-weight: 600;
     display: none;
+    transition: all 0.3s ease;
+}
+
+.boton-compra:hover {
+    background-color: var(--color-principal);
 }
 
 .boton-compra.activo {
@@ -643,6 +702,44 @@ input[type="checkbox"]:checked::after {
     text-decoration: none;
     color: white;
 }
+
+.container__sale {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: red;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding: 3px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.container__descuento {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.precio__descuento {
+    text-decoration: line-through;
+    font-size: 15px;
+    color: var(--color-quito);
+    font-weight: 400;
+}
+
+.precio__total {
+    color: var(--color-principal);
+    font-weight: bold;
+    font-size: 22px;
+}
+
 
 @media screen and (max-width:768px) {
     .container__categoria {

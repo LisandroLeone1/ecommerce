@@ -5,7 +5,7 @@
 
 <div class="wrapper">
     <aside id="aside-filters" class="aside-filters">
-        <div class="container__genero">
+        <div class="container__genero" id="container-genero">
             <h3>Género</h3>
             <ul>
                 <li>
@@ -19,7 +19,6 @@
                 </li>
             </ul>
         </div>
-        <pre>{{ filtros_aplicados }}</pre>
         
         <form method="GET" action="{% if genero %}{% url 'ecommerce:indumentaria_por_genero' genero %}{% else %}{% url 'ecommerce:lista_indumentaria' %}{% endif %}">
 
@@ -27,7 +26,7 @@
                 <span id="close-filters">X</span>
                 <h2 class="filtros-tittle">Filtrar Por</h2>
             </div>
-                <div class="container__flex-filtros">
+                <div class="container__flex-filtros" id="container-filters">
                     <div class="container__filtro">
                         <h3>Marca</h3>
                         {% for marca in marcas %}
@@ -124,7 +123,7 @@
             </form>
 
     </aside>
-    <main>
+    <main id="main">
         
         <div class="container" id="container-principal">
         
@@ -154,7 +153,7 @@
                     <li>{{ valor }}</li>
                 {% endfor %}
                 {% if filtros_aplicados %}
-                <a href="{% url 'ecommerce:lista' %}">Borrar Filtros</a>
+                <a href="{% url 'ecommerce:lista_indumentaria' %}">Borrar Filtros</a>
                 {% endif %}
             </ul>
                 
@@ -163,16 +162,28 @@
         <div class="container__grid">
 
             {% for indumentaria in indumentarias  %}
-            <div class="card__container" id="card">
-                <img src="{{indumentaria.imagen_principal.url}}" class="card-img-top">
+            <div class="card__container categorias" id="card">
+                <img src="{{indumentaria.imagen_principal.url}}" class="card-img-top" {% if indumentaria.imagen_secundaria_1 %}
+                data-secondary="{{ indumentaria.imagen_secundaria_1.url }}{% endif %} ">
                 <div class="card__body">
                     <div class="card__body-data">
                         <h4>{{indumentaria.marca}}</h4>
                         <h3>{{indumentaria.nombre}}</h3>
                     </div>
-                    <h5>${{indumentaria.precio}}</h5>
-                    <div class="card-precio">
-                        <h6>3 cuotas de ${{indumentaria.cuota}}</h6>
+                    {% if indumentaria.estado == 'sale' %}
+                    <div class="container__sale">
+                        <p>{{indumentaria.descuento}}%</p>
+                        <p>OFF</p>
+                    </div>
+                    <div class="container__descuento">
+                        <h5 class="precio__descuento">${{indumentaria.precio}}</h5>
+                        <h5 class="precio__total"> ${{indumentaria.precio_con_descuento}}</h5>
+                    </div>
+                    {% else %}
+                    <h5 class="precio__total">${{indumentaria.precio}}</h5>
+                    {% endif %}
+                    <div class="card__cuotas">
+                        <h6>3 cuotas de <span>${{indumentaria.cuota}}</span></h6>
                         <p>Envio gratis</p>
                     </div>
                     <div class="card-footer">

@@ -44,8 +44,15 @@ class Producto(models.Model):
         ('calzado', 'Calzado'),
     ]
 
+    ESTADO_CHOICES = [
+        ('novedades', 'Novedades'),
+        ('destacados', 'Destacados'),
+        ('sale', 'Sale'),
+    ]
+
     nombre = models.CharField(max_length=255)
-    precio = models.FloatField()
+    precio = models.IntegerField()
+    descuento = models.IntegerField(default=0)
     marca = models.ForeignKey('Marca', on_delete=models.CASCADE)
     genero = models.CharField(max_length=20, choices=GENERO_CHOICES)
     tipo_producto = models.CharField(max_length=20, choices=TIPO_PRODUCTO_CHOICES, default='indumentaria')
@@ -53,10 +60,18 @@ class Producto(models.Model):
     talles_calzado = models.ManyToManyField(TalleCalzado, blank=True, null=True)
     colores = models.ManyToManyField(Color)
     categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
+    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, null=True)
     imagen_principal = models.ImageField(upload_to='fotos/')
     imagen_secundaria_1 = models.ImageField(upload_to='fotos/', blank=True, null=True)
     imagen_secundaria_2 = models.ImageField(upload_to='fotos/', blank=True, null=True)
     imagen_secundaria_3 = models.ImageField(upload_to='fotos/', blank=True, null=True)
+
+    def precio_con_descuento(self):
+        if self.estado == 'sale':
+            precio_descuento = int(self.precio * (1 - self.descuento / 100))
+        else:
+            self.precio
+        return precio_descuento
 
     def __str__(self):
         return self.nombre
