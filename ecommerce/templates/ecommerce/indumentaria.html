@@ -20,7 +20,7 @@
             </ul>
         </div>
         
-        <form method="GET" action="{% if genero %}{% url 'ecommerce:indumentaria_por_genero' genero %}{% else %}{% url 'ecommerce:lista_indumentaria' %}{% endif %}">
+        <form method="GET" id="filter-form" action="{% if genero %}{% url 'ecommerce:indumentaria_por_genero' genero %}{% else %}{% url 'ecommerce:lista_indumentaria' %}{% endif %}">
 
             <div class="container__filtros-tittle">
                 <span id="close-filters">X</span>
@@ -135,16 +135,17 @@
                     Filtros
                     <i class="bi bi-filter-right"></i>
                 </button>
-                <form class="form__order" method="GET" action="{% url 'ecommerce:lista_indumentaria' %}">
+                <form class="form__order" id="order-form" method="GET" action="{% url 'ecommerce:lista_indumentaria' %}">
                     <select name="ordenar" id="ordenar">
                         <option value="">Seleccionar</option>
-                        <option value="precio_asc">Precio: Bajo a Alto</option>
-                        <option value="precio_desc">Precio: Alto a Bajo</option>
-                        <option value="nombre_asc">Nombre: A-Z</option>
-                        <option value="nombre_desc">Nombre: Z-A</option>
+                        <option value="precio_asc" {% if request.GET.ordenar == 'precio_asc' %}selected{% endif %}>Precio: Bajo a Alto</option>
+                        <option value="precio_desc" {% if request.GET.ordenar == 'precio_desc' %}selected{% endif %}>Precio: Alto a Bajo</option>
+                        <option value="nombre_asc" {% if request.GET.ordenar == 'nombre_asc' %}selected{% endif %}>Nombre: A-Z</option>
+                        <option value="nombre_desc" {% if request.GET.ordenar == 'nombre_desc' %}selected{% endif %}>Nombre: Z-A</option>
                     </select>
                     <button type="submit" class="order-button">Buscar</button>
                 </form>
+                
             </div>    
 
         <div class="container__filtros-aplicados">

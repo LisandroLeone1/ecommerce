@@ -64,6 +64,21 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
     color: var(--color-principal);
 }
 
+.sale {
+    text-transform: uppercase;
+    height: 30px;
+    align-self: center;
+    background-color: red;
+}
+
+.sale:hover {
+    background-color: rgb(243, 87, 87);
+}
+
+.sale:hover a {
+    color: beige;
+}
+
 .header__extra {
     display: flex;
     gap: 40px;
@@ -130,18 +145,22 @@ form {
     }
     .header__nav-list {
         position: absolute;
-        top: 120px;
+        top: 131px;
         left: 0;
         flex-direction: column;
         background-color: var(--color-principal);
-        padding: 20px;
+        padding: 0px;
         opacity: 0;
         visibility: hidden;
         z-index: 1000;
+        gap: 0px;
     }
     .header__nav-list.visible {
         opacity: 1;
         visibility: visible;
+    }
+    .header__nav-item {
+        padding: 5px 50px;
     }
 }
 
@@ -382,7 +401,6 @@ input[type="checkbox"]:checked::after {
     }
     .container__flex-filtros {
         gap: 5px;
-        padding: 0px;
     }
     .aside-filters.show {
         left: 0; /* Mueve el aside a la vista */
@@ -408,11 +426,21 @@ input[type="checkbox"]:checked::after {
         margin-left: 0px;
     }
     .container__filtro {
-        margin-top: 5px;
+        margin-top: 20px;
+    }
+    .container__genero {
+        margin-top: 35px;
+        margin-bottom: 15px;
+    }
+    .container__genero li {
+        margin-top: 8px;
         margin-left: 0px;
-        padding: 20px;
+    }
+    .container__genero h3 {
+        font-size: 17px;
     }
     .button-filtrar {
+        margin-top: 15px;
         margin-left: 20px;
         margin-bottom: 15px;
     }

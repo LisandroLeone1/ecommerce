@@ -1,20 +1,33 @@
-button_filters = document.querySelector('#toggle-filters');
-close_filters = document.querySelector('#close-filters');
-aside = document.querySelector('#aside-filters');
-main = document.querySelector('#main');
-genero_cont = document.querySelector('#container-genero');
-filters_cont = document.querySelector('#container-filters');
+const button_filters = document.querySelector('#toggle-filters');
+const close_filters = document.querySelector('#close-filters');
+const aside = document.querySelector('#aside-filters');
+const main = document.querySelector('#main');
+const containerGenero = document.querySelector('#container-genero');
+const form = document.querySelector('#aside-form');
+const title = document.querySelector('.container__filtros-tittle');
 
 button_filters.addEventListener('click', function() { 
     aside.classList.add('show'); // Agrega la clase que muestra el aside
     main.style.display = 'none';
-    filters_cont.appendChild(genero_cont); // Añade genero_cont a filters_cont
+    if (!form.contains(containerGenero)) {
+        form.insertBefore(containerGenero, title.nextSibling); // muevo el contenedor dentro del form justo debajo de container tittle
+    }
 });
 
-close_filters.addEventListener('click', function() { 
-    aside.classList.remove('show'); // Quita la clase para ocultar el aside
+function hideAside() {
+    aside.classList.remove('show'); 
     main.style.display = 'block';
-    if (genero_cont.parentNode === filters_cont) { // Verifica si genero_cont está en filters_cont
-        filters_cont.removeChild(genero_cont); // Quita genero_cont de filters_cont
+    if (containerGenero.parentNode === form) {
+        form.parentNode.insertBefore(containerGenero, form); // Mueve el contenedor fuera del formulario
+    }
+}
+
+close_filters.addEventListener('click', function() { 
+    hideAside();
+});
+
+window.addEventListener('resize', function() {
+    if (window.innerWidth > 768) { // Cambia 768 por el ancho deseado
+        hideAside();
     }
 });

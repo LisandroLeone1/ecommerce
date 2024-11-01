@@ -33,32 +33,6 @@
             {% endfor %}
         </div>  
 
-        <div class="container__estados">
-            <h2>Destacados</h2>
-        </div>
-        <div class="container__grid-index">
-
-            {% for destacado in destacados  %}
-            <div class="card__container index" id="card">
-                <img src="{{destacado.imagen_principal.url}}" class="card-img-top" 
-                data-secondary="{% if destacado.imagen_secundaria_1 %}{{ destacado.imagen_secundaria_1.url }}{% else %}{{ destacado.imagen_principal.url }}{% endif %}">
-                <div class="card__body">
-                    <div class="card__body-data">
-                        <h4>{{destacado.marca}}</h4>
-                        <h3>{{destacado.nombre}}</h3>
-                    </div>
-                    <h5 class="precio__total">${{destacado.precio}}</h5>
-                    <div class="card__cuotas">
-                        <h6>3 cuotas de <span>${{destacado.cuota}}</span></h6>
-                        <p>Envio gratis</p>
-                    </div>
-                    <div class="card-footer">
-                        <button class="boton-compra" id="boton-compra"><a href="{% url 'ecommerce:producto_detalle' destacado.id %}">comprar</a></button>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>  
 
         <div class="container__estados">
             <h2>Sale</h2>
@@ -88,6 +62,33 @@
                     </div>
                     <div class="card-footer">
                         <button class="boton-compra" id="boton-compra"><a href="{% url 'ecommerce:producto_detalle' sale.id %}">comprar</a></button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>  
+
+        <div class="container__estados">
+            <h2>Destacados</h2>
+        </div>
+        <div class="container__grid-index">
+
+            {% for destacado in destacados  %}
+            <div class="card__container index" id="card">
+                <img src="{{destacado.imagen_principal.url}}" class="card-img-top" 
+                data-secondary="{% if destacado.imagen_secundaria_1 %}{{ destacado.imagen_secundaria_1.url }}{% else %}{{ destacado.imagen_principal.url }}{% endif %}">
+                <div class="card__body">
+                    <div class="card__body-data">
+                        <h4>{{destacado.marca}}</h4>
+                        <h3>{{destacado.nombre}}</h3>
+                    </div>
+                    <h5 class="precio__total">${{destacado.precio}}</h5>
+                    <div class="card__cuotas">
+                        <h6>3 cuotas de <span>${{destacado.cuota}}</span></h6>
+                        <p>Envio gratis</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="boton-compra" id="boton-compra"><a href="{% url 'ecommerce:producto_detalle' destacado.id %}">comprar</a></button>
                     </div>
                 </div>
             </div>

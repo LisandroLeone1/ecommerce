@@ -5,22 +5,8 @@
 
 <div class="wrapper">
         <aside id="aside-filters" class="aside-filters">
-            <div class="container__genero">
-                <h3>Género</h3>
-                <ul>
-                    <li>
-                        <a class="{% if filtros_aplicados.genero == 'hombre' %}activar{% endif %}" href="{% url 'ecommerce:calzado_por_genero' 'hombre' %}?genero=hombre">Hombre</a>
-                    </li>
-                    <li>
-                        <a class="{% if filtros_aplicados.genero == 'mujer' %}activar{% endif %}" href="{% url 'ecommerce:calzado_por_genero' 'mujer' %}?genero=mujer">Mujer</a>
-                    </li>
-                    <li>
-                        <a class="{% if filtros_aplicados.genero == 'niño' %}activar{% endif %}" href="{% url 'ecommerce:calzado_por_genero' 'niño' %}?genero=niño">Niño</a>
-                    </li>
-                </ul>
-            </div>
             
-            <form method="GET" id="filter-form" action="{% if genero %}{% url 'ecommerce:calzado_por_genero' genero %}{% else %}{% url 'ecommerce:lista_calzados' %}{% endif %}">
+            <form method="GET" action="{% url 'ecommerce:lista_sale' %}">
                 <div class="container__filtros-tittle">
                     <span id="close-filters">X</span>
                     <h2 class="filtros-tittle">Filtrar Por</h2>
@@ -126,14 +112,14 @@
         <div class="container" id="container-principal">
         
             <div class="container__categoria">
-                <h3>Calzados</h3>
+                <h3>Ofertas</h3>
             </div>
             <div class="container__button-filtros" id="container-filtro">
                 <button id="toggle-filters" class="toggle-filters">
                     Filtros
                     <i class="bi bi-filter-right"></i>
                 </button>
-                <form class="form__order" id="order-form" method="GET" action="{% url 'ecommerce:lista_calzados' %}">
+                <form class="form__order" method="GET" action="{% url 'ecommerce:lista_sale' %}">
                     <select name="ordenar" id="ordenar">
                         <option value="">Seleccionar</option>
                         <option value="precio_asc" {% if request.GET.ordenar == 'precio_asc' %}selected{% endif %}>Precio: Bajo a Alto</option>
@@ -151,7 +137,7 @@
                     <li>{{ valor }}</li>
                 {% endfor %}
                 {% if filtros_aplicados %}
-                <a href="{% url 'ecommerce:lista_calzados' %}">Borrar Filtros</a>
+                <a href="{% url 'ecommerce:lista_sale' %}">Borrar Filtros</a>
                 {% endif %}
             </ul>
                 
@@ -159,33 +145,29 @@
 
         <div class="container__grid">
 
-            {% for calzado in calzados  %}
+            {% for sale in sales  %}
             <div class="card__container categorias" id="card">
-                <img src="{{calzado.imagen_principal.url}}" class="card-img-top" {% if calzado.imagen_secundaria_1 %}
-                data-secondary="{{ calzado.imagen_secundaria_1.url }}{% endif %} ">
+                <img src="{{sale.imagen_principal.url}}" class="card-img-top" {% if sale.imagen_secundaria_1 %}
+                data-secondary="{{ sale.imagen_secundaria_1.url }}{% endif %} ">
                 <div class="card__body">
                     <div class="card__body-data">
-                        <h4>{{calzado.marca}}</h4>
-                        <h3>{{calzado.nombre}}</h3>
+                        <h4>{{sale.marca}}</h4>
+                        <h3>{{sale.nombre}}</h3>
                     </div>
-                    {% if calzado.estado == 'sale' %}
                     <div class="container__sale">
-                        <p>{{calzado.descuento}}%</p>
+                        <p>{{sale.descuento}}%</p>
                         <p>OFF</p>
                     </div>
                     <div class="container__descuento">
-                        <h5 class="precio__descuento">${{calzado.precio}}</h5>
-                        <h5 class="precio__total"> ${{calzado.precio_con_descuento}}</h5>
+                        <h5 class="precio__descuento">${{sale.precio}}</h5>
+                        <h5 class="precio__total"> ${{sale.precio_con_descuento}}</h5>
                     </div>
-                    {% else %}
-                    <h5 class="precio__total">${{calzado.precio}}</h5>
-                    {% endif %}
                     <div class="card__cuotas">
-                        <h6>3 cuotas de <span> ${{calzado.cuota}}</span></h6>
+                        <h6>3 cuotas de <span> ${{sale.cuota}}</span></h6>
                         <p>Envio gratis</p>
                     </div>
                     <div class="card-footer">
-                        <button class="boton-compra" id="boton-compra"><a href="{% url 'ecommerce:producto_detalle' calzado.id %}">comprar</a></button>
+                        <button class="boton-compra" id="boton-compra"><a href="{% url 'ecommerce:producto_detalle' sale.id %}">comprar</a></button>
                     </div>
                 </div>
             </div>
