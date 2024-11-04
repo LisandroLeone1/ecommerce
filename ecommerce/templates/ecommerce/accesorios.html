@@ -1,0 +1,173 @@
+{% extends 'ecommerce/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="wrapper">
+        <aside id="aside-filters" class="aside-filters">
+            <div class="container__genero" id="container-genero">
+                <h3>Género</h3>
+                <ul>
+                    <li>
+                        <a class="{% if filtros_aplicados.genero == 'hombre' %}activar{% endif %}" href="{% url 'ecommerce:accesorios_por_genero' 'hombre' %}?genero=hombre">Hombre</a>
+                    </li>
+                    <li>
+                        <a class="{% if filtros_aplicados.genero == 'mujer' %}activar{% endif %}" href="{% url 'ecommerce:accesorios_por_genero' 'mujer' %}?genero=mujer">Mujer</a>
+                    </li>
+                    <li>
+                        <a class="{% if filtros_aplicados.genero == 'unisex' %}activar{% endif %}" href="{% url 'ecommerce:accesorios_por_genero' 'unisex' %}?genero=mujer">Unisex</a>
+                    </li>
+                    <li>
+                        <a class="{% if filtros_aplicados.genero == 'niño' %}activar{% endif %}" href="{% url 'ecommerce:accesorios_por_genero' 'niño' %}?genero=niño">Niño</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <form method="GET" id="filter-form" action="{% if genero %}{% url 'ecommerce:accesorios_por_genero' genero %}{% else %}{% url 'ecommerce:lista_calzados' %}{% endif %}">
+                <div class="container__filtros-tittle">
+                    <span id="close-filters">X</span>
+                    <h2 class="filtros-tittle">Filtrar Por</h2>
+                </div>
+            <div class="container__flex-filtros">
+                <div class="container__filtro">
+                    <h3>Marca</h3>
+                    {% for marca in marcas %}
+                        {% if forloop.counter <= 8 %}
+                    <label>
+                        <div class="label-content">
+                            <input type="checkbox" name="marca" value="{{ marca.id }}" {% if marca.id|stringformat:"d" in request.GET.marca %}checked{% endif %}>
+                            <span>{{ marca.nombre }}</span>
+                        </div>
+                    </label>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="more-filters-marca" id="filters-marca">
+                        {% for marca in marcas %}
+                            {% if forloop.counter > 8 %}
+                            <label>
+                                <div class="label-content">
+                                    <input type="checkbox" name="marca" value="{{ marca.id }}">
+                                    <span>{{ marca.nombre }}</span>
+                                </div>
+                            </label>
+                            {% endif %}
+                        {% endfor %}
+
+                    </div>
+                    <button id="button-filtro-marca" type="button">Ver todos</button>
+                </div>
+
+
+                <div class="container__filtro">
+                    <h3>Color</h3>
+                    {% for color in colores %}
+                        {% if forloop.counter <= 8 %}  {# Muestra solo los primeros 8 #}
+                        <label>
+                            <div class="label-content">
+                                <input type="checkbox" name="colores" value="{{ color.id }}">
+                                <span>{{ color.nombre }}</span>
+                            </div>
+                            <i class="bi bi-circle-fill" style="color: {{ color.color_style }}; font-size: small;"></i>
+                        </label>
+                        {% endif %}
+                    {% endfor %}
+                
+                    <div class="more-filters" id="more-filters">
+                        {% for color in colores %}
+                            {% if forloop.counter > 8 %}
+                            <label>
+                                <div class="label-content">
+                                    <input type="checkbox" name="colores" value="{{ color.id }}">
+                                    <span>{{ color.nombre }}</span>
+                                </div>
+                                <i class="bi bi-circle-fill" style="color: {{ color.color_style }}; font-size: small;"></i>
+                            </label>
+                            {% endif %}
+                        {% endfor %}
+                        
+                    </div>
+                    <button id="button-filtro" type="button">Ver todos</button>
+                </div>
+
+                <button type="submit" class="button-filtrar">Filtrar</button>
+            </div>   
+        </form>
+        
+
+    </aside>
+    <main id="main">
+        
+        <div class="container" id="container-principal">
+        
+            <div class="container__categoria">
+                <h3>Calzados</h3>
+            </div>
+            <div class="container__button-filtros" id="container-filtro">
+                <button id="toggle-filters" class="toggle-filters">
+                    Filtros
+                    <i class="bi bi-filter-right"></i>
+                </button>
+                <form class="form__order" id="order-form" method="GET" action="{% url 'ecommerce:lista_accesorios' %}">
+                    <select name="ordenar" id="ordenar">
+                        <option value="">Seleccionar</option>
+                        <option value="precio_asc" {% if request.GET.ordenar == 'precio_asc' %}selected{% endif %}>Precio: Bajo a Alto</option>
+                        <option value="precio_desc" {% if request.GET.ordenar == 'precio_desc' %}selected{% endif %}>Precio: Alto a Bajo</option>
+                        <option value="nombre_asc" {% if request.GET.ordenar == 'nombre_asc' %}selected{% endif %}>Nombre: A-Z</option>
+                        <option value="nombre_desc" {% if request.GET.ordenar == 'nombre_desc' %}selected{% endif %}>Nombre: Z-A</option>
+                    </select>
+                    <button type="submit" class="order-button">Buscar</button>
+                </form>
+            </div>    
+
+        <div class="container__filtros-aplicados">
+            <ul>
+                {% for nombre, valor in filtros_aplicados.items %}
+                    <li>{{ valor }}</li>
+                {% endfor %}
+                {% if filtros_aplicados %}
+                <a href="{% url 'ecommerce:lista_accesorios' %}">Borrar Filtros</a>
+                {% endif %}
+            </ul>
+                
+        </div>
+
+        <div class="container__grid">
+
+            {% for accesorio in accesorios  %}
+            <div class="card__container categorias" id="card">
+                <img src="{{accesorio.imagen_principal.url}}" class="card-img-top" {% if accesorio.imagen_secundaria_1 %}
+                data-secondary="{{ accesorio.imagen_secundaria_1.url }}{% endif %} ">
+                <div class="card__body">
+                    <div class="card__body-data">
+                        <h4>{{accesorio.marca}}</h4>
+                        <h3>{{accesorio.nombre}}</h3>
+                    </div>
+                    {% if accesorio.estado == 'sale' %}
+                    <div class="container__sale">
+                        <p>{{accesorio.descuento}}%</p>
+                        <p>OFF</p>
+                    </div>
+                    <div class="container__descuento">
+                        <h5 class="precio__descuento">${{accesorio.precio}}</h5>
+                        <h5 class="precio__total"> ${{accesorio.precio_con_descuento}}</h5>
+                    </div>
+                    {% else %}
+                    <h5 class="precio__total">${{accesorio.precio}}</h5>
+                    {% endif %}
+                    <div class="card__cuotas">
+                        <h6>3 cuotas de <span> ${{accesorio.cuota}}</span></h6>
+                        <p>Envio gratis</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="boton-compra" id="boton-compra"><a href="{% url 'ecommerce:producto_detalle' accesorio.id %}">comprar</a></button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>  
+    </div> 
+
+    </main>
+    </div>
+
+    {% endblock content %}

@@ -135,7 +135,7 @@
                     Filtros
                     <i class="bi bi-filter-right"></i>
                 </button>
-                <form class="form__order" id="order-form" method="GET" action="{% url 'ecommerce:lista_indumentaria' %}">
+                <form class="form__order" id="order-form" method="GET" action="{% if genero %}{% url 'ecommerce:indumentaria_por_genero' genero %}{% else %}{% url 'ecommerce:lista_indumentaria' %}{% endif %}">
                     <select name="ordenar" id="ordenar">
                         <option value="">Seleccionar</option>
                         <option value="precio_asc" {% if request.GET.ordenar == 'precio_asc' %}selected{% endif %}>Precio: Bajo a Alto</option>

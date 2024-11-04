@@ -13,29 +13,53 @@
         <div class="container__grid-index">
 
             {% for novedad in novedades  %}
-            <div class="card__container index" id="card">
-                <img src="{{novedad.imagen_principal.url}}" class="card-img-top" data-secondary="{{ novedad.imagen_secundaria_1.url }}">
-                <div class="card__body">
-                    <div class="card__body-data">
-                        <h4>{{novedad.marca}}</h4>
-                        <h3>{{novedad.nombre}}</h3>
-                    </div>
-                    <h5 class="precio__total">${{novedad.precio}}</h5>
-                    <div class="card__cuotas">
-                        <h6>3 cuotas de <span>${{novedad.cuota}}</span></h6>
-                        <p>Envio gratis</p>
-                    </div>
-                    <div class="card-footer">
-                        <button class="boton-compra" id="boton-compra"><a href="{% url 'ecommerce:producto_detalle' novedad.id %}">comprar</a></button>
+                {% if forloop.counter <= 8 %}
+                <div class="card__container index" id="card">
+                    <img src="{{novedad.imagen_principal.url}}" class="card-img-top" data-secondary="{% if novedad.imagen_secundaria_1 %}{{ novedad.imagen_secundaria_1.url }}{% else %}{{ novedad.imagen_principal.url }}{% endif %}">
+                    <div class="card__body">
+                        <div class="card__body-data">
+                            <h4>{{novedad.marca}}</h4>
+                            <h3>{{novedad.nombre}}</h3>
+                        </div>
+                        <h5 class="precio__total">${{novedad.precio}}</h5>
+                        <div class="card__cuotas">
+                            <h6>3 cuotas de <span>${{novedad.cuota}}</span></h6>
+                            <p>Envio gratis</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="boton-compra" id="boton-compra"><a href="{% url 'ecommerce:producto_detalle' novedad.id %}">comprar</a></button>
+                        </div>
                     </div>
                 </div>
-            </div>
+                {% endif %}
             {% endfor %}
         </div>  
 
 
+        <div class="carrousel">
+            <div class="slick-list" id="slick-list">
+                <button class="slick-arrow slick-prev" id="button-prev"><i class="bi bi-caret-left-fill"></i></button>
+    
+                <div class="slick-track" id="track">
+                    {% for marca in marcas  %}
+
+                    <div class="slick">
+                        <div>
+                            <a href="">
+                                <img src="{{marca.imagen.url}}" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+                <button class="slick-arrow slick-next" id="button-next"><i class="bi bi-caret-right-fill"></i></button>
+            </div>
+        </div>
+
+
         <div class="container__estados">
-            <h2>Sale</h2>
+            <a href=""><h2>!Ofertas 2024!</h2></a>
         </div>
         <div class="container__grid-index">
 
@@ -67,6 +91,37 @@
             </div>
             {% endfor %}
         </div>  
+
+
+        <div class="categorias__container">
+            <div class="categorias__container-item">
+                <a href="{% url 'ecommerce:lista_indumentaria' %}">
+                    <picture>
+                        <img src="{% static 'ecommerce/img/indumentaria.webp' %}" alt="">
+                        <h2>Indumentaria</h2>
+                    </picture>
+                </a>
+            </div>
+            <div class="categorias__container-item">
+                <a href="{% url 'ecommerce:lista_calzados' %}">
+                    <picture>
+                        <img src="{% static 'ecommerce/img/calzado.webp' %}"  alt="">
+                        <h2>Calzado</h2>
+                    </picture>
+                </a>
+            </div>
+            <div class="categorias__container-item">
+                <a href="">
+                    <picture>
+                        <img src="{% static 'ecommerce/img/acceosrios.webp' %}"  alt="">
+                        <h2>Accesorios</h2>
+                    </picture>
+                </a>
+            </div>
+        </div>
+
+
+
 
         <div class="container__estados">
             <h2>Destacados</h2>

@@ -97,6 +97,12 @@ def construir_filtros_aplicados(genero, color_ids, talle_ids, marca_ids, categor
     return filtros_aplicados
 
 
+def calcular_cuotas(productos):
+    for producto in productos:
+        precio_descuento = producto.precio_con_descuento()  
+        producto.cuota = cuotas_sin_interes(precio_descuento, 3)
+
+
 def index_list(request):
     filtros = obtener_filtros(request)
     # Filtrar productos
@@ -113,21 +119,14 @@ def index_list(request):
         )
 
     novedades = Producto.objects.filter(estado='novedades')
-
-    for novedad in novedades:
-        novedad.cuota = cuotas_sin_interes(novedad.precio, 3)
-
     destacados = Producto.objects.filter(estado='destacados')
-
-    for destacado in destacados:
-        destacado.cuota = cuotas_sin_interes(destacado.precio, 3)
-
     sales = Producto.objects.filter(estado='sale')
 
-    for sale in sales:
-        precio_descuento = sale.precio_con_descuento()  
-        sale.cuota = cuotas_sin_interes(precio_descuento, 3) 
+    calcular_cuotas(novedades)
+    calcular_cuotas(destacados)
+    calcular_cuotas(sales)
 
+    marcas = Marca.objects.all()
 
     return render(request, 'ecommerce/index.html', {
         'productos': productos,
@@ -135,6 +134,7 @@ def index_list(request):
         'novedades': novedades,
         'destacados': destacados,
         'sales': sales,
+        'marcas': marcas,
     })
 
 
@@ -258,6 +258,60 @@ def calzados_view(request, genero=None):
         'genero': genero,
     })
 
+
+
+def accesorios_view(request, genero=None):
+    filtros = obtener_filtros(request)
+    
+    # Filtrar productos de calzado
+    accesorios = Producto.objects.filter(tipo_producto='accesorios') 
+    if genero:
+        accesorios = accesorios.filter(genero=genero)
+    
+    
+    # Filtrar por tipo de producto
+    accesorios = filtrar_productos(accesorios, genero, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], filtros['categoria_id'],'calzado')
+
+    ordenar = request.GET.get('ordenar')
+    if ordenar == 'precio_asc':
+        accesorios = accesorios.order_by('precio')
+    elif ordenar == 'precio_desc':
+        accesorios = accesorios.order_by('-precio')
+    elif ordenar == 'nombre_asc':
+        accesorios = accesorios.order_by('nombre')
+    elif ordenar == 'nombre_desc':
+        accesorios = accesorios.order_by('-nombre')
+
+    # Calcular cuotas para cada calzado
+    for accesorio in accesorios:
+        if accesorio.estado == 'sale':
+            precio_a_usar = accesorio.precio_con_descuento()
+        else:
+            precio_a_usar = accesorio.precio    
+        accesorio.cuota = cuotas_sin_interes(precio_a_usar, 3)
+
+
+    filtros_aplicados = construir_filtros_aplicados(
+        genero, 
+        filtros['color_ids'], 
+        filtros['talle_ids'], 
+        filtros['marca_ids'], 
+        filtros['categoria_id'], 
+        'accesorios'  # Pasar tipo de producto
+    )
+
+    # Obtener listas de marcas y colores para el formulario
+    marcas = Marca.objects.all()
+    colores = Color.objects.all()
+
+
+    return render(request, 'ecommerce/accesorios.html', {
+        'accesorios': accesorios,
+        'filtros_aplicados': filtros_aplicados,
+        'marcas': marcas,
+        'colores': colores,
+        'genero': genero,
+    })
 
 def sale_view(request):
     filtros = obtener_filtros(request)

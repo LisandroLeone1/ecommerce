@@ -14,6 +14,7 @@ class TalleCalzado(models.Model):
 
 class Marca(models.Model):
     nombre = models.CharField(max_length=100)
+    imagen = models.ImageField(upload_to='fotos/', null=True)
 
     def __str__(self):
         return self.nombre
@@ -35,13 +36,14 @@ class Producto(models.Model):
     GENERO_CHOICES = [
         ('hombre', 'Hombre'), 
         ('mujer', 'Mujer'), 
-        ('niño', 'Niño'), 
-        ('niña', 'Niña'),
+        ('niños', 'Niños'), 
+        ('unisex', 'Unisex'),
     ]
     
     TIPO_PRODUCTO_CHOICES = [
         ('indumentaria', 'Indumentaria'),
         ('calzado', 'Calzado'),
+        ('accesorios', 'Accesorios')
     ]
 
     ESTADO_CHOICES = [
@@ -68,10 +70,8 @@ class Producto(models.Model):
 
     def precio_con_descuento(self):
         if self.estado == 'sale':
-            precio_descuento = int(self.precio * (1 - self.descuento / 100))
-        else:
-            self.precio
-        return precio_descuento
+            return int(self.precio * (1 - self.descuento / 100))
+        return self.precio  # Retorna el precio original si no hay descuento
 
     def __str__(self):
         return self.nombre

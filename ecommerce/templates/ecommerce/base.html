@@ -17,6 +17,7 @@
     <script defer src="{% static 'ecommerce/js/order.js' %}"></script>
     <script defer src="{% static 'ecommerce/js/order_and_filter.js' %}"></script>
     <script defer src="{% static 'ecommerce/js/card_img.js' %}"></script>
+    <script defer src="{% static 'ecommerce/js/carrusel.js' %}"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
@@ -54,10 +55,10 @@
             <button class="header__button" id="button"><i class="bi bi-list"></i></button>
             <nav>
                 <ul class="header__nav-list" id="lista">
-                    <li class="header__nav-item"><a href="{% url 'ecommerce:index' %}">Inicio</a></li>
-                    <li class="header__nav-item"><a href="{% url 'ecommerce:lista_indumentaria' %}">Indumentaria</a></li>
-                    <li class="header__nav-item"><a href="{% url 'ecommerce:lista_calzados' %}">Calzado</a></li>
-                    <li class="header__nav-item"><a href="">Accesorios</a></li>
+                    <li class="header__nav-item {% if request.path == '/' %} nav-active {% endif %}"><a href="{% url 'ecommerce:index' %}">Inicio</a></li>
+                    <li class="header__nav-item {% if request.path == '/indumentaria/' %} nav-active {% endif %}"><a href="{% url 'ecommerce:lista_indumentaria' %}">Indumentaria</a></li>
+                    <li class="header__nav-item {% if request.path == '/calzados/' %} nav-active {% endif %}"><a href="{% url 'ecommerce:lista_calzados' %}">Calzado</a></li>
+                    <li class="header__nav-item {% if request.path == '/accesorios/' %} nav-active {% endif %}"><a href="{% url 'ecommerce:lista_accesorios' %}">Accesorios</a></li>
                     <li class="header__nav-item sale"><a href="{% url 'ecommerce:lista_sale' %}">Sale!</a></li>
                     <li class="header__nav-item"><a href="">Contacto</a></li>
                 </ul>
