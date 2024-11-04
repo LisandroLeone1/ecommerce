@@ -97,6 +97,18 @@ def construir_filtros_aplicados(genero, color_ids, talle_ids, marca_ids, categor
     return filtros_aplicados
 
 
+def ordenar_productos(ordenar, productos):
+    if ordenar == 'precio_asc':
+        productos = productos.order_by('precio')
+    elif ordenar == 'precio_desc':
+        productos = productos.order_by('-precio')
+    elif ordenar == 'nombre_asc':
+        productos = productos.order_by('nombre')
+    elif ordenar == 'nombre_desc':
+        productos = productos.order_by('-nombre')
+    return productos
+
+
 def calcular_cuotas(productos):
     for producto in productos:
         precio_descuento = producto.precio_con_descuento()  
@@ -118,9 +130,9 @@ def index_list(request):
             Q(categoria__nombre__icontains=busqueda)  
         )
 
-    novedades = Producto.objects.filter(estado='novedades')
-    destacados = Producto.objects.filter(estado='destacados')
-    sales = Producto.objects.filter(estado='sale')
+    novedades = Producto.objects.order_by('-created')[:8]
+    destacados = Producto.objects.filter(estado='destacados').order_by('-created')[:8]
+    sales = Producto.objects.filter(estado='sale').order_by('-created')
 
     calcular_cuotas(novedades)
     calcular_cuotas(destacados)
@@ -144,9 +156,9 @@ def indumentaria_view(request, genero=None):
     filtros = obtener_filtros(request)
 
     # Filtrar productos de indumentaria
-    indumentarias = Producto.objects.filter(tipo_producto='indumentaria')
+    indumentarias = Producto.objects.filter(tipo_producto='indumentaria').order_by('-created')
     if genero:
-        indumentarias = indumentarias.filter(genero=genero)
+        indumentarias = indumentarias.filter(genero=genero).order_by('-created')
 
     # Aplicar filtro de género si se proporciona
 
@@ -160,24 +172,10 @@ def indumentaria_view(request, genero=None):
         filtros['categoria_id'],
         'indumentaria'
     )
-
-    # Ordenar productos
     ordenar = request.GET.get('ordenar')
-    if ordenar == 'precio_asc':
-        indumentarias = indumentarias.order_by('precio')
-    elif ordenar == 'precio_desc':
-        indumentarias = indumentarias.order_by('-precio')
-    elif ordenar == 'nombre_asc':
-        indumentarias = indumentarias.order_by('nombre')
-    elif ordenar == 'nombre_desc':
-        indumentarias = indumentarias.order_by('-nombre')
+    indumentarias = ordenar_productos(ordenar, indumentarias)
     
-    for indumentaria in indumentarias:
-        if indumentaria.estado == 'sale':
-            precio_a_usar = indumentaria.precio_con_descuento()
-        else:
-            precio_a_usar = indumentaria.precio    
-        indumentaria.cuota = cuotas_sin_interes(precio_a_usar, 3)
+    calcular_cuotas(indumentarias)
 
     filtros_aplicados = construir_filtros_aplicados(
         genero, 
@@ -208,32 +206,18 @@ def calzados_view(request, genero=None):
     filtros = obtener_filtros(request)
     
     # Filtrar productos de calzado
-    calzados = Producto.objects.filter(tipo_producto='calzado') 
+    calzados = Producto.objects.filter(tipo_producto='calzado').order_by('-created')
     if genero:
-        calzados = calzados.filter(genero=genero)
+        calzados = calzados.filter(genero=genero).order_by('-created')
     
     
     # Filtrar por tipo de producto
     calzados = filtrar_productos(calzados, genero, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], filtros['categoria_id'],'calzado')
 
     ordenar = request.GET.get('ordenar')
-    if ordenar == 'precio_asc':
-        calzados = calzados.order_by('precio')
-    elif ordenar == 'precio_desc':
-        calzados = calzados.order_by('-precio')
-    elif ordenar == 'nombre_asc':
-        calzados = calzados.order_by('nombre')
-    elif ordenar == 'nombre_desc':
-        calzados = calzados.order_by('-nombre')
+    calzados = ordenar_productos(ordenar, calzados)
 
-    # Calcular cuotas para cada calzado
-    for calzado in calzados:
-        if calzado.estado == 'sale':
-            precio_a_usar = calzado.precio_con_descuento()
-        else:
-            precio_a_usar = calzado.precio    
-        calzado.cuota = cuotas_sin_interes(precio_a_usar, 3)
-
+    calcular_cuotas(calzados)
 
     filtros_aplicados = construir_filtros_aplicados(
         genero, 
@@ -264,32 +248,19 @@ def accesorios_view(request, genero=None):
     filtros = obtener_filtros(request)
     
     # Filtrar productos de calzado
-    accesorios = Producto.objects.filter(tipo_producto='accesorios') 
+    accesorios = Producto.objects.filter(tipo_producto='accesorios').order_by('-created')
     if genero:
-        accesorios = accesorios.filter(genero=genero)
+        accesorios = accesorios.filter(genero=genero).order_by('-created')
     
     
     # Filtrar por tipo de producto
     accesorios = filtrar_productos(accesorios, genero, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], filtros['categoria_id'],'calzado')
 
     ordenar = request.GET.get('ordenar')
-    if ordenar == 'precio_asc':
-        accesorios = accesorios.order_by('precio')
-    elif ordenar == 'precio_desc':
-        accesorios = accesorios.order_by('-precio')
-    elif ordenar == 'nombre_asc':
-        accesorios = accesorios.order_by('nombre')
-    elif ordenar == 'nombre_desc':
-        accesorios = accesorios.order_by('-nombre')
+    accesorios = ordenar_productos(ordenar, accesorios)
 
     # Calcular cuotas para cada calzado
-    for accesorio in accesorios:
-        if accesorio.estado == 'sale':
-            precio_a_usar = accesorio.precio_con_descuento()
-        else:
-            precio_a_usar = accesorio.precio    
-        accesorio.cuota = cuotas_sin_interes(precio_a_usar, 3)
-
+    calcular_cuotas(accesorios)
 
     filtros_aplicados = construir_filtros_aplicados(
         genero, 
@@ -334,9 +305,7 @@ def sale_view(request):
         sales = sales.order_by('-nombre')
 
     # Calcular cuotas para los producto en sale
-    for sale in sales:
-        precio_descuento = sale.precio_con_descuento()  
-        sale.cuota = cuotas_sin_interes(precio_descuento, 3) 
+    calcular_cuotas(sales)
 
     filtros_aplicados = construir_filtros_aplicados(
         None, 

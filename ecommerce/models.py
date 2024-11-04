@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class TalleIndumentaria(models.Model):
     nombre = models.CharField(max_length=5)
@@ -62,7 +63,8 @@ class Producto(models.Model):
     talles_calzado = models.ManyToManyField(TalleCalzado, blank=True, null=True)
     colores = models.ManyToManyField(Color)
     categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
-    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, null=True)
+    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES,blank=True, null=True)
+    created = models.DateTimeField(default=timezone.now)
     imagen_principal = models.ImageField(upload_to='fotos/')
     imagen_secundaria_1 = models.ImageField(upload_to='fotos/', blank=True, null=True)
     imagen_secundaria_2 = models.ImageField(upload_to='fotos/', blank=True, null=True)

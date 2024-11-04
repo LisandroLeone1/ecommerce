@@ -13,7 +13,6 @@
         <div class="container__grid-index">
 
             {% for novedad in novedades  %}
-                {% if forloop.counter <= 8 %}
                 <div class="card__container index" id="card">
                     <img src="{{novedad.imagen_principal.url}}" class="card-img-top" data-secondary="{% if novedad.imagen_secundaria_1 %}{{ novedad.imagen_secundaria_1.url }}{% else %}{{ novedad.imagen_principal.url }}{% endif %}">
                     <div class="card__body">
@@ -31,7 +30,6 @@
                         </div>
                     </div>
                 </div>
-                {% endif %}
             {% endfor %}
         </div>  
 
@@ -59,36 +57,38 @@
 
 
         <div class="container__estados">
-            <a href=""><h2>!Ofertas 2024!</h2></a>
+            <a href="{% url 'ecommerce:lista_sale' %}"><h2>!Ofertas 2024!</h2></a>
         </div>
         <div class="container__grid-index">
 
             {% for sale in sales  %}
-            <div class="card__container index" id="card">
-                <img src="{{sale.imagen_principal.url}}" class="card-img-top" 
-                data-secondary="{% if sale.imagen_secundaria_1 %}{{ sale.imagen_secundaria_1.url }}{% else %}{{ sale.imagen_principal.url }}{% endif %}">
-                <div class="card__body">
-                    <div class="card__body-data">
-                        <h4>{{sale.marca}}</h4>
-                        <h3>{{sale.nombre}}</h3>
-                    </div>
-                    <div class="container__sale">
-                        <p>{{sale.descuento}}%</p>
-                        <p>OFF</p>
-                    </div>
-                    <div class="container__descuento">
-                        <h5 class="precio__descuento">${{sale.precio}}</h5>
-                        <h5 class="precio__total"> ${{sale.precio_con_descuento}}</h5>
-                    </div>
-                    <div class="card__cuotas">
-                        <h6>3 cuotas de <span>${{sale.cuota}}</span></h6>
-                        <p>Envio gratis</p>
-                    </div>
-                    <div class="card-footer">
-                        <button class="boton-compra" id="boton-compra"><a href="{% url 'ecommerce:producto_detalle' sale.id %}">comprar</a></button>
+                {% if forloop.counter <= 8 %}
+                <div class="card__container index" id="card">
+                    <img src="{{sale.imagen_principal.url}}" class="card-img-top" 
+                    data-secondary="{% if sale.imagen_secundaria_1 %}{{ sale.imagen_secundaria_1.url }}{% else %}{{ sale.imagen_principal.url }}{% endif %}">
+                    <div class="card__body">
+                        <div class="card__body-data">
+                            <h4>{{sale.marca}}</h4>
+                            <h3>{{sale.nombre}}</h3>
+                        </div>
+                        <div class="container__sale">
+                            <p>{{sale.descuento}}%</p>
+                            <p>OFF</p>
+                        </div>
+                        <div class="container__descuento">
+                            <h5 class="precio__descuento">${{sale.precio}}</h5>
+                            <h5 class="precio__total"> ${{sale.precio_con_descuento}}</h5>
+                        </div>
+                        <div class="card__cuotas">
+                            <h6>3 cuotas de <span>${{sale.cuota}}</span></h6>
+                            <p>Envio gratis</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="boton-compra" id="boton-compra"><a href="{% url 'ecommerce:producto_detalle' sale.id %}">comprar</a></button>
+                        </div>
                     </div>
                 </div>
-            </div>
+                {% endif %}
             {% endfor %}
         </div>  
 
@@ -111,7 +111,7 @@
                 </a>
             </div>
             <div class="categorias__container-item">
-                <a href="">
+                <a href="{% url 'ecommerce:lista_accesorios' %}">
                     <picture>
                         <img src="{% static 'ecommerce/img/acceosrios.webp' %}"  alt="">
                         <h2>Accesorios</h2>
