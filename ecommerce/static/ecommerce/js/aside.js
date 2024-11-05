@@ -2,8 +2,8 @@ const button_filters = document.querySelector('#toggle-filters');
 const close_filters = document.querySelector('#close-filters');
 const aside = document.querySelector('#aside-filters');
 const main = document.querySelector('#main');
-const containerGenero = document.querySelector('#container-genero');
-const form = document.querySelector('#aside-form');
+const containerGenero = document.getElementById('container-genero');
+const form = document.getElementById('filter-form');
 const title = document.querySelector('.container__filtros-tittle');
 
 button_filters.addEventListener('click', function() { 

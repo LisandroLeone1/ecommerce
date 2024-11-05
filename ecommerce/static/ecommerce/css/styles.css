@@ -245,7 +245,7 @@ form {
 .container__genero li {
     list-style: none;
     margin-top: 15px;
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
 .container__genero a {
@@ -766,6 +766,20 @@ input[type="checkbox"]:checked::after {
     width: 40px;
     height: 40px;
     padding: 3px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.container__new {
+    background-color: rgb(68, 121, 236);
+    font-size: 11px;
+    font-weight: bold;
+    color: white;
+    width: 50px;
+    padding: 2px;
+    text-align: center;
+    text-transform: uppercase;
     position: absolute;
     top: 10px;
     left: 10px;
