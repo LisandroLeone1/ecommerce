@@ -1,168 +1,77 @@
-{% extends 'ecommerce/base.html' %}
+{% extends 'ecommerce/producto_base.html' %}
 {% load static %}
 
-{% block content %}
+            
+            
+    {% block tittle-categoria %}Indumentaria{% endblock %}
 
-<div class="wrapper">
-    <aside id="aside-filters" class="aside-filters">
-        <div class="container__genero" id="container-genero">
-            <h3>Género</h3>
-            <ul>
-                <li>
-                    <a class="{% if filtros_aplicados.genero == 'hombre' %}activar{% endif %}" href="{% url 'ecommerce:indumentaria_por_genero' 'hombre' %}?genero=hombre">Hombre</a>
-                </li>
-                <li>
-                    <a class="{% if filtros_aplicados.genero == 'mujer' %}activar{% endif %}" href="{% url 'ecommerce:indumentaria_por_genero' 'mujer' %}?genero=mujer">Mujer</a>
-                </li>
-                <li>
-                    <a class="{% if filtros_aplicados.genero == 'niño' %}activar{% endif %}" href="{% url 'ecommerce:indumentaria_por_genero' 'niño' %}?genero=niño">Niño</a>
-                </li>
-            </ul>
+    {% block filtro_url %}
+    {% if genero %}{% url 'ecommerce:indumentaria_por_genero' genero %}{% else %}{% url 'ecommerce:lista_indumentaria' %}{% endif %}
+    {% endblock %}
+            
+
+
+    {% block filtros_genero %}
+    <div class="container__genero" id="container-genero">
+        <h3>Género</h3>
+        <ul>
+            <li>
+                <a class="{% if request.GET.genero == 'hombre' %}activar{% endif %}" href="{% url 'ecommerce:indumentaria_por_genero' 'hombre' %}?genero=hombre">Hombre</a>
+            </li>
+            <li>
+                <a class="{% if request.GET.genero == 'mujer' %}activar{% endif %}" href="{% url 'ecommerce:indumentaria_por_genero' 'mujer' %}?genero=mujer">Mujer</a>
+            </li>
+            <li>
+                <a class="{% if request.GET.genero == 'unisex' %}activar{% endif %}" href="{% url 'ecommerce:indumentaria_por_genero' 'unisex' %}?genero=unisex">Unisex</a>
+            </li>
+            <li>
+                <a class="{% if request.GET.genero == 'niño' %}activar{% endif %}" href="{% url 'ecommerce:indumentaria_por_genero' 'niño' %}?genero=niño">Niño</a>
+            </li>
+        </ul>
+    </div>
+    {% endblock %}
+    
+
+
+
+    {% block filtro_form %}
+    {% if genero %}{% url 'ecommerce:indumentaria_por_genero' genero %}{% else %}{% url 'ecommerce:lista_indumentaria' %}{% endif %}
+    {% endblock %}
+    
+    {% block talle %}
+    <div class="container__filtro">
+        <h3>Talles</h3>
+        {% for talle in talles_ind %}
+            {% if forloop.counter <= 8 %}  {# Muestra solo los primeros 8 #}
+            <label>
+                <div class="label-content">
+                    <input type="checkbox" name="talles" value="{{ talle.id }}">
+                    <span>{{ talle.nombre }}</span>
+                </div>
+            </label>
+            {% endif %}
+        {% endfor %}
+    
+        <div class="more-filters-talles" id="more-filters-talles">
+            {% for talle in talles_ind %}
+                {% if forloop.counter > 8 %}
+                <label>
+                    <div class="label-content">
+                        <input type="checkbox" name="talles" value="{{ talle.id }}">
+                        <span>{{ talle.nombre }}</span>
+                    </div>
+                </label>
+                {% endif %}
+            {% endfor %}
+            
         </div>
-        
-        <form method="GET" id="filter-form" action="{% if genero %}{% url 'ecommerce:indumentaria_por_genero' genero %}{% else %}{% url 'ecommerce:lista_indumentaria' %}{% endif %}">
-
-            <div class="container__filtros-tittle">
-                <span id="close-filters">X</span>
-                <h2 class="filtros-tittle">Filtrar Por</h2>
-            </div>
-                <div class="container__flex-filtros" id="container-filters">
-                    <div class="container__filtro">
-                        <h3>Marca</h3>
-                        {% for marca in marcas %}
-                            {% if forloop.counter <= 8 %}
-                        <label>
-                            <div class="label-content">
-                                <input type="checkbox" name="marca" value="{{ marca.id }}" {% if marca.id|stringformat:"d" in request.GET.marca %}checked{% endif %}>
-                                <span>{{ marca.nombre }}</span>
-                            </div>
-                        </label>
-                            {% endif %}
-                        {% endfor %}
-                        <div class="more-filters-marca" id="filters-marca">
-                            {% for marca in marcas %}
-                                {% if forloop.counter > 8 %}
-                                <label>
-                                    <div class="label-content">
-                                        <input type="checkbox" name="marca" value="{{ marca.id }}">
-                                        <span>{{ marca.nombre }}</span>
-                                    </div>
-                                </label>
-                                {% endif %}
-                            {% endfor %}
+        <button id="button-filtro-talles" type="button">Ver todos</button>
+    </div>                
+    {% endblock %}
     
-                        </div>
-                        <button id="button-filtro-marca" type="button">Ver todos</button>
-                    </div>
-    
-    
-                    <div class="container__filtro">
-                        <h3>Color</h3>
-                        {% for color in colores %}
-                            {% if forloop.counter <= 8 %}  {# Muestra solo los primeros 8 #}
-                            <label>
-                                <div class="label-content">
-                                    <input type="checkbox" name="colores" value="{{ color.id }}">
-                                    <span>{{ color.nombre }}</span>
-                                </div>
-                                <i class="bi bi-circle-fill" style="color: {{ color.color_style }}; font-size: small;"></i>
-                            </label>
-                            {% endif %}
-                        {% endfor %}
-                    
 
-                            <div class="more-filters" id="more-filters">
-                                {% for color in colores %}
-                                {% if forloop.counter > 8 %}
-                                <label>
-                                    <div class="label-content">
-                                        <input type="checkbox" name="colores" value="{{ color.id }}">
-                                        <span>{{ color.nombre }}</span>
-                                    </div>
-                                    <i class="bi bi-circle-fill" style="color: {{ color.color_style }}; font-size: small;"></i>
-                                </label>
-                                {% endif %}
-                                {% endfor %}
-                            </div>
-                            <button id="button-filtro" type="button">Ver todos</button>
-                    </div>
 
-                    <div class="container__filtro">
-                        <h3>Talles</h3>
-                        {% for talle in talles_ind %}
-                            {% if forloop.counter <= 8 %}  {# Muestra solo los primeros 8 #}
-                            <label>
-                                <div class="label-content">
-                                    <input type="checkbox" name="talles" value="{{ talle.id }}">
-                                    <span>{{ talle.nombre }}</span>
-                                </div>
-                            </label>
-                            {% endif %}
-                        {% endfor %}
-                        
-                        <div class="more-filters-talles" id="more-filters-talles">
-                            {% for talle in talles_ind %}
-                                {% if forloop.counter > 8 %}
-                                <label>
-                                    <div class="label-content">
-                                        <input type="checkbox" name="talles" value="{{ talle.id }}">
-                                        <span>{{ talle.nombre }}</span>
-                                    </div>
-                                </label>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    
-                        {# Solo mostrar el botón si hay más de 8 talles #}
-                        {% if talles_ind|length > 8 %}
-                            <button id="button-filtro-talles" type="button">Ver todos</button>
-                        {% endif %}
-                    </div>
-                    <button type="submit" class="button-filtrar">Filtrar</button>
-                </div>   
-            </form>
-
-    </aside>
-    <main id="main">
-        
-        <div class="container" id="container-principal">
-
-            <ul class="breadcrumb">
-                <li>
-                    <a href="{% url 'ecommerce:index' %}">Inicio</a>
-                </li>
-                {% for path, name in request.breadcrumbs %}
-                    {% if name != 'Inicio' %}
-                        <li>
-                            <a href="{{ path }}">{{ name }}</a>
-                        </li>
-                        {% if not forloop.last %}
-                            <span> > </span>
-                        {% endif %}
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        
-            <div class="container__categoria">
-                <h3>Indumentaria</h3>
-            </div>
-            <div class="container__button-filtros" id="container-filtro">
-                <button id="toggle-filters" class="toggle-filters">
-                    Filtros
-                    <i class="bi bi-filter-right"></i>
-                </button>
-                <form class="form__order" id="order-form" method="GET" action="{% if genero %}{% url 'ecommerce:indumentaria_por_genero' genero %}{% else %}{% url 'ecommerce:lista_indumentaria' %}{% endif %}">
-                    <select name="ordenar" id="ordenar">
-                        <option value="">Seleccionar</option>
-                        <option value="precio_asc" {% if request.GET.ordenar == 'precio_asc' %}selected{% endif %}>Precio: Bajo a Alto</option>
-                        <option value="precio_desc" {% if request.GET.ordenar == 'precio_desc' %}selected{% endif %}>Precio: Alto a Bajo</option>
-                        <option value="nombre_asc" {% if request.GET.ordenar == 'nombre_asc' %}selected{% endif %}>Nombre: A-Z</option>
-                        <option value="nombre_desc" {% if request.GET.ordenar == 'nombre_desc' %}selected{% endif %}>Nombre: Z-A</option>
-                    </select>
-                    <button type="submit" class="order-button">Buscar</button>
-                </form>
-                
-            </div>    
+    {% block products %}
 
         <div class="container__filtros-aplicados">
             <ul>
@@ -210,9 +119,5 @@
             </div>
             {% endfor %}
         </div>  
-    </div> 
 
-    </main>
-    </div>
-
-    {% endblock content %}
+        {% endblock %}

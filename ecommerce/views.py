@@ -162,7 +162,6 @@ def indumentaria_view(request, genero=None):
 
     # Aplicar filtro de género si se proporciona
 
-
     indumentarias = filtrar_productos(
         indumentarias,
         genero,  # Usa el género de la URL o el del formulario
@@ -252,7 +251,6 @@ def accesorios_view(request, genero=None):
     if genero:
         accesorios = accesorios.filter(genero=genero).order_by('-created')
     
-    
     # Filtrar por tipo de producto
     accesorios = filtrar_productos(accesorios, genero, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], filtros['categoria_id'],'calzado')
 
@@ -275,7 +273,6 @@ def accesorios_view(request, genero=None):
     marcas = Marca.objects.all()
     colores = Color.objects.all()
 
-
     return render(request, 'ecommerce/accesorios.html', {
         'accesorios': accesorios,
         'filtros_aplicados': filtros_aplicados,
@@ -284,13 +281,12 @@ def accesorios_view(request, genero=None):
         'genero': genero,
     })
 
-def sale_view(request):
+def sale_view(request, genero=None):
     filtros = obtener_filtros(request)
     
     # Filtrar productos de calzado
-    sales = Producto.objects.filter(estado='sale') 
+    sales = Producto.objects.filter(estado='sale').order_by('-created')
     
-
     # Filtrar por tipo de producto
     sales = filtrar_productos(sales, None, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], filtros['categoria_id'],'sale')
 

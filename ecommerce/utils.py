@@ -17,7 +17,6 @@ def cuotas_con_interes(precio, tasa_interes_anual, cuotas):
     return pago_mensual
 
 
-
 def get_breadcrumb_name(url):
     breadcrumbs = []
 
@@ -55,5 +54,7 @@ def get_breadcrumb_name(url):
         breadcrumbs.append('Sale')
 
     return ' > '.join(breadcrumbs)  # Devuelve la cadena de breadcrumbs
+
+
 
 

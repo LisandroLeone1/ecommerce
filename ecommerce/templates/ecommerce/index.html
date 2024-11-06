@@ -6,21 +6,6 @@
     <main id="main">
         
     <div class="container" id="container-principal">
-        <ul class="breadcrumb">
-            <li>
-                <a href="{% url 'ecommerce:index' %}">Inicio</a>
-            </li>
-            {% for path, name in request.breadcrumbs %}
-                {% if name != 'Inicio' %}
-                    <li>
-                        <a href="{{ path }}">{{ name }}</a>
-                    </li>
-                    {% if not forloop.last %}
-                        <span> > </span>
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
-        </ul>
         <div class="container__estados">
             <h2>Novedades</h2>
         </div>
