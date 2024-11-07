@@ -75,19 +75,12 @@
     {% endblock %}
                     
     
-    {% block products %}
+    {% block filtros_aplic %}
+    {% url 'ecommerce:lista_sale' %}
+    {% endblock  %}
 
-        <div class="container__filtros-aplicados">
-            <ul>
-                {% for nombre, valor in filtros_aplicados.items %}
-                    <li>{{ valor }}</li>
-                {% endfor %}
-                {% if filtros_aplicados %}
-                <a href="{% url 'ecommerce:lista_sale' %}">Borrar Filtros</a>
-                {% endif %}
-            </ul>
-                
-        </div>
+
+    {% block products %}
 
         <div class="container__grid">
 

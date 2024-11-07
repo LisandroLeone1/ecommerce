@@ -69,30 +69,31 @@ def filtrar_productos(queryset, color_ids, talle_ids, marca_ids, categoria_id, t
     return queryset
 
 
-def construir_filtros_aplicados(color_ids, talle_ids, marca_ids, categoria_id, tipo_producto):
+def construir_filtros_aplicados(color_ids, talle_ids, marca_ids, tipo_producto):
     filtros_aplicados = {}
 
+    # Filtrar por colores
     if color_ids:
         colores = Color.objects.filter(id__in=color_ids)
-        filtros_aplicados['Colores'] = ', '.join([color.nombre for color in colores])
+        filtros_aplicados['Colores'] = [color.nombre for color in colores]
 
+    # Filtrar por talles dependiendo del tipo de producto
     if talle_ids:
         if tipo_producto == 'indumentaria':
             talles = TalleIndumentaria.objects.filter(id__in=talle_ids)  # Filtrar talles de indumentaria
-            filtros_aplicados['Talles'] = ', '.join([talle.nombre for talle in talles])
+            filtros_aplicados['Talles'] = [talle.nombre for talle in talles]
         elif tipo_producto == 'calzado':
             talles = TalleCalzado.objects.filter(id__in=talle_ids)  # Filtrar talles de calzado
-            filtros_aplicados['Talles'] = ', '.join([talle.nombre for talle in talles])
+            filtros_aplicados['Talles'] = [talle.nombre for talle in talles]
 
+    # Filtrar por marcas
     if marca_ids:
         marcas = Marca.objects.filter(id__in=marca_ids)
-        filtros_aplicados['Marcas'] = ', '.join([marca.nombre for marca in marcas])
+        filtros_aplicados['Marcas'] = [marca.nombre for marca in marcas]
 
-    if categoria_id:
-        categoria = get_object_or_404(Categoria, id=categoria_id)
-        filtros_aplicados['Categoría'] = categoria.nombre
 
     return filtros_aplicados
+
 
 
 def ordenar_productos(ordenar, productos):
@@ -180,7 +181,6 @@ def indumentaria_view(request, genero=None):
         filtros['color_ids'],
         filtros['talle_ids'],
         filtros['marca_ids'],
-        filtros['categoria_id'],
         'indumentaria'
     )
 
@@ -237,7 +237,6 @@ def calzados_view(request, genero=None):
         filtros['color_ids'], 
         filtros['talle_ids'], 
         filtros['marca_ids'], 
-        filtros['categoria_id'], 
         'calzado'  # Pasar tipo de producto
     )
 
@@ -293,7 +292,6 @@ def accesorios_view(request, genero=None):
         filtros['color_ids'], 
         filtros['talle_ids'], 
         filtros['marca_ids'], 
-        filtros['categoria_id'], 
         'accesorios'  # Pasar tipo de producto
     )
 
@@ -348,7 +346,6 @@ def sale_view(request, genero=None):
         filtros['color_ids'], 
         filtros['talle_ids'], 
         filtros['marca_ids'], 
-        filtros['categoria_id'], 
         None,  # Pasar tipo de producto
     )
 
@@ -543,3 +540,29 @@ def producto_detalle(request, producto_id):
     cuota = cuotas_sin_interes(producto.precio, 3)
     return render(request, 'ecommerce/producto.html', {'producto': producto, 'talles': talles, 'colores': colores, 'cuota': cuota})
 """
+
+
+"""def construir_filtros_aplicados(color_ids, talle_ids, marca_ids, categoria_id, tipo_producto):
+    filtros_aplicados = {}
+
+    if color_ids:
+        colores = Color.objects.filter(id__in=color_ids)
+        filtros_aplicados['Colores'] = ', '.join([color.nombre for color in colores])
+
+    if talle_ids:
+        if tipo_producto == 'indumentaria':
+            talles = TalleIndumentaria.objects.filter(id__in=talle_ids)  # Filtrar talles de indumentaria
+            filtros_aplicados['Talles'] = ', '.join([talle.nombre for talle in talles])
+        elif tipo_producto == 'calzado':
+            talles = TalleCalzado.objects.filter(id__in=talle_ids)  # Filtrar talles de calzado
+            filtros_aplicados['Talles'] = ', '.join([talle.nombre for talle in talles])
+
+    if marca_ids:
+        marcas = Marca.objects.filter(id__in=marca_ids)
+        filtros_aplicados['Marcas'] = ', '.join([marca.nombre for marca in marcas])
+
+    if categoria_id:
+        categoria = get_object_or_404(Categoria, id=categoria_id)
+        filtros_aplicados['Categoría'] = categoria.nombre
+
+    return filtros_aplicados"""

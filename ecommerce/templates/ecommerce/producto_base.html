@@ -140,6 +140,22 @@
         <main id="main">
             
         <div class="container" id="container-principal">
+
+
+            <div class="container__filtros-aplicados">
+                <ul>
+                    
+                    {% if filtros_aplicados %}
+                        {% for filtro, valores in filtros_aplicados.items  %}
+                            {% for valor in valores %}
+                                <li>{{valor}}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    <a href="{% block filtros_aplic %}{% endblock  %}">Borrar Filtros</a>
+                    {% endif %}
+                </ul>
+                    
+            </div>
     
             {% block products %}
 

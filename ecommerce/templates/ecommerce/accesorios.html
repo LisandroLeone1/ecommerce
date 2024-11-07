@@ -34,19 +34,13 @@
     {% if genero %}{% url 'ecommerce:accesorios_por_genero' genero %}{% else %}{% url 'ecommerce:lista_accesorios' %}{% endif %}
     {% endblock %}
 
+
+    {% block filtros_aplic %}
+    {% url 'ecommerce:lista_accesorios' %}
+    {% endblock  %}
+
     {% block products %}
 
-        <div class="container__filtros-aplicados">
-            <ul>
-                {% for nombre, valor in filtros_aplicados.items %}
-                    <li>{{ valor }}</li>
-                {% endfor %}
-                {% if filtros_aplicados %}
-                <a href="{% url 'ecommerce:lista_accesorios' %}">Borrar Filtros</a>
-                {% endif %}
-            </ul>
-                
-        </div>
 
         <div class="container__grid">
 

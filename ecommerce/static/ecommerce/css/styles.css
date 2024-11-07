@@ -6,11 +6,12 @@ body {
     font-style: normal;
     background-color: var(--color-secundario);
     box-sizing: border-box;
-    --color-principal: rgb(94, 107, 136);
+    --color-principal: rgb(51, 52, 53);
     --color-secundario: rgb(242, 245, 248);
     --color-terciario: rgb(165, 174, 192);
     --color-cuarto: rgb(198, 200, 204);
     --color-quinto: rgb(78, 77, 77);
+    --color-sexto:rgb(83, 81, 81);
 
 }
 
@@ -21,7 +22,7 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
 
 
 .header__data {
-    background-color: rgb(243, 87, 87);
+    background-color: var(--color-sexto);
     padding: 5px 20px;
     position: relative;
 }
@@ -771,12 +772,12 @@ input[type="checkbox"]:checked::after {
 .card__body-data h4 {
     font-weight: 500;
     color: var(--color-terciario);
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .card__body-data h3 {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 15px;
     overflow: hidden; /* Oculta el texto que se desborda */
     text-overflow: ellipsis; /* Añade "..." al final del texto que se corta */
 }
@@ -808,21 +809,21 @@ input[type="checkbox"]:checked::after {
 
 .boton-compra {
     padding: 10px;
-    background-color: var(--color-terciario);
+    background-color: var(--color-principal);
     color: white;
     width: 100%;
     margin-top: 15px;
     border-radius: 5px;
     border: none;
-    font-size: 18px;
-    text-transform: uppercase;
+    font-size: 15px;
+    text-transform: capitalize;
     font-weight: 600;
     display: none;
     transition: all 0.3s ease;
 }
 
 .boton-compra:hover {
-    background-color: var(--color-principal);
+    
 }
 
 .boton-compra.activo {
