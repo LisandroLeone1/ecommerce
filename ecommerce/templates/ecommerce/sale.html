@@ -15,6 +15,64 @@
     {% block filtro_form %}
     {% url 'ecommerce:lista_sale' %}
     {% endblock %}
+
+    {% block talle %}
+    <div class="container__filtro">
+        <h3>Talles</h3>
+        {% for talle in talles_cal_disponibles %}
+            {% if forloop.counter <= 4 %} 
+            <label>
+                <div class="label-content">
+                    <input type="checkbox" name="talles" value="{{ talle.id }}">
+                    <span>{{ talle.nombre }}</span>
+                </div>
+            </label>
+            {% endif %}
+        {% endfor %}
+    
+        {% for talle in talles_ind_disponibles %}
+            {% if forloop.counter <= 4 %} 
+            <label>
+                <div class="label-content">
+                    <input type="checkbox" name="talles" value="{{ talle.id }}">
+                    <span>{{ talle.nombre }}</span>
+                </div>
+            </label>
+            {% endif %}
+        {% endfor %}
+    
+        <div class="more-filters-talles" id="more-filters-talles">
+            {% for talle in talles_cal_disponibles %}
+                {% if forloop.counter > 4 %}
+                <label>
+                    <div class="label-content">
+                        <input type="checkbox" name="talles" value="{{ talle.id }}">
+                        <span>{{ talle.nombre }}</span>
+                    </div>
+                </label>
+                {% endif %}
+            {% endfor %}
+    
+            {% for talle in talles_ind_disponibles %}
+                {% if forloop.counter > 4 %}
+                <label>
+                    <div class="label-content">
+                        <input type="checkbox" name="talles" value="{{ talle.id }}">
+                        <span>{{ talle.nombre }}</span>
+                    </div>
+                </label>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% if talles_cal_disponibles and talles_ind_disponibles %}
+        {% if talles_cal_disponibles|length > 8 or talles_ind_disponibles|length > 8 %}
+            <!-- Mostrar el botón "Ver todos" si hay más de 8 talles en cualquiera de las listas -->
+            <button id="button-filtro-talles" type="button">Ver todos</button>
+        {% endif %}
+    {% endif %}
+    
+    </div>
+    {% endblock %}
                     
     
     {% block products %}

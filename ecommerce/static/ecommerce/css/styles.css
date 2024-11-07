@@ -273,21 +273,20 @@ form {
 
 .rutas__container a {
     text-decoration: none;
-    color: var(--color-terciario);
+    color: var(--color-quinto);
     margin: 0px 4px;
     font-size: 15px;
     font-weight: 400;
 }
 
-.rutas__container a:last-child {
-    color: var(--color-quinto);
-    font-weight: 500;
+.rutas__container a:hover {
+    color: var(--color-terciario);
 }
 
-.last-breadcrumb {
+.rutas__container .separador {
     color: var(--color-quinto);
-    font-weight: 600;
 }
+
 
 .container__categoria {
     max-width: 100%;
@@ -966,19 +965,20 @@ input[type="checkbox"]:checked::after {
 
 .producto__data h4 {
     font-weight: 400;
-    color: gray;
+    color: var(--color-terciario);
     font-size: 20px;
     margin-bottom: 7px;
 }
 
 .producto__data h3 {
-    font-size: 50px;
+    font-size: 45px;
     font-weight: 700;
+    text-transform: uppercase;
 }
 
 .producto-precio {
-    color: orange;
-    font-size: 30px;
+    color: var(--color-principal);
+    font-size: 35px;
     margin-top: 15px;
     font-size: 700;
 }
@@ -1027,10 +1027,16 @@ input[type="checkbox"]:checked::after {
 
 
 .boton-carrito {
+    margin: auto;
     margin-top: 20px;
     padding: 8px;
     border-radius: 15px;
-    background-color: lightslategrey;
+    border: none;
+    background-color: var(--color-terciario);
+    color:beige;
+    font-size: 17px;
+    font-weight: bold;
+    width: 90%;
 }
 .envios__container {
     display: flex;

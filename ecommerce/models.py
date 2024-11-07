@@ -12,6 +12,12 @@ class TalleCalzado(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+class TalleAccesorio(models.Model):
+    nombre = models.CharField(max_length=5)
+
+    def __str__(self):
+        return self.nombre
 
 class Marca(models.Model):
     nombre = models.CharField(max_length=100)
@@ -61,6 +67,7 @@ class Producto(models.Model):
     tipo_producto = models.CharField(max_length=20, choices=TIPO_PRODUCTO_CHOICES, default='indumentaria')
     talles_indumentaria = models.ManyToManyField(TalleIndumentaria, blank=True, null=True)
     talles_calzado = models.ManyToManyField(TalleCalzado, blank=True, null=True)
+    talles_accesorios = models.ManyToManyField(TalleAccesorio, blank=True, null=True)
     colores = models.ManyToManyField(Color)
     categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES,blank=True, null=True)

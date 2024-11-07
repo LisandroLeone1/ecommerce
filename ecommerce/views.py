@@ -24,6 +24,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Producto, Marca, Color, TalleCalzado, TalleIndumentaria, Categoria
 from .utils import cuotas_sin_interes
 from django.db.models import Q
+from django.urls import reverse
 
 def Home(request):
     return render(request,"ecommerce/index.html")
@@ -42,9 +43,7 @@ def obtener_filtros(request):
 
 
 
-def filtrar_productos(queryset, genero, color_ids, talle_ids, marca_ids, categoria_id, tipo_producto):
-    if genero and genero in dict(Producto.GENERO_CHOICES).keys():
-        queryset = queryset.filter(genero=genero)
+def filtrar_productos(queryset, color_ids, talle_ids, marca_ids, categoria_id, tipo_producto):
 
     if color_ids:
         queryset = queryset.filter(colores__id__in=color_ids)
@@ -62,17 +61,16 @@ def filtrar_productos(queryset, genero, color_ids, talle_ids, marca_ids, categor
     if categoria_id:
         queryset = queryset.filter(categoria_id=categoria_id)
 
+    if tipo_producto:
+        queryset = queryset.filter(tipo_producto=tipo_producto)
         # Con el metodo distinct evito que se dupliquen los resultados cuando aplica mas de un filtro
     queryset = queryset.distinct()
 
     return queryset
 
 
-def construir_filtros_aplicados(genero, color_ids, talle_ids, marca_ids, categoria_id, tipo_producto):
+def construir_filtros_aplicados(color_ids, talle_ids, marca_ids, categoria_id, tipo_producto):
     filtros_aplicados = {}
-
-    if genero:
-        filtros_aplicados['genero'] = genero
 
     if color_ids:
         colores = Color.objects.filter(id__in=color_ids)
@@ -158,13 +156,15 @@ def indumentaria_view(request, genero=None):
     # Filtrar productos de indumentaria
     indumentarias = Producto.objects.filter(tipo_producto='indumentaria').order_by('-created')
     if genero:
-        indumentarias = indumentarias.filter(genero=genero).order_by('-created')
+        if genero == 'unisex':
+            indumentarias = indumentarias.filter(genero__in = ['hombre', 'mujer']).order_by('-created')
+        else:
+            indumentarias = indumentarias.filter(genero=genero).order_by('-created')
 
     # Aplicar filtro de género si se proporciona
 
     indumentarias = filtrar_productos(
-        indumentarias,
-        genero,  # Usa el género de la URL o el del formulario
+        indumentarias,   # Usa el género de la URL o el del formulario
         filtros['color_ids'],
         filtros['talle_ids'],
         filtros['marca_ids'],
@@ -177,7 +177,6 @@ def indumentaria_view(request, genero=None):
     calcular_cuotas(indumentarias)
 
     filtros_aplicados = construir_filtros_aplicados(
-        genero, 
         filtros['color_ids'],
         filtros['talle_ids'],
         filtros['marca_ids'],
@@ -186,17 +185,30 @@ def indumentaria_view(request, genero=None):
     )
 
     # Obtener listas de marcas y colores para el formulario
-    marcas = Marca.objects.all()
-    colores = Color.objects.all()
-    talles_ind = TalleIndumentaria.objects.all()
+    marcas_disponibles = indumentarias.values_list('marca', flat= True).distinct()
+    marcas_disponibles = Marca.objects.filter(id__in=marcas_disponibles)
+    colores_disponibles = indumentarias.values_list('colores', flat= True).distinct()
+    colores_disponibles = Color.objects.filter(id__in=colores_disponibles)
+    talles_ind_disponibles = indumentarias.values_list('talles_indumentaria', flat=True).distinct()
+    talles_ind_disponibles = TalleIndumentaria.objects.filter(id__in=talles_ind_disponibles)
+
+    #Migas de pan
+    breadcrumbs = [
+        {'name': 'Inicio', 'url': reverse('ecommerce:index')},
+        {'name': 'Indumentaria', 'url': reverse('ecommerce:lista_indumentaria')}
+    ]
+
+    if genero:
+        breadcrumbs.append({'name': genero.capitalize(), 'url': None })
 
     return render(request, 'ecommerce/indumentaria.html', {
         'indumentarias': indumentarias,
         'filtros_aplicados': filtros_aplicados,
-        'marcas': marcas,
-        'colores': colores,
-        'talles_ind': talles_ind,
+        'marcas_disponibles': marcas_disponibles,
+        'colores_disponibles': colores_disponibles,
+        'talles_ind_disponibles': talles_ind_disponibles,
         'genero': genero,
+        'breadcrumbs': breadcrumbs,
     })
 
 
@@ -207,11 +219,14 @@ def calzados_view(request, genero=None):
     # Filtrar productos de calzado
     calzados = Producto.objects.filter(tipo_producto='calzado').order_by('-created')
     if genero:
-        calzados = calzados.filter(genero=genero).order_by('-created')
+        if genero == 'unisex':
+            calzados = calzados.filter(genero__in = ['hombre', 'mujer']).order_by('-created')
+        else:
+            calzados = calzados.filter(genero=genero).order_by('-created')
     
     
     # Filtrar por tipo de producto
-    calzados = filtrar_productos(calzados, genero, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], filtros['categoria_id'],'calzado')
+    calzados = filtrar_productos(calzados, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], filtros['categoria_id'],'calzado')
 
     ordenar = request.GET.get('ordenar')
     calzados = ordenar_productos(ordenar, calzados)
@@ -219,7 +234,6 @@ def calzados_view(request, genero=None):
     calcular_cuotas(calzados)
 
     filtros_aplicados = construir_filtros_aplicados(
-        genero, 
         filtros['color_ids'], 
         filtros['talle_ids'], 
         filtros['marca_ids'], 
@@ -228,17 +242,29 @@ def calzados_view(request, genero=None):
     )
 
     # Obtener listas de marcas y colores para el formulario
-    marcas = Marca.objects.all()
-    colores = Color.objects.all()
-    talles_cal = TalleCalzado.objects.all()
+    marcas_disponibles = calzados.values_list('marca', flat= True).distinct()
+    marcas_disponibles = Marca.objects.filter(id__in=marcas_disponibles)
+    colores_disponibles = calzados.values_list('colores', flat= True).distinct()
+    colores_disponibles = Color.objects.filter(id__in=colores_disponibles)
+    talles_cal_disponibles = calzados.values_list('talles_calzado', flat=True).distinct()
+    talles_cal_disponibles = TalleCalzado.objects.filter(id__in=talles_cal_disponibles)
+
+    breadcrumbs = [
+        {'name': 'Inicio', 'url': reverse('ecommerce:index')},
+        {'name': 'Calzados', 'url': reverse('ecommerce:lista_calzados')}
+    ]
+
+    if genero:
+        breadcrumbs.append({'name': genero.capitalize(), 'url': reverse('ecommerce:calzado_por_genero', args=[genero])})
 
     return render(request, 'ecommerce/calzados.html', {
         'calzados': calzados,
         'filtros_aplicados': filtros_aplicados,
-        'marcas': marcas,
-        'colores': colores,
-        'talles_cal': talles_cal,
+        'marcas_disponibles': marcas_disponibles,
+        'colores_disponibles': colores_disponibles,
+        'talles_cal_disponibles': talles_cal_disponibles,
         'genero': genero,
+        'breadcrumbs': breadcrumbs,
     })
 
 
@@ -249,10 +275,13 @@ def accesorios_view(request, genero=None):
     # Filtrar productos de calzado
     accesorios = Producto.objects.filter(tipo_producto='accesorios').order_by('-created')
     if genero:
-        accesorios = accesorios.filter(genero=genero).order_by('-created')
+        if genero == 'unisex':
+            accesorios = accesorios.filter(genero__in = ['hombre', 'mujer']).order_by('-created')
+        else:
+            accesorios = accesorios.filter(genero=genero).order_by('-created')
     
     # Filtrar por tipo de producto
-    accesorios = filtrar_productos(accesorios, genero, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], filtros['categoria_id'],'calzado')
+    accesorios = filtrar_productos(accesorios, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], filtros['categoria_id'],'accesorios')
 
     ordenar = request.GET.get('ordenar')
     accesorios = ordenar_productos(ordenar, accesorios)
@@ -261,7 +290,6 @@ def accesorios_view(request, genero=None):
     calcular_cuotas(accesorios)
 
     filtros_aplicados = construir_filtros_aplicados(
-        genero, 
         filtros['color_ids'], 
         filtros['talle_ids'], 
         filtros['marca_ids'], 
@@ -269,26 +297,39 @@ def accesorios_view(request, genero=None):
         'accesorios'  # Pasar tipo de producto
     )
 
-    # Obtener listas de marcas y colores para el formulario
-    marcas = Marca.objects.all()
-    colores = Color.objects.all()
+    marcas_disponibles = accesorios.values_list('marca', flat= True).distinct()
+    marcas_disponibles = Marca.objects.filter(id__in=marcas_disponibles)
+    colores_disponibles = accesorios.values_list('colores', flat= True).distinct()
+    colores_disponibles = Color.objects.filter(id__in=colores_disponibles)
+    talles_cal_disponibles = accesorios.values_list('talles_calzado', flat=True).distinct()
+    talles_cal_disponibles = TalleCalzado.objects.filter(id__in=talles_cal_disponibles)
+
+    breadcrumbs = [
+        {'name': 'Inicio', 'url': reverse('ecommerce:index')},
+        {'name': 'Accesorios', 'url': reverse('ecommerce:lista_accesorios')}
+    ]
+
+    if genero:
+        breadcrumbs.append({'name': genero.capitalize(), 'url': None})
 
     return render(request, 'ecommerce/accesorios.html', {
         'accesorios': accesorios,
         'filtros_aplicados': filtros_aplicados,
-        'marcas': marcas,
-        'colores': colores,
+        'marcas_disponibles': marcas_disponibles,
+        'colores_disponibles': colores_disponibles,
         'genero': genero,
+        'breadcrumbs': breadcrumbs,
     })
 
 def sale_view(request, genero=None):
     filtros = obtener_filtros(request)
     
+    tipo_producto = request.GET.get('tipo_producto', None)
     # Filtrar productos de calzado
     sales = Producto.objects.filter(estado='sale').order_by('-created')
-    
+    print("Talles seleccionados:", filtros['talle_ids'])
     # Filtrar por tipo de producto
-    sales = filtrar_productos(sales, None, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], filtros['categoria_id'],'sale')
+    sales = filtrar_productos(sales, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], filtros['categoria_id'], tipo_producto)
 
     ordenar = request.GET.get('ordenar')
     if ordenar == 'precio_asc':
@@ -304,7 +345,6 @@ def sale_view(request, genero=None):
     calcular_cuotas(sales)
 
     filtros_aplicados = construir_filtros_aplicados(
-        None, 
         filtros['color_ids'], 
         filtros['talle_ids'], 
         filtros['marca_ids'], 
@@ -312,17 +352,32 @@ def sale_view(request, genero=None):
         None,  # Pasar tipo de producto
     )
 
-    # Obtener listas de marcas y colores para el formulario
-    marcas = Marca.objects.all()
-    colores = Color.objects.all()
-    talles_cal = TalleCalzado.objects.all()
+    marcas_disponibles = sales.values_list('marca', flat= True).distinct()
+    marcas_disponibles = Marca.objects.filter(id__in=marcas_disponibles)
+    colores_disponibles = sales.values_list('colores', flat= True).distinct()
+    colores_disponibles = Color.objects.filter(id__in=colores_disponibles)
+    talles_cal_disponibles = sales.values_list('talles_calzado', flat=True).distinct()
+    talles_cal_disponibles = TalleCalzado.objects.filter(id__in=talles_cal_disponibles)
+    talles_ind_disponibles = sales.values_list('talles_indumentaria', flat=True).distinct()
+    talles_ind_disponibles = TalleIndumentaria.objects.filter(id__in=talles_ind_disponibles)
+
+    # Unificamos ambos conjuntos de talles
+    todos_los_talles = list(talles_ind_disponibles) + list(talles_cal_disponibles)
+
+    breadcrumbs = [
+        {'name': 'Inicio', 'url': reverse('ecommerce:index')},
+        {'name': 'Sale', 'url': reverse('ecommerce:lista_sale')}
+    ]
 
     return render(request, 'ecommerce/sale.html', {
         'sales': sales,
         'filtros_aplicados': filtros_aplicados,
-        'marcas': marcas,
-        'colores': colores,
-        'talles_cal': talles_cal,
+        'marcas_disponibles': marcas_disponibles,
+        'colores_disponibles': colores_disponibles,
+        'todos_los_talles': todos_los_talles,
+        'talles_ind_disponibles': talles_ind_disponibles,
+        'talles_cal_disponibles': talles_cal_disponibles,
+        'breadcrumbs': breadcrumbs,
     })
 
 

@@ -9,21 +9,6 @@
     {% if genero %}{% url 'ecommerce:accesorios_por_genero' genero %}{% else %}{% url 'ecommerce:lista_accesorios' %}{% endif %}
     {% endblock %}
             
-    {% block filtro_hombre %}
-    {% url 'ecommerce:accesorios_por_genero' 'hombre' %}?genero=hombre"
-    {% endblock %}
-
-    {% block filtro_mujer %}
-    {% url 'ecommerce:accesorios_por_genero' 'mujer' %}?genero=hombre"
-    {% endblock %}
-
-    {% block filtro_niños %}
-    {% url 'ecommerce:accesorios_por_genero' 'niño' %}?genero=niño"
-    {% endblock %}
-
-    {% block filtro_unisex %}
-    {% url 'ecommerce:accesorios_por_genero' 'unisex' %}?genero=unisex"
-    {% endblock %}
 
     {% block filtros_genero %}
     <div class="container__genero" id="container-genero">

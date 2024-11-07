@@ -8,36 +8,23 @@
     <div class="intro__container">
         <div id="cont1">
             <div class="rutas__container">
-                {% for path, name in request.breadcrumbs %}
-                    {% if forloop.first %}
-                        <!-- Primer breadcrumb, 'Inicio', con enlace -->
-                        <a href="{% url 'ecommerce:index' %}">{{ name }}</a>
-                        <span> > </span> <!-- Separador -->
-                    {% elif forloop.last %}
-                        <!-- Última migaja de pan (sin enlace) con la clase 'last-breadcrumb' -->
-                        <span>{{ name }}</span>
-                    {% else %}
-                        <!-- Para las migas de pan intermedias, generamos la URL correcta según la vista -->
-                        {% if name == 'Calzados' %}
-                            <a href="{% url 'ecommerce:lista_calzados' %}">{{ name }}</a>
-                        {% elif name == 'Indumentaria' %}
-                            <a href="{% url 'ecommerce:lista_indumentaria' %}">{{ name }}</a>
-                        {% elif name == 'Accesorios' %}
-                            <a href="{% url 'ecommerce:lista_accesorios' %}">{{ name }}</a>
-                        {% elif name == 'Sale' %}
-                            <a href="{% url 'ecommerce:sale' %}">{{ name }}</a>
-                        {% else %}
-                            <a href="{{ path }}">{{ name }}</a>
-                        {% endif %}
-                        <span> > </span> <!-- Separador -->
-                    {% endif %}
-                {% endfor %}
+                        {% for breadcrumb in breadcrumbs %}
+                                {% if breadcrumb.url %}
+                                    <a href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a>
+                                {% else %}
+                                    <span>{{ breadcrumb.name }}</span> 
+                                {% endif %}
+                                {% if not forloop.last %}
+                                    <span class="separador"> > </span>  <!-- Separador '>' -->
+                                {% endif %}
+                        {% endfor %}
+                
             </div>
             
             
             
             
-            
+
             
             
             
@@ -80,7 +67,7 @@
                 <div class="container__flex-filtros">
                     <div class="container__filtro">
                         <h3>Marca</h3>
-                        {% for marca in marcas %}
+                        {% for marca in marcas_disponibles %}
                             {% if forloop.counter <= 8 %}
                         <label>
                             <div class="label-content">
@@ -91,7 +78,7 @@
                             {% endif %}
                         {% endfor %}
                         <div class="more-filters-marca" id="filters-marca">
-                            {% for marca in marcas %}
+                            {% for marca in marcas_disponibles %}
                                 {% if forloop.counter > 8 %}
                                 <label>
                                     <div class="label-content">
@@ -101,42 +88,44 @@
                                 </label>
                                 {% endif %}
                             {% endfor %}
-    
                         </div>
-                        <button id="button-filtro-marca" type="button">Ver todos</button>
+                        {% if marcas_disponibles|length > 8 %}
+                            <button id="button-filtro-marca" type="button">Ver todos</button>
+                        {% endif %}
                     </div>
     
     
                     <div class="container__filtro">
-                        <h3>Color</h3>
-                        {% for color in colores %}
-                            {% if forloop.counter <= 8 %}  {# Muestra solo los primeros 8 #}
-                            <label>
-                                <div class="label-content">
-                                    <input type="checkbox" name="colores" value="{{ color.id }}">
-                                    <span>{{ color.nombre }}</span>
-                                </div>
-                                <i class="bi bi-circle-fill" style="color: {{ color.color_style }}; font-size: small;"></i>
-                            </label>
-                            {% endif %}
-                        {% endfor %}
-                    
-                        <div class="more-filters" id="more-filters">
-                            {% for color in colores %}
-                                {% if forloop.counter > 8 %}
+                        <h3>Colores</h3>
+                        {% for color in colores_disponibles %}
+                            {% if forloop.counter <= 8 %}
                                 <label>
                                     <div class="label-content">
-                                        <input type="checkbox" name="colores" value="{{ color.id }}">
+                                        <input type="checkbox" name="colores" value="{{ color.id }}" {% if color.id|stringformat:"d" in request.GET.colores %}checked{% endif %}>
                                         <span>{{ color.nombre }}</span>
                                     </div>
                                     <i class="bi bi-circle-fill" style="color: {{ color.color_style }}; font-size: small;"></i>
                                 </label>
+                            {% endif %}
+                        {% endfor %}
+                        <div class="more-filters" id="more-filters">
+                            {% for color in colores_disponibles %}
+                                {% if forloop.counter > 8 %}
+                                    <label>
+                                        <div class="label-content">
+                                            <input type="checkbox" name="colores" value="{{ color.id }}">
+                                            <span>{{ color.nombre }}</span>
+                                        </div>
+                                        <i class="bi bi-circle-fill" style="color: {{ color.color_style }}; font-size: small;"></i>
+                                    </label>
                                 {% endif %}
                             {% endfor %}
-                            
                         </div>
-                        <button id="button-filtro" type="button">Ver todos</button>
+                        {% if colores_disponibles|length > 8 %}
+                            <button id="button-filtro" type="button">Ver todos</button>
+                        {% endif %}
                     </div>
+                    
     
                     {% block talle %}
                         

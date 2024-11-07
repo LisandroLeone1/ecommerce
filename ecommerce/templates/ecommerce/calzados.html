@@ -38,7 +38,7 @@
     {% block talle %}
     <div class="container__filtro">
         <h3>Talles</h3>
-        {% for talle in talles_cal %}
+        {% for talle in talles_cal_disponibles %}
             {% if forloop.counter <= 8 %}  {# Muestra solo los primeros 8 #}
             <label>
                 <div class="label-content">
@@ -50,7 +50,7 @@
         {% endfor %}
     
         <div class="more-filters-talles" id="more-filters-talles">
-            {% for talle in talles_cal %}
+            {% for talle in talles_cal_disponibles %}
                 {% if forloop.counter > 8 %}
                 <label>
                     <div class="label-content">
@@ -60,9 +60,10 @@
                 </label>
                 {% endif %}
             {% endfor %}
-            
         </div>
+        {% if talles_cal_disponibles|length > 8 %}
         <button id="button-filtro-talles" type="button">Ver todos</button>
+    {% endif %}
     </div>                
     {% endblock %}
 
