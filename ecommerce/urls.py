@@ -12,5 +12,6 @@ urlpatterns = [
     path('accesorios/<str:genero>/', accesorios_view, name='accesorios_por_genero'),
     path('producto/<int:producto_id>/',producto_detalle,name="producto_detalle"),
     path('sale/', sale_view, name="lista_sale"),
+    path('sale/<str:genero>/', sale_view, name='sale_por_genero'),
 ]
 

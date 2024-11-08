@@ -43,7 +43,7 @@ def obtener_filtros(request):
 
 
 
-def filtrar_productos(queryset, color_ids, talle_ids, marca_ids, categoria_id, tipo_producto):
+def filtrar_productos(queryset, color_ids, talle_ids, marca_ids, genero, tipo_producto):
 
     if color_ids:
         queryset = queryset.filter(colores__id__in=color_ids)
@@ -58,15 +58,20 @@ def filtrar_productos(queryset, color_ids, talle_ids, marca_ids, categoria_id, t
     if marca_ids:
         queryset = queryset.filter(marca__id__in=marca_ids)
 
-    if categoria_id:
-        queryset = queryset.filter(categoria_id=categoria_id)
+    if genero:
+        if genero == 'hombre':
+            queryset = queryset.filter(genero__in = ['hombre', 'unisex'])
+        elif genero == 'mujer':
+            queryset = queryset.filter(genero__in = ['mujer', 'unisex'])
+        else:
+            queryset = queryset.filter(genero=genero)
 
     if tipo_producto:
         queryset = queryset.filter(tipo_producto=tipo_producto)
         # Con el metodo distinct evito que se dupliquen los resultados cuando aplica mas de un filtro
     queryset = queryset.distinct()
 
-    return queryset
+    return queryset.order_by('-created')
 
 
 def construir_filtros_aplicados(color_ids, talle_ids, marca_ids, tipo_producto):
@@ -156,20 +161,13 @@ def indumentaria_view(request, genero=None):
 
     # Filtrar productos de indumentaria
     indumentarias = Producto.objects.filter(tipo_producto='indumentaria').order_by('-created')
-    if genero:
-        if genero == 'unisex':
-            indumentarias = indumentarias.filter(genero__in = ['hombre', 'mujer']).order_by('-created')
-        else:
-            indumentarias = indumentarias.filter(genero=genero).order_by('-created')
-
-    # Aplicar filtro de género si se proporciona
 
     indumentarias = filtrar_productos(
         indumentarias,   # Usa el género de la URL o el del formulario
         filtros['color_ids'],
         filtros['talle_ids'],
         filtros['marca_ids'],
-        filtros['categoria_id'],
+        genero,
         'indumentaria'
     )
     ordenar = request.GET.get('ordenar')
@@ -218,15 +216,9 @@ def calzados_view(request, genero=None):
     
     # Filtrar productos de calzado
     calzados = Producto.objects.filter(tipo_producto='calzado').order_by('-created')
-    if genero:
-        if genero == 'unisex':
-            calzados = calzados.filter(genero__in = ['hombre', 'mujer']).order_by('-created')
-        else:
-            calzados = calzados.filter(genero=genero).order_by('-created')
-    
-    
+
     # Filtrar por tipo de producto
-    calzados = filtrar_productos(calzados, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], filtros['categoria_id'],'calzado')
+    calzados = filtrar_productos(calzados, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], genero, 'calzado')
 
     ordenar = request.GET.get('ordenar')
     calzados = ordenar_productos(ordenar, calzados)
@@ -273,14 +265,9 @@ def accesorios_view(request, genero=None):
     
     # Filtrar productos de calzado
     accesorios = Producto.objects.filter(tipo_producto='accesorios').order_by('-created')
-    if genero:
-        if genero == 'unisex':
-            accesorios = accesorios.filter(genero__in = ['hombre', 'mujer']).order_by('-created')
-        else:
-            accesorios = accesorios.filter(genero=genero).order_by('-created')
     
     # Filtrar por tipo de producto
-    accesorios = filtrar_productos(accesorios, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], filtros['categoria_id'],'accesorios')
+    accesorios = filtrar_productos(accesorios, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], genero, 'accesorios')
 
     ordenar = request.GET.get('ordenar')
     accesorios = ordenar_productos(ordenar, accesorios)
@@ -319,15 +306,14 @@ def accesorios_view(request, genero=None):
         'breadcrumbs': breadcrumbs,
     })
 
-def sale_view(request, genero=None):
+def sale_view(request, genero=None, tipo_producto = None):
     filtros = obtener_filtros(request)
     
-    tipo_producto = request.GET.get('tipo_producto', None)
     # Filtrar productos de calzado
     sales = Producto.objects.filter(estado='sale').order_by('-created')
     print("Talles seleccionados:", filtros['talle_ids'])
     # Filtrar por tipo de producto
-    sales = filtrar_productos(sales, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], filtros['categoria_id'], tipo_producto)
+    sales = filtrar_productos(sales, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], genero, tipo_producto)
 
     ordenar = request.GET.get('ordenar')
     if ordenar == 'precio_asc':
@@ -375,6 +361,7 @@ def sale_view(request, genero=None):
         'talles_ind_disponibles': talles_ind_disponibles,
         'talles_cal_disponibles': talles_cal_disponibles,
         'breadcrumbs': breadcrumbs,
+        'genero' : genero,
     })
 
 

@@ -10,6 +10,23 @@
     {% endblock %}
 
     {% block filtros_genero %}
+    <div class="container__genero" id="container-genero">
+        <h3>Género</h3>
+        <ul>
+            <li>
+                <a class="{% if request.GET.genero == 'hombre' %}activar{% endif %}" href="{% url 'ecommerce:sale_por_genero' 'hombre' %}?genero=hombre">Hombre</a>
+            </li>
+            <li>
+                <a class="{% if request.GET.genero == 'mujer' %}activar{% endif %}" href="{% url 'ecommerce:sale_por_genero' 'mujer' %}?genero=mujer">Mujer</a>
+            </li>
+            <li>
+                <a class="{% if request.GET.genero == 'unisex' %}activar{% endif %}" href="{% url 'ecommerce:sale_por_genero' 'unisex' %}?genero=unisex">Unisex</a>
+            </li>
+            <li>
+                <a class="{% if request.GET.genero == 'niño' %}activar{% endif %}" href="{% url 'ecommerce:sale_por_genero' 'niño' %}?genero=niño">Niño</a>
+            </li>
+        </ul>
+    </div>
     {% endblock %}
 
     {% block filtro_form %}
