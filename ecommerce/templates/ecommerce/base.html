@@ -28,7 +28,7 @@
                 <span>SportDigital</span>
             </div>
         
-            <form method="GET" action="{% url 'ecommerce:index' %}">
+            <form class="search__form" method="GET" action="{% url 'ecommerce:index' %}">
                 <div class="header__search">
                     <input type="text" name="busqueda" placeholder="¿Qué estás buscando?" value="{{ busqueda }}">
                     <button type="submit" aria-label="Buscar"><i class="bi bi-search"></i></button>

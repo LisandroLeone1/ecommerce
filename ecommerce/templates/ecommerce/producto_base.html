@@ -10,9 +10,9 @@
             <div class="rutas__container">
                         {% for breadcrumb in breadcrumbs %}
                                 {% if breadcrumb.url %}
-                                    <a href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a>
+                                    <a href="{{ breadcrumb.url }}"> {{ breadcrumb.name }}</a>
                                 {% else %}
-                                    <span>{{ breadcrumb.name }}</span> 
+                                    <span class="breadcrumbs"> {{ breadcrumb.name }}</span> 
                                 {% endif %}
                                 {% if not forloop.last %}
                                     <span class="separador"> > </span>  <!-- Separador '>' -->
@@ -20,14 +20,6 @@
                         {% endfor %}
                 
             </div>
-            
-            
-            
-            
-
-            
-            
-            
             
             <div class="container__categoria">
                 <h3>{% block tittle-categoria %}{% endblock %}</h3>
@@ -82,7 +74,7 @@
                                 {% if forloop.counter > 8 %}
                                 <label>
                                     <div class="label-content">
-                                        <input type="checkbox" name="marca" value="{{ marca.marca.id }}">
+                                        <input type="checkbox" name="marca" value="{{ marca.marca.id }} {% if marca.id|stringformat:"d" in request.GET.marca %}checked{% endif %}">
                                         <span>{{ marca.marca.nombre }} ({{marca.cantidad}})</span>
                                     </div>
                                 </label>
@@ -101,7 +93,7 @@
                             {% if forloop.counter <= 8 %}
                                 <label>
                                     <div class="label-content">
-                                        <input type="checkbox" name="colores" value="{{ color.color.id }}" {% if color.color.id|stringformat:"d" in request.GET.colores %}checked{% endif %}>
+                                        <input type="checkbox" name="colores" value="{{ color.color.id }}" {% if color.id|stringformat:"d" in request.GET.colores %}checked{% endif %}>
                                         <span>{{ color.color.nombre }} ({{color.cantidad}})</span>
                                     </div>
                                     <i class="bi bi-circle-fill" style="color: {{ color.color.color_style }}; font-size: small;"></i>
@@ -113,7 +105,7 @@
                                 {% if forloop.counter > 8 %}
                                     <label>
                                         <div class="label-content">
-                                            <input type="checkbox" name="colores" value="{{ color.color.id }}">
+                                            <input type="checkbox" name="colores" value="{{ color.color.id }}" {% if color.id|stringformat:"d" in request.GET.colores %}checked{% endif %}>
                                             <span>{{ color.color.nombre }} ({{color.cantidad}})</span>
                                         </div>
                                         <i class="bi bi-circle-fill" style="color: {{ color.color.color_style }}; font-size: small;"></i>

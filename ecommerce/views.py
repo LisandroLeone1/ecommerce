@@ -276,7 +276,7 @@ def calzados_view(request, genero=None):
     ]
 
     if genero:
-        breadcrumbs.append({'name': genero.capitalize(), 'url': reverse('ecommerce:calzado_por_genero', args=[genero])})
+        breadcrumbs.append({'name': genero.capitalize(), 'url': None})
 
     return render(request, 'ecommerce/calzados.html', {
         'calzados': calzados,

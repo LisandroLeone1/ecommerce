@@ -131,21 +131,14 @@
             hiddenInput.type = 'hidden';
             hiddenInput.name = checkbox.name; // el nombre del filtro (marca, colores, talles)
             hiddenInput.value = checkbox.value; // el valor del checkbox (ID de la marca, color, talle)
-    
-            // verifica si ya existe un campo oculto con el mismo nombre
-            const existingInput = this.querySelector(`input[name="${checkbox.name}"]`);
-            if (existingInput) {
-                // si ya existe, añadimos el nuevo valor al valor existente, separados por comas
-                existingInput.value += `,${checkbox.value}`;
-            } else {
-                // si no existe, añadimos el campo oculto como un nuevo input
-                this.appendChild(hiddenInput);
-            }
+            
+            // Añadir el campo oculto al formulario de ordenación
+            this.appendChild(hiddenInput);
         }, this);
     
+        // Finalmente, enviar el formulario de ordenación con los filtros aplicados
         this.submit();
     });
-    
 })();
 
 

@@ -8,8 +8,8 @@ body {
     box-sizing: border-box;
     --color-principal: rgb(51, 52, 53);
     --color-secundario: rgb(242, 245, 248);
-    --color-terciario: rgb(165, 174, 192);
-    --color-cuarto: rgb(198, 200, 204);
+    --color-terciario: rgb(188, 191, 197);
+    --color-cuarto: rgba(116, 113, 113, 0.4);
     --color-quinto: rgb(78, 77, 77);
     --color-sexto:rgb(83, 81, 81);
 
@@ -139,14 +139,17 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
     color: beige;
     font-size: 37px;
 }
-form {
-    max-width: 100%;
+
+.search__form {
+    width: 100%;
+    margin: 0px 30px;
 }
 
 .header__search {
     display: flex;
+    margin: auto;
     min-width: 300px;
-    max-width: 700px; 
+    max-width: 650px; 
     flex-grow: 1; 
 }
 
@@ -261,6 +264,10 @@ form {
     }
     .sale {
         background-color: var(--color-principal);
+        border: none;
+        border-bottom: 2px solid beige;
+        border-top: 1px solid beige;
+        height: 50px;
     }
     .header__nav-item a {
         font-size: 18px;
@@ -300,14 +307,18 @@ form {
     margin: 0px 4px;
     font-size: 15px;
     font-weight: 400;
+    margin-right: 4px;
 }
 
 .rutas__container a:hover {
     color: var(--color-terciario);
 }
 
-.rutas__container .separador {
-    color: var(--color-quinto);
+.breadcrumbs {
+    color: var(--color-principal);
+    font-size: 15px;
+    font-weight: 600;
+    margin-left: 4px;
 }
 
 
@@ -412,6 +423,9 @@ form {
 
 @media screen and (max-width:768px) {
     .rutas__container a{
+        font-size: 13px;
+    }
+    .breadcrumbs {
         font-size: 13px;
     }
 }
@@ -672,6 +686,7 @@ input[type="checkbox"]:checked::after {
 .container {
     max-width: 100%;
     margin: auto;
+    margin-bottom: 50px;
 }
 
 /* ENCABEZADO MAIN */
@@ -686,6 +701,7 @@ input[type="checkbox"]:checked::after {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     gap: 20px;
 }
 
@@ -793,7 +809,7 @@ input[type="checkbox"]:checked::after {
 }
 
 .card__body-data h4 {
-    font-weight: 500;
+    font-weight: 400;
     color: var(--color-terciario);
     font-size: 13px;
 }
@@ -905,7 +921,7 @@ input[type="checkbox"]:checked::after {
 }
 
 .precio__total {
-    color: rgb(56, 104, 207);
+    color: var(--color-terciario);
     font-weight: bold;
     font-size: 22px;
 }
@@ -990,22 +1006,22 @@ input[type="checkbox"]:checked::after {
 
 
 .producto__data h4 {
-    font-weight: 500;
-    color: var(--color-terciario);
-    font-size: 20px;
+    font-weight: 400;
+    color: var(--color-principal);
+    font-size: 18px;
     margin-bottom: 7px;
     text-transform: uppercase;
 }
 
 .producto__data h3 {
-    font-size: 45px;
+    font-size: 33px;
     font-weight: 700;
     text-transform: uppercase;
 }
 
 .producto-precio {
-    color: rgb(56, 104, 207);
-    font-size: 32px;
+    color: var(--color-terciario);
+    font-size: 30px;
     margin-top: 15px;
     font-size: 700;
 }
@@ -1015,12 +1031,18 @@ input[type="checkbox"]:checked::after {
 }
 
 .cuotas {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
+    color: rgb(218, 13, 13);
 }
 
 .cuotas i {
     margin-right: 5px;
+}
+
+.cuotas span {
+    font-weight: 400;
+    color: black;
 }
 
 .container__options {

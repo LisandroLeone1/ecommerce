@@ -45,7 +45,7 @@
             {% if forloop.counter <= 8 %}  {# Muestra solo los primeros 8 #}
             <label>
                 <div class="label-content">
-                    <input type="checkbox" name="talles" value="{{ talle.talle.id }}">
+                    <input type="checkbox" name="talles" value="{{ talle.talle.id }}" {% if talle.id|stringformat:"d" in request.GET.talles %}checked{% endif %}>
                     <span>{{ talle.talle.nombre }} ({{talle.cantidad}})</span>
                 </div>
             </label>
@@ -57,7 +57,7 @@
                 {% if forloop.counter > 8 %}
                 <label>
                     <div class="label-content">
-                        <input type="checkbox" name="talles" value="{{ talle.talle.id }}">
+                        <input type="checkbox" name="talles" value="{{ talle.talle.id }}" {% if talle.id|stringformat:"d" in request.GET.talles %}checked{% endif %}>
                         <span>{{ talle.talle.nombre }} ({{talle.cantidad}})</span>
                     </div>
                 </label>
@@ -105,7 +105,7 @@
                     <h5 class="precio__total">${{indumentaria.precio}}</h5>
                     {% endif %}
                     <div class="card__cuotas">
-                        <h6>3 cuotas de <span>${{indumentaria.cuota}}</span></h6>
+                        <h6><span>3</span> cuotas de <span>${{indumentaria.cuota}}</span></h6>
                         <p>Envio gratis</p>
                     </div>
                     <div class="card-footer">

@@ -1,8 +1,14 @@
 
 - carrito
 - funcionalidad boton de carrito
-- intentar que se guarde mas de un valor en los checked de los filtros
 - optimizacion a views
-- arreglar buscador de header
-- colores y fuentes
 - cargar algunos productos mas
+- template producto en sale
+- login
+- header fijo
+- div oculto en producto
+
+
+mejorar futuras:
+- footer
+- 
