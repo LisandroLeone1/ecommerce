@@ -2,8 +2,7 @@
 - carrito
 - funcionalidad boton de carrito
 - intentar que se guarde mas de un valor en los checked de los filtros
-- funcionalidad a views
-- manejar errores javascript
+- optimizacion a views
 - arreglar buscador de header
 - colores y fuentes
 - cargar algunos productos mas

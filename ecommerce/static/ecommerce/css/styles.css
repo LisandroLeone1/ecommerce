@@ -144,24 +144,24 @@ form {
 }
 
 .header__search {
-    display: flex; /* Permite que los hijos se alineen horizontalmente */
+    display: flex;
     min-width: 300px;
-    max-width: 700px; /* Ancho mínimo */
-    flex-grow: 1; /* Permite que se expanda para ocupar espacio disponible */
+    max-width: 700px; 
+    flex-grow: 1; 
 }
 
 .header__search input {
-    flex-grow: 1; /* El input ocupará el espacio disponible */
-    padding: 13px; /* Espaciado interno */
+    flex-grow: 1; 
+    padding: 13px; 
     border: none;
     border-radius: 8px 0 0 8px;
 }
 
 .header__search button {
     background-color: white;
-    border: none; /* Sin borde */
+    border: none; 
     border-radius: 0 8px 8px 0;
-    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    cursor: pointer; 
 }
 
 .header__search button i{

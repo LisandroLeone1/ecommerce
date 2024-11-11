@@ -1,4 +1,6 @@
-const buttonPrev = document.getElementById('button-prev');
+// carrusel de marcas
+(function() {
+    const buttonPrev = document.getElementById('button-prev');
 const buttonNext = document.getElementById('button-next');
 const track = document.getElementById('track');
 const slickList = document.getElementById('slick-list');
@@ -24,3 +26,6 @@ function Move(value) {
         track.style.left = `${-1 * (leftPosition - slickWidth)}px`;
     }
 }
+})();
+
+

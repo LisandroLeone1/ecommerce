@@ -1,4 +1,6 @@
-const main_img = document.querySelector('.main__img');
+// funcion para cambiar de imagen haciendo click en ellas
+(function() {
+    const main_img = document.querySelector('.main__img');
 const thumbails = document.querySelectorAll('.thumbail');
 
 thumbails.forEach(thumb => {
@@ -9,3 +11,5 @@ thumbails.forEach(thumb => {
         main_img.src = this.src
     })
 })
+})();
+
