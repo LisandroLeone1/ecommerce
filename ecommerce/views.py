@@ -185,10 +185,25 @@ def indumentaria_view(request, genero=None):
     # Obtener listas de marcas y colores para el formulario
     marcas_disponibles = indumentarias.values_list('marca', flat= True).distinct()
     marcas_disponibles = Marca.objects.filter(id__in=marcas_disponibles)
+    marcas_con_cantidad = []
+    for marca in marcas_disponibles:
+        cantidad = indumentarias.filter(marca=marca).count()
+        marcas_con_cantidad.append({'marca': marca, 'cantidad': cantidad})
+
     colores_disponibles = indumentarias.values_list('colores', flat= True).distinct()
     colores_disponibles = Color.objects.filter(id__in=colores_disponibles)
+    colores_con_cantidad = []
+    for color in colores_disponibles:
+        cantidad = indumentarias.filter(colores=color).count()
+        colores_con_cantidad.append({'color': color, 'cantidad': cantidad})
+
     talles_ind_disponibles = indumentarias.values_list('talles_indumentaria', flat=True).distinct()
     talles_ind_disponibles = TalleIndumentaria.objects.filter(id__in=talles_ind_disponibles)
+    talles_con_cantidad = []
+    for talle in talles_ind_disponibles:
+        cantidad = indumentarias.filter(talles_indumentaria=talle).count()
+        talles_con_cantidad.append({'talle': talle, 'cantidad': cantidad})
+
 
     #Migas de pan
     breadcrumbs = [
@@ -202,9 +217,9 @@ def indumentaria_view(request, genero=None):
     return render(request, 'ecommerce/indumentaria.html', {
         'indumentarias': indumentarias,
         'filtros_aplicados': filtros_aplicados,
-        'marcas_disponibles': marcas_disponibles,
-        'colores_disponibles': colores_disponibles,
-        'talles_ind_disponibles': talles_ind_disponibles,
+        'marcas_con_cantidad': marcas_con_cantidad,
+        'colores_con_cantidad': colores_con_cantidad,
+        'talles_con_cantidad': talles_con_cantidad,
         'genero': genero,
         'breadcrumbs': breadcrumbs,
     })
@@ -235,10 +250,25 @@ def calzados_view(request, genero=None):
     # Obtener listas de marcas y colores para el formulario
     marcas_disponibles = calzados.values_list('marca', flat= True).distinct()
     marcas_disponibles = Marca.objects.filter(id__in=marcas_disponibles)
+    marcas_con_cantidad = []
+    for marca in marcas_disponibles:
+        cantidad = calzados.filter(marca=marca).count()
+        marcas_con_cantidad.append({'marca': marca, 'cantidad': cantidad})
+
     colores_disponibles = calzados.values_list('colores', flat= True).distinct()
     colores_disponibles = Color.objects.filter(id__in=colores_disponibles)
+    colores_con_cantidad = []
+    for color in colores_disponibles:
+        cantidad = calzados.filter(colores=color).count()
+        colores_con_cantidad.append({'color': color, 'cantidad': cantidad})
+
     talles_cal_disponibles = calzados.values_list('talles_calzado', flat=True).distinct()
     talles_cal_disponibles = TalleCalzado.objects.filter(id__in=talles_cal_disponibles)
+    talles_con_cantidad = []
+    for talle in talles_cal_disponibles:
+        cantidad = calzados.filter(talles_calzado=talle).count()
+        talles_con_cantidad.append({'talle': talle, 'cantidad': cantidad})
+
 
     breadcrumbs = [
         {'name': 'Inicio', 'url': reverse('ecommerce:index')},
@@ -251,9 +281,9 @@ def calzados_view(request, genero=None):
     return render(request, 'ecommerce/calzados.html', {
         'calzados': calzados,
         'filtros_aplicados': filtros_aplicados,
-        'marcas_disponibles': marcas_disponibles,
-        'colores_disponibles': colores_disponibles,
-        'talles_cal_disponibles': talles_cal_disponibles,
+        'marcas_con_cantidad':  marcas_con_cantidad,
+        'colores_con_cantidad': colores_con_cantidad,
+        'talles_con_cantidad': talles_con_cantidad,
         'genero': genero,
         'breadcrumbs': breadcrumbs,
     })
@@ -284,10 +314,25 @@ def accesorios_view(request, genero=None):
 
     marcas_disponibles = accesorios.values_list('marca', flat= True).distinct()
     marcas_disponibles = Marca.objects.filter(id__in=marcas_disponibles)
+    marcas_con_cantidad = []
+    for marca in marcas_disponibles:
+        cantidad = accesorios.filter(marca=marca).count()
+        marcas_con_cantidad.append({'marca': marca, 'cantidad': cantidad})
+
     colores_disponibles = accesorios.values_list('colores', flat= True).distinct()
     colores_disponibles = Color.objects.filter(id__in=colores_disponibles)
+    colores_con_cantidad = []
+    for color in colores_disponibles:
+        cantidad = accesorios.filter(colores=color).count()
+        colores_con_cantidad.append({'color': color, 'cantidad': cantidad})
+
+
     talles_cal_disponibles = accesorios.values_list('talles_calzado', flat=True).distinct()
     talles_cal_disponibles = TalleCalzado.objects.filter(id__in=talles_cal_disponibles)
+    talles_con_cantidad = []
+    for talle in talles_cal_disponibles:
+        cantidad = accesorios.filter(talles_calzado=talle).count()
+        talles_con_cantidad.append({'talle': talle, 'cantidad': cantidad})
 
     breadcrumbs = [
         {'name': 'Inicio', 'url': reverse('ecommerce:index')},
@@ -300,8 +345,8 @@ def accesorios_view(request, genero=None):
     return render(request, 'ecommerce/accesorios.html', {
         'accesorios': accesorios,
         'filtros_aplicados': filtros_aplicados,
-        'marcas_disponibles': marcas_disponibles,
-        'colores_disponibles': colores_disponibles,
+        'marcas_con_cantidad': marcas_con_cantidad,
+        'colores_con_cantidad':  colores_con_cantidad,
         'genero': genero,
         'breadcrumbs': breadcrumbs,
     })
@@ -337,8 +382,18 @@ def sale_view(request, genero=None, tipo_producto = None):
 
     marcas_disponibles = sales.values_list('marca', flat= True).distinct()
     marcas_disponibles = Marca.objects.filter(id__in=marcas_disponibles)
+    marcas_con_cantidad = []
+    for marca in marcas_disponibles:
+        cantidad = sales.filter(marca=marca).count()
+        marcas_con_cantidad.append({'marca': marca, 'cantidad': cantidad})
+
     colores_disponibles = sales.values_list('colores', flat= True).distinct()
     colores_disponibles = Color.objects.filter(id__in=colores_disponibles)
+    colores_con_cantidad = []   
+    for color in colores_disponibles:
+        cantidad = sales.filter(colores=color).count()
+        colores_con_cantidad.append({'color': color, 'cantidad': cantidad})
+
     talles_cal_disponibles = sales.values_list('talles_calzado', flat=True).distinct()
     talles_cal_disponibles = TalleCalzado.objects.filter(id__in=talles_cal_disponibles)
     talles_ind_disponibles = sales.values_list('talles_indumentaria', flat=True).distinct()
@@ -351,12 +406,14 @@ def sale_view(request, genero=None, tipo_producto = None):
         {'name': 'Inicio', 'url': reverse('ecommerce:index')},
         {'name': 'Sale', 'url': reverse('ecommerce:lista_sale')}
     ]
+    if genero:
+        breadcrumbs.append({'name': genero.capitalize(), 'url': None})
 
     return render(request, 'ecommerce/sale.html', {
         'sales': sales,
         'filtros_aplicados': filtros_aplicados,
-        'marcas_disponibles': marcas_disponibles,
-        'colores_disponibles': colores_disponibles,
+        'marcas_con_cantidad': marcas_con_cantidad,
+        'colores_con_cantidad': colores_con_cantidad,
         'todos_los_talles': todos_los_talles,
         'talles_ind_disponibles': talles_ind_disponibles,
         'talles_cal_disponibles': talles_cal_disponibles,
@@ -374,6 +431,8 @@ def producto_detalle(request, producto_id):
         talles = producto.talles_indumentaria.all()
     elif producto.tipo_producto == 'calzado':
         talles = producto.talles_calzado.all()
+    elif producto.tipo_producto == 'accesorios':
+        talles = producto.talles_accesorios.all()
     else:
         talles = []  # En caso de que no sea ni indumentaria ni calzado, se puede ajustar según necesidad
     

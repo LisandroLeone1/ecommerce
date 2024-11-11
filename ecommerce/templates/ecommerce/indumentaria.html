@@ -41,31 +41,31 @@
     {% block talle %}
     <div class="container__filtro">
         <h3>Talles</h3>
-        {% for talle in talles_ind_disponibles %}
+        {% for talle in talles_con_cantidad %}
             {% if forloop.counter <= 8 %}  {# Muestra solo los primeros 8 #}
             <label>
                 <div class="label-content">
-                    <input type="checkbox" name="talles" value="{{ talle.id }}">
-                    <span>{{ talle.nombre }}</span>
+                    <input type="checkbox" name="talles" value="{{ talle.talle.id }}">
+                    <span>{{ talle.talle.nombre }} ({{talle.cantidad}})</span>
                 </div>
             </label>
             {% endif %}
         {% endfor %}
     
         <div class="more-filters-talles" id="more-filters-talles">
-            {% for talle in talles_ind_disponibles %}
+            {% for talle in talles_con_cantidad %}
                 {% if forloop.counter > 8 %}
                 <label>
                     <div class="label-content">
-                        <input type="checkbox" name="talles" value="{{ talle.id }}">
-                        <span>{{ talle.nombre }}</span>
+                        <input type="checkbox" name="talles" value="{{ talle.talle.id }}">
+                        <span>{{ talle.talle.nombre }} ({{talle.cantidad}})</span>
                     </div>
                 </label>
                 {% endif %}
             {% endfor %}
             
         </div>
-        {% if talles_cal_disponibles|length > 8 %}
+        {% if talles_con_cantidad|length > 8 %}
         <button id="button-filtro-talles" type="button">Ver todos</button>
         {% endif %}
     </div>                

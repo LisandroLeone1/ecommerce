@@ -1,9 +1,9 @@
 
-
-
-
 - carrito
-- funcionalidad voton de carrito
-- intentar poner contador al lado de filtros
-- talles accesorios
+- funcionalidad boton de carrito
 - intentar que se guarde mas de un valor en los checked de los filtros
+- funcionalidad a views
+- manejar errores javascript
+- arreglar buscador de header
+- colores y fuentes
+- cargar algunos productos mas

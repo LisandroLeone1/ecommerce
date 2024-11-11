@@ -67,29 +67,29 @@
                 <div class="container__flex-filtros">
                     <div class="container__filtro">
                         <h3>Marca</h3>
-                        {% for marca in marcas_disponibles %}
+                        {% for marca in marcas_con_cantidad %}
                             {% if forloop.counter <= 8 %}
                         <label>
                             <div class="label-content">
-                                <input type="checkbox" name="marca" value="{{ marca.id }}" {% if marca.id|stringformat:"d" in request.GET.marca %}checked{% endif %}>
-                                <span>{{ marca.nombre }}</span>
+                                <input type="checkbox" name="marca" value="{{ marca.marca.id }}" {% if marca.id|stringformat:"d" in request.GET.marca %}checked{% endif %}>
+                                <span>{{ marca.marca.nombre }} ({{marca.cantidad}})</span>
                             </div>
                         </label>
                             {% endif %}
                         {% endfor %}
                         <div class="more-filters-marca" id="filters-marca">
-                            {% for marca in marcas_disponibles %}
+                            {% for marca in marcas_con_cantidad %}
                                 {% if forloop.counter > 8 %}
                                 <label>
                                     <div class="label-content">
-                                        <input type="checkbox" name="marca" value="{{ marca.id }}">
-                                        <span>{{ marca.nombre }}</span>
+                                        <input type="checkbox" name="marca" value="{{ marca.marca.id }}">
+                                        <span>{{ marca.marca.nombre }} ({{marca.cantidad}})</span>
                                     </div>
                                 </label>
                                 {% endif %}
                             {% endfor %}
                         </div>
-                        {% if marcas_disponibles|length > 8 %}
+                        {% if marcas_con_cantidad|length > 8 %}
                             <button id="button-filtro-marca" type="button">Ver todos</button>
                         {% endif %}
                     </div>
@@ -97,14 +97,14 @@
     
                     <div class="container__filtro">
                         <h3>Colores</h3>
-                        {% for color in colores_disponibles %}
+                        {% for color in colores_con_cantidad %}
                             {% if forloop.counter <= 8 %}
                                 <label>
                                     <div class="label-content">
-                                        <input type="checkbox" name="colores" value="{{ color.id }}" {% if color.id|stringformat:"d" in request.GET.colores %}checked{% endif %}>
-                                        <span>{{ color.nombre }}</span>
+                                        <input type="checkbox" name="colores" value="{{ color.color.id }}" {% if color.color.id|stringformat:"d" in request.GET.colores %}checked{% endif %}>
+                                        <span>{{ color.color.nombre }} ({{color.cantidad}})</span>
                                     </div>
-                                    <i class="bi bi-circle-fill" style="color: {{ color.color_style }}; font-size: small;"></i>
+                                    <i class="bi bi-circle-fill" style="color: {{ color.color.color_style }}; font-size: small;"></i>
                                 </label>
                             {% endif %}
                         {% endfor %}
@@ -113,15 +113,15 @@
                                 {% if forloop.counter > 8 %}
                                     <label>
                                         <div class="label-content">
-                                            <input type="checkbox" name="colores" value="{{ color.id }}">
-                                            <span>{{ color.nombre }}</span>
+                                            <input type="checkbox" name="colores" value="{{ color.color.id }}">
+                                            <span>{{ color.color.nombre }} ({{color.cantidad}})</span>
                                         </div>
-                                        <i class="bi bi-circle-fill" style="color: {{ color.color_style }}; font-size: small;"></i>
+                                        <i class="bi bi-circle-fill" style="color: {{ color.color.color_style }}; font-size: small;"></i>
                                     </label>
                                 {% endif %}
                             {% endfor %}
                         </div>
-                        {% if colores_disponibles|length > 8 %}
+                        {% if colores_con_cantidad|length > 8 %}
                             <button id="button-filtro" type="button">Ver todos</button>
                         {% endif %}
                     </div>
