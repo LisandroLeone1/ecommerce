@@ -1,25 +1,4 @@
 
-
-
-
-
-"""
-def productos_lista(request):
-    genero = request.GET.get('genero', None)
-    color = request.GET.get('color', None)
-    talle = request.GET.getlist('talle')  #  mples marcas
-    if genero and genero in dict(Producto.GENERO_CHOICES).keys():
-        producto = Producto.objects.filter(genero=genero)
-    elif color and color in dict(Producto.COLOR_CHOICES).keys():
-        producto = Producto.objects.filter(color=color)
-    elif talle and talle in dict(Producto.TALLE_CHOICES).keys():
-        producto = Producto.objects.filter(talle=talle)
-    else:
-        producto = Producto.objects.all()
-    
-    return render(request, 'ecommerce/index.html', {'producto': producto}) """
-
-
 from django.shortcuts import render, get_object_or_404
 from .models import Producto, Marca, Color, TalleCalzado, TalleIndumentaria, Categoria
 from .utils import cuotas_sin_interes
@@ -100,7 +79,7 @@ def construir_filtros_aplicados(color_ids, talle_ids, marca_ids, tipo_producto):
     return filtros_aplicados
 
 
-
+# Funcion para ordenar productos
 def ordenar_productos(ordenar, productos):
     if ordenar == 'precio_asc':
         productos = productos.order_by('precio')
@@ -112,7 +91,7 @@ def ordenar_productos(ordenar, productos):
         productos = productos.order_by('-nombre')
     return productos
 
-
+# Funcion darle a cada producto el precio con descuento y calcular las cuotas
 def calcular_cuotas(productos):
     for producto in productos:
         precio_descuento = producto.precio_con_descuento()  

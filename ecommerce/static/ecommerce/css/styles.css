@@ -855,7 +855,7 @@ input[type="checkbox"]:checked::after {
     border-radius: 5px;
     border: none;
     font-size: 15px;
-    text-transform: capitalize;
+    text-transform: uppercase;
     font-weight: 600;
     display: none;
     transition: all 0.3s ease;
@@ -888,10 +888,15 @@ input[type="checkbox"]:checked::after {
     width: 40px;
     height: 40px;
     padding: 3px;
+}
+
+.absolute {
     position: absolute;
     top: 10px;
     left: 10px;
 }
+
+
 
 .container__new {
     background-color: rgb(68, 121, 236);
@@ -918,6 +923,11 @@ input[type="checkbox"]:checked::after {
     font-size: 17px;
     color: var(--color-terciario);
     font-weight: 500;
+}
+
+.producto-desc {
+    font-size: 20px;
+    margin-top: 15px;
 }
 
 .precio__total {
@@ -948,6 +958,7 @@ input[type="checkbox"]:checked::after {
     margin: auto;
     margin-bottom: 50px;
     box-sizing: border-box;
+    position: relative; 
 }
 
 .producto__img {
@@ -957,7 +968,7 @@ input[type="checkbox"]:checked::after {
 
 .container__main-img {
     width: 550px;
-    height: 500px;    
+    height: 500px;   
 }
 
 .thumbail__container {
@@ -997,13 +1008,19 @@ input[type="checkbox"]:checked::after {
 .producto__data {
     display: flex;
     flex-direction: column;
-    height: 500px;
+    
 }
 
 .producto__data i {
     font-size: 18px;
 }
 
+.producto__sale {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 10px;
+}
 
 .producto__data h4 {
     font-weight: 400;
@@ -1102,6 +1119,37 @@ input[type="checkbox"]:checked::after {
 
 .envios__container p {
     font-size: 11px;
+}
+
+.button-locales {
+    border: none;
+    font-size: 12px;
+    color: var(--color-terciario);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.button-locales i {
+    font-size: 12px;
+}
+
+.ventana-locales {
+    box-shadow: 0 0 5px rgba(1, 23, 46, 0.6);
+    padding: 10px;
+    font-size: 15px;
+    z-index: 10;
+    margin-right: 25px;
+    margin-top: 7px;
+    display: none;
+}
+
+.ventana-locales p {
+    padding: 7px;
+    
+}
+
+.ventana-locales p:first-child {
+    border-bottom: 1px solid rgba(1, 23, 46, 0.2);
 }
 
 @media screen and (max-width:1050px) {

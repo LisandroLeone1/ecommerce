@@ -22,9 +22,24 @@
         </div>
     </div>
     <div class="producto__data">
+            {% if producto.estado == 'sale' %}
+            <div class="producto__sale">
+                <h4>{{producto.marca}}</h4>
+                <div class="container__sale">
+                    <p>{{producto.descuento}}%</p>
+                    <p>OFF</p>
+                </div>
+            </div>
+            <h3>{{producto.nombre}}</h3>
+            <div class="container__descuento">
+                <h5 class="precio__descuento producto-desc">${{producto.precio}}</h5>
+                <h5 class="producto-precio"> ${{producto.precio_con_descuento}}</h5>
+            </div>
+            {% else %}
             <h4>{{producto.marca}}</h4>
             <h3>{{producto.nombre}}</h3>
             <h5 class="producto-precio">${{producto.precio}}</h5>
+            {% endif %}
             <div class="container__cuotas">
                 <p class="cuotas"><i class="bi bi-cash"></i> 3 cuotas de ${{cuota}}</p>
                 <p class="cuotas"><i class="bi bi-credit-card-2-back"></i>10% de descuento <span>pagando con deposito o transferencia</span></p>
@@ -59,8 +74,12 @@
             <div class="envios__container">
                 <i class="bi bi-house-up"></i>
                 <div>
-                    <h5>Retiro por nuestro locales</h5>
-                    <p>Ver opciones</p>
+                    <h5>Retiro gratis por nuestro locales</h5>
+                    <button class="button-locales"><span class="texto-boton">Ver opciones</span> <i class="bi bi-chevron-down"></i></button>
+                    <div class="ventana-locales" id="ventana-locales" style="display: none;">
+                        <p>Retiro en Local Junin  - Junin 5643 Horario de atención: Lunes a Viernes de 8.30 a 12.30 y 16.30 a 20.30 hs // Sábados de 9 a 13 y 16:30 A 20:30 hs</p>
+                        <p>Retiro en Local Avenida General Paz - Avenida General Paz 660 Horario de atención: Lunes a Sábados de 9 a 13 y 16.00 a 20.00hs</p>
+                    </div>
                 </div>
             </div>
             <div class="envios__container">
