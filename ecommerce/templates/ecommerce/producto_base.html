@@ -7,6 +7,7 @@
 <div class="main__container">
     <div class="intro__container">
         <div id="cont1">
+            <!-- Uso las migas de pan -->
             <div class="rutas__container">
                         {% for breadcrumb in breadcrumbs %}
                                 {% if breadcrumb.url %}
@@ -15,7 +16,7 @@
                                     <span class="breadcrumbs"> {{ breadcrumb.name }}</span> 
                                 {% endif %}
                                 {% if not forloop.last %}
-                                    <span class="separador"> > </span>  <!-- Separador '>' -->
+                                    <span class="separador"> > </span> 
                                 {% endif %}
                         {% endfor %}
                 
@@ -31,6 +32,7 @@
                 Filtros
                 <i class="bi bi-filter-right"></i>
             </button>
+            <!-- Formulario para ordenar productos -->
             <form class="form__order" id="order-form" method="GET" action="{% block filtro_url %}{% endblock %}">
                 <select name="ordenar" id="ordenar">
                     <option value="">Seleccionar</option>
@@ -50,7 +52,7 @@
                 {% block filtros_genero %}
 
                 {% endblock %}
-                
+                <!-- Formulario para filtrar productos por marca y colores -->
                 <form method="GET" id="filter-form" action="{% block filtro_form %}{% endblock %}">
                     <div class="container__filtros-tittle">
                         <span id="close-filters">X</span>
@@ -59,8 +61,9 @@
                 <div class="container__flex-filtros">
                     <div class="container__filtro">
                         <h3>Marca</h3>
-                        {% for marca in marcas_con_cantidad %}
-                            {% if forloop.counter <= 8 %}
+                        <!-- Itero sobre las marcas para mostrar todas las disponibles -->
+                        {% for marca in marcas_con_cantidad %}  
+                            {% if forloop.counter <= 8 %} <!-- Muestro solo las primeras 8 marcas -->
                         <label>
                             <div class="label-content">
                                 <input type="checkbox" name="marca" value="{{ marca.marca.id }}" {% if marca.id|stringformat:"d" in request.GET.marca %}checked{% endif %}>
@@ -71,7 +74,7 @@
                         {% endfor %}
                         <div class="more-filters-marca" id="filters-marca">
                             {% for marca in marcas_con_cantidad %}
-                                {% if forloop.counter > 8 %}
+                                {% if forloop.counter > 8 %} <!-- Si hay mas de 8 marcas usamos una funcion de javascript para mostrarlas -->
                                 <label>
                                     <div class="label-content">
                                         <input type="checkbox" name="marca" value="{{ marca.marca.id }} {% if marca.id|stringformat:"d" in request.GET.marca %}checked{% endif %}">
@@ -81,12 +84,12 @@
                                 {% endif %}
                             {% endfor %}
                         </div>
-                        {% if marcas_con_cantidad|length > 8 %}
+                        {% if marcas_con_cantidad|length > 8 %} <!-- Si la cantidad de marcas es mayor a 8 se muestra el boton -->
                             <button id="button-filtro-marca" type="button">Ver todos</button>
                         {% endif %}
                     </div>
     
-    
+                    <!-- Hago lo mismo con los colores -->
                     <div class="container__filtro">
                         <h3>Colores</h3>
                         {% for color in colores_con_cantidad %}
@@ -120,7 +123,8 @@
                     
     
                     {% block talle %}
-                        
+                        <!-- Como cada categoria de producto tiene un tipo de talle diferente dejamos el bloque vacio
+                        para llenarlo en cada template correspondiente| -->
                     {% endblock %}
     
                     <button type="submit" class="button-filtrar">Filtrar</button>
@@ -138,8 +142,8 @@
                 <ul>
                     
                     {% if filtros_aplicados %}
-                        {% for filtro, valores in filtros_aplicados.items  %}
-                            {% for valor in valores %}
+                        {% for filtro, valores in filtros_aplicados.items  %} <!-- Si hay filtros disponibles iteramos sobre ellos -->
+                            {% for valor in valores %} <!-- Iteramos sobre los valores de los filtros aplicados para mostrarlos uno por uno -->
                                 <li>{{valor}}</li>
                             {% endfor %}
                         {% endfor %}

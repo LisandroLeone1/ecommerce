@@ -12,6 +12,7 @@ body {
     --color-cuarto: rgba(116, 113, 113, 0.4);
     --color-quinto: rgb(78, 77, 77);
     --color-sexto:rgb(83, 81, 81);
+    --color-septimo:rgba(51, 52, 53, 0.438);
 
 }
 
@@ -20,6 +21,7 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
     padding: 0;
 }
 
+/* HEADER SECTION */
 
 .header__data {
     background-color: var(--color-sexto);
@@ -43,11 +45,10 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
 
 .social__media a {
     color: beige;
-
     font-size: 11px;
     font-weight: 400;
     text-decoration: none;
-    display: flex;               /* Activamos flexbox dentro de los enlaces */
+    display: flex;             
     align-items: center; 
 }
 
@@ -80,7 +81,6 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
 }
 .header__nav-list {
     display: flex;
-
 }
 
 .header__nav-item {
@@ -123,11 +123,15 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
 }
 
 .sale:hover {
-    background-color: red;
+    background-color: rgba(218, 22, 22, 0.603);
 }
 
 .sale:hover a {
     color: beige;
+}
+
+.sale.sale-active {
+    background-color:  rgba(218, 22, 22, 0.603);
 }
 
 .header__extra {
@@ -135,9 +139,21 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
     gap: 40px;
 }
 
-.header__extra a{
+.header__extra a {
+    font-size: 9px;
+    text-decoration: none;
     color: beige;
-    font-size: 37px;
+    font-weight: 400;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-wrap: nowrap;
+}
+
+.header__extra i{
+    color: beige;
+    font-size: 35px;
 }
 
 .search__form {
@@ -197,13 +213,13 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
 }
 
 .account {
-    right: 83px;
-    top: 88px;
+    right: 95px;
+    top: 93px;
 }
 
 .help {
     right: 117px;
-    top: 88px;
+    top: 93px;
 }
 
 .ventana-emergente.activa {
@@ -217,19 +233,38 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
     font-weight: 400;
 }
 
+.ventana-emergente i {
+    font-size: 14px;
+}
+
+.ventana-emergente a:hover {
+    text-decoration: underline;
+}
+
 .ventana-emergente a:first-child {
     margin-bottom: 5px;
 }
 
+.sesion-button {
+    border: none;
+    background-color: var(--color-principal);
+    font-size: 14px;
+    color: beige;
+    font-weight: 400;
+}
+
+.sesion-button:hover {
+    text-decoration: underline;
+}
 
 
-@media screen and (max-width:900px) {
+@media screen and (max-width:1000px) {
     .header__container {
         padding: 0px 20px;
     }
 }    
 
-@media screen and (max-width:768px) {
+@media screen and (max-width:850px) {
     .header__button {
         display: flex;
     }
@@ -239,10 +274,11 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
     .header__nav {
         justify-content: space-between;
         padding: 0px 40px;
+        height: 60px;
     }
     .header__nav-list {
         position: absolute;
-        top: 156px;
+        top: 160px;
         left: 0;
         flex-direction: column;
         background-color: var(--color-principal);
@@ -273,18 +309,16 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
         font-size: 18px;
     }
     .account {
-        top: 152px;
+        top: 163px;
     }
     
     .help {
-        top: 152px;
+        top: 163px;
     }
     .social__media {
         display: none;
     }
 }
-
-
 
 
 /* INTRO-MAIN*/
@@ -321,7 +355,6 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
     margin-left: 4px;
 }
 
-
 .container__categoria {
     max-width: 100%;
     margin-top: 5px;
@@ -334,6 +367,7 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
     font-size: 22px;
 }
 
+/* boton para mostrar filtros en pantallas pequeñas */
 .container__button-filtros{
     width: 100%;
     margin-top: 10px;
@@ -345,7 +379,7 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
 }
 
 .toggle-filters {
-    display: block; /* Asegúrate de que esté visible en pantallas pequeñas */
+    display: block; 
     padding: 7px 10px;
     max-width: 230px;
     min-width: 100px;
@@ -367,13 +401,12 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
     font-weight: 700; 
 }
 
+/* formulario para ordenar productos */
 .form__order {
     display: flex;
     gap: 3px;
-    width: 100%; /* Para que el contenedor ocupe el espacio disponible */
-    max-width: 300px; /* Ancho máximo del contenedor */
-    flex: 1;
-    
+    width: 100%; 
+    max-width: 300px; 
 }
 
 .form__order select {
@@ -402,13 +435,13 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
 }
 
 .form__order .order-button {
-    width: 70px; /* Ancho fijo para el botón de búsqueda */
+    width: 70px;
     max-width: 70px;
     min-width: 50px;
     font-size: 11px; 
     font-weight: 700;
     text-align: center;
-    background-color: var(--color-terciario);
+    background-color: var(--color-sexto);
     color: white;
     border-radius: 5px; 
     border: none;
@@ -418,7 +451,7 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
 
 
 .form__order .order-button:hover {
-    background-color: var(--color-cuarto); /* Color de fondo al pasar el mouse */
+    background-color: var(--color-cuarto); 
 }
 
 @media screen and (max-width:768px) {
@@ -430,12 +463,13 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
     }
 }
 
-/* TIENDA */
+/* MAIN CONTAINERS */
 
+/* a excepcion del header, contiene todos los elementos del body(intro__container, aside y main) */
 .main__container {
     padding: 0 50px;
 }
-
+/* contiene el aside y el main */
 .wrapper {
     display: grid;
     grid-template-columns: 1fr 5fr;
@@ -497,9 +531,7 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
     height: 100%; 
     margin-right: 10px;
     gap: 15px;
-
 }
-
 
 .container__filtro {
     margin-top: 20px;
@@ -507,7 +539,7 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
 
 .container__filtro label {
     display: flex;
-    justify-content: space-between; /* Alinea verticalmente */
+    justify-content: space-between; 
     font-weight: 400;
     font-size: 14px;
     margin-top: 4px;
@@ -520,12 +552,12 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
 }
 
 .container__filtro span {
-    margin-left: 3px; /* Margen entre checkbox y texto */
+    margin-left: 3px; 
     color: var(--color-quinto);
 }
 
 .container__filtro i {
-    margin-left: 10px; /* Espacio entre texto y icono */
+    margin-left: 10px; 
 }
 
 /* Oculta el checkbox original */
@@ -624,7 +656,7 @@ input[type="checkbox"]:checked::after {
         visibility: hidden;
         position: absolute;
         top: 0;
-        left: -100%; /* Fuera de la pantalla a la izquierda */
+        left: -100%; /* lo ubico fuera de la pantalla a la izquierda */
         width: 100%;
         height: 100%;
         background: var(--color-secundario);
@@ -637,7 +669,7 @@ input[type="checkbox"]:checked::after {
         padding: 0px 30px;
     }
     .aside-filters.show {
-        left: 0; /* Mueve el aside a la vista */
+        left: 0; /* lo muevo para que se vea */
         visibility: visible;
     }
     .wrapper {
@@ -724,7 +756,7 @@ input[type="checkbox"]:checked::after {
     color: #c5c4c4;
 }
 
-/* ENCABEZADO INDEX */
+/* ENCABEZADO TEMPLATE INDEX */
 
 .container__estados {
     max-width: 100%;
@@ -733,6 +765,11 @@ input[type="checkbox"]:checked::after {
 
 .container__estados a {
     text-decoration: none;
+}
+
+.container__estados a:hover {
+    text-decoration: underline;
+    color: var(--color-cuarto);
 }
 
 .container__estados h2 {
@@ -753,6 +790,7 @@ input[type="checkbox"]:checked::after {
     margin-bottom: 40px;
 }
 
+/* cards mas grande para template index */
 .container__grid-index {
     display: grid;
     grid-template-columns: repeat(auto-fit, 270px);
@@ -778,19 +816,19 @@ input[type="checkbox"]:checked::after {
 }
 
 .card__container.index {
-    height: 413px; /* Altura inicial */
+    height: 413px; /* altura inicial */
 }
 
 .card__container.index.card-activa {
-    height: 460px; /* Nueva altura */
+    height: 460px; /* nueva altura */
 }
 
 .card__container.categorias {
-    height: 395px; /* Altura inicial */
+    height: 395px; /* altura inicial */
 }
 
 .card__container.categorias.card-activa {
-    height: 430px; /* Nueva altura */
+    height: 430px; /* nueva altura */
 }
 
 .card-img-top {
@@ -817,8 +855,8 @@ input[type="checkbox"]:checked::after {
 .card__body-data h3 {
     font-weight: bold;
     font-size: 15px;
-    overflow: hidden; /* Oculta el texto que se desborda */
-    text-overflow: ellipsis; /* Añade "..." al final del texto que se corta */
+    overflow: hidden; /* oculta el texto que se desborda */
+    text-overflow: ellipsis; /* añade "..." al final del texto que se corta */
 }
 
 .card__cuotas {
@@ -890,13 +928,12 @@ input[type="checkbox"]:checked::after {
     padding: 3px;
 }
 
+/* le agregamos la calse absolute a todos los templates menos a producto*/
 .absolute {
     position: absolute;
     top: 10px;
     left: 10px;
 }
-
-
 
 .container__new {
     background-color: rgb(68, 121, 236);
@@ -925,11 +962,6 @@ input[type="checkbox"]:checked::after {
     font-weight: 500;
 }
 
-.producto-desc {
-    font-size: 20px;
-    margin-top: 15px;
-}
-
 .precio__total {
     color: var(--color-terciario);
     font-weight: bold;
@@ -942,7 +974,6 @@ input[type="checkbox"]:checked::after {
         display: block;
     }
 }
-
 
 /* PRODUCTO */
 
@@ -1015,6 +1046,7 @@ input[type="checkbox"]:checked::after {
     font-size: 18px;
 }
 
+/* separamos la marca y el descuento */
 .producto__sale {
     display: flex;
     justify-content: space-between;
@@ -1041,6 +1073,12 @@ input[type="checkbox"]:checked::after {
     font-size: 30px;
     margin-top: 15px;
     font-size: 700;
+}
+
+/* le agregamos esta clase ademas de precio__descuento(definida en section cards)*/
+.producto-desc {
+    font-size: 20px;
+    margin-top: 15px;
 }
 
 .container__cuotas {
@@ -1079,18 +1117,17 @@ input[type="checkbox"]:checked::after {
 }
 .container__options select {
     width: 100%;
-    padding: 10px; /* Espacio interior */
-    border: 1px solid #ccc; /* Borde del select */
-    border-radius: 5px; /* Esquinas redondeadas */
-    font-size:14px; /* Tamaño de la fuente */
-    background-color: #f9f9f9; /* Color de fondo */
+    padding: 10px; 
+    border: 1px solid #ccc;
+    border-radius: 5px; 
+    font-size:14px; 
+    background-color: #f9f9f9;
 }
 
 .container__options option {
     padding: 5px; 
-    background-color: #f9f9f9; /* Color de fondo de las opciones */
+    background-color: #f9f9f9; 
 }
-
 
 .boton-carrito {
     margin: auto;
@@ -1105,6 +1142,7 @@ input[type="checkbox"]:checked::after {
     width: 90%;
     cursor: pointer;
 }
+
 .envios__container {
     display: flex;
     gap: 5px;
@@ -1133,6 +1171,7 @@ input[type="checkbox"]:checked::after {
     font-size: 12px;
 }
 
+/* ventana oculta que se muestra con javascript */
 .ventana-locales {
     box-shadow: 0 0 5px rgba(1, 23, 46, 0.6);
     padding: 10px;
@@ -1265,8 +1304,7 @@ input[type="checkbox"]:checked::after {
     margin-top: 10px;
 }
 
-/* CARRUSEL IMAGENES */
-
+/* CARRUSEL IMAGENES DEL TEMPLATE INDEX */
 
 .carrousel {
     width: 100%;
@@ -1274,8 +1312,6 @@ input[type="checkbox"]:checked::after {
     background: rgb(165, 174, 192, 0.4);
     margin: 80px 0px ;
 }
-
-
 
 .slick-list{
     position: relative;
@@ -1362,6 +1398,7 @@ input[type="checkbox"]:checked::after {
 }
 
 
+/*  CONTAINER IMAGENES DE CATEGORIAS DEL TEMPLATE INDEX */
 
 .categorias__container {
     width: 100%;
@@ -1401,8 +1438,8 @@ input[type="checkbox"]:checked::after {
 .categorias__container-item a img {
     width: 100%;
     overflow: hidden;
-    height: auto; /* Mantiene la relación de aspecto */
-    object-fit: cover; /* O 'contain' según el efecto deseado */
+    height: auto; /* mantiene la relación de aspecto */
+    object-fit: cover; 
 }
 
 .categorias__container-item h2 {
@@ -1410,4 +1447,248 @@ input[type="checkbox"]:checked::after {
     text-transform: uppercase;
     text-align: center;
     padding: 20px;
+}
+
+@media screen and (max-width:600px) {
+    .categorias__container-item h2 {
+        font-size: 20px;
+    }
+}
+
+
+
+
+
+
+
+/* login.css */
+
+.login-tittle {
+    display: block;
+    margin-top: 35px;
+}
+
+.login-tittle h3 {
+    font-size: 35px;
+}
+
+.login-container {
+    max-width: 700px;
+    margin: auto;
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+
+.error {
+    color: red;
+    font-size: 12px;
+}
+
+.form-login {
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.form-login label {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: var(--color-sexto);
+}
+
+.form-login input {
+    width: 95%;
+    margin: auto;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-login span {
+    font-size: 11px;
+}
+
+.label-caracteres {
+    margin-top: 3px;
+    text-align: center;
+    font-size: 10px;
+}
+
+
+
+.button-login {
+    width: 98%;
+    margin: auto;
+    padding: 12px;
+    background-color:var(--color-principal);
+    color: white;
+    font-weight: 500;
+    font-size: 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button-login:hover {
+    background-color: var(--color-sexto);
+}
+
+.a-login {
+    padding: 12px;
+    display: block;
+    background-color:var(--color-principal);
+    color: white;
+    font-weight: 500;
+    font-size: 15px;
+    margin: auto;
+    margin-top: 10px;
+    width: 95%;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.links-login {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.links-login p {
+    color: var(--color-sexto);
+}
+
+.password {
+    display: block;
+    margin-top: 10px;
+    color: var(--color-sexto);
+}
+
+.password:hover {
+    color: var(--color-cuarto);
+}
+
+.links-register {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+}
+
+.links-register a {
+    color: var(--color-sexto);
+    text-decoration: none;
+}
+
+.links-register a:hover {
+    color: var(--color-cuarto);
+}
+
+
+/* ACCOUNT */
+
+.account-container {
+    max-width: 900px;
+    margin: auto;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+.account-container h3 {
+    text-decoration: underline;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 19px;
+}
+
+.account-container li {
+    list-style: none;
+    font-size: 13px;
+    color: var(--color-quien);
+    font-weight: 500;
+    margin-top: 5px;
+}
+
+.account-data {
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.account-container li span{
+    font-size: 12px;
+    font-weight: bold;
+    color: black;
+    margin-right: 4px;
+}
+
+.account-data button {
+    height: 35px;
+    align-self: flex-end;
+    border-radius: 10px;
+    background-color: var(--color-septimo);
+    border: none;
+    color: beige;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.account-data button:hover {
+    background-color: var(--color-principal);
+}
+
+
+.account-shop {
+    padding: 10px;
+    margin: auto;
+    width: 100%;
+}
+
+.account-compra {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.account-compra i {
+    color: var(--color-terciario);
+    font-weight: bold;
+    font-size: 19px;
+}
+
+.account-compra p {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.account-button {
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    margin: auto;
+    border-radius: 15px;
+    background-color: var(--color-septimo);
+    width: 90%;
+    padding: 8px;
+    color: beige;
+    font-weight: 500;
+    font-size: 15px;
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+
+}
+
+.account-button:hover {
+    background-color: var(--color-principal);
 }

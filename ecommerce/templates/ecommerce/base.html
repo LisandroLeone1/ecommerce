@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="{% static 'ecommerce/css/styles.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script defer src="{% static 'ecommerce/js/header.js' %}"></script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
@@ -35,17 +34,28 @@
                 </div>
             </form>
             <div class="header__extra">
-                <a href="#" class="header__extra-item" id="help"><i class="bi bi-question-circle"></i></i></a>
+                <a href="#" class="header__extra-item" id="help"><i class="bi bi-question-circle"></i></i>Ayuda</a>
                 <div class="ventana-emergente help" id="ventana-help">
                     <a href=""><i class="bi bi-whatsapp"></i> +543416721106</a>
                     <a href=""><i class="bi bi-envelope-at icon"></i> sportdigital@gmail.com</a>
                 </div>
-                <a href="#" class="header__extra-item"  id="account"><i class="bi bi-person-fill"></i></a>
+                {% if user.is_authenticated %}
+                <a href="#" class="header__extra-item"  id="account"><i class="bi bi-person-fill"></i>! Hola, {{user.username}} ¡</a>
                 <div class="ventana-emergente account" id="ventana">
-                    <a href="">Iniciar sesion</a>
-                    <a href="">Crear cuenta</a>
+                    <a href="{% url 'login:tucuenta' %}">Tu cuenta</a>
+                    <form action="{% url 'login:logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="sesion-button">Cerrar sesión</button>
+                    </form>
                 </div>
-                <a href="{% url 'carro:carro' %}" class="header__extra-item"><i class="bi bi-cart4"></i></a>
+                {% else %}
+                <a href="#" class="header__extra-item"  id="account"><i class="bi bi-person-fill"></i>Mi cuenta</a>
+                {% endif %}
+                <div class="ventana-emergente account" id="ventana">
+                    <a href="{% url 'login:login' %}">Iniciar sesion</a>
+                    <a href="{% url 'login:register' %}">Crear cuenta</a>
+                </div>
+                <a href="{% url 'carro:carro' %}" class="header__extra-item"><i class="bi bi-cart4"></i>Mi carrito</a>
             </div>
         </div>
         <div class="header__nav">
@@ -57,12 +67,13 @@
                     <li class="header__nav-item {% if request.path == '/calzados/' %} nav-active {% endif %}"><a href="{% url 'ecommerce:lista_calzados' %}">Calzado</a></li>
                     <li class="header__nav-item {% if request.path == '/accesorios/' %} nav-active {% endif %}"><a href="{% url 'ecommerce:lista_accesorios' %}">Accesorios</a></li>
                     <li class="header__nav-item"><a href="">Contacto</a></li>
-                    <li class="header__nav-item sale"><a href="{% url 'ecommerce:lista_sale' %}">Sale!</a></li>
+                    <li class="header__nav-item sale {% if request.path == '/sale/' %} sale-active {% endif %}"><a href="{% url 'ecommerce:lista_sale' %}">Sale!</a></li>
                 </ul>
             </nav>
         </div>
     </header> 
     
+    <!-- Paso los scripts dependiendo del template cargado -->
     {% if request.path == '/' %}
     <script defer src="{% static 'ecommerce/js/index.js' %}"></script>
     {% endif %}

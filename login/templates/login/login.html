@@ -1,0 +1,63 @@
+{% extends 'ecommerce/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="main__container">
+    <div class="intro__container">
+            <!-- Uso las migas de pan -->
+            <div class="rutas__container">
+                        {% for breadcrumb in breadcrumbs %}
+                                {% if breadcrumb.url %}
+                                    <a href="{{ breadcrumb.url }}"> {{ breadcrumb.name }}</a>
+                                {% else %}
+                                    <span class="breadcrumbs"> {{ breadcrumb.name }}</span> 
+                                {% endif %}
+                                {% if not forloop.last %}
+                                    <span class="separador"> > </span> 
+                                {% endif %}
+                        {% endfor %}
+                
+            </div>
+            
+            <div class="container__categoria login-tittle">
+                <h3>Iniciar Sesion</h3>
+            </div>
+    </div>
+    <div class="login-container">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-login">
+                <label for="{{ form.username.id_for_label }}">Usuario</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                <div class="error">
+                    {% for error in form.username.errors %}
+                    <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-login">
+                <label for="{{ form.password.id_for_label }}">Contraseña</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                <div class="error">
+                    {% for error in form.password.errors %}
+                    <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <button type="submit" class="button-login">Entrar</button>
+        </form>
+
+        <div class="links-login">
+            <p>¿Aun no tienes cuenta?</p>
+            <a class="a-login" href="{% url 'login:register' %}">Registrate</a>
+            <a href="" class="password">¿Olvidaste tu contraseña?</a>
+        </div>
+    </div>
+
+{% endblock content %}

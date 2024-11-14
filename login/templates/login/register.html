@@ -1,0 +1,129 @@
+{% extends 'ecommerce/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="main__container">
+    <div class="intro__container">
+            <!-- Uso las migas de pan -->
+            <div class="rutas__container">
+                        {% for breadcrumb in breadcrumbs %}
+                                {% if breadcrumb.url %}
+                                    <a href="{{ breadcrumb.url }}"> {{ breadcrumb.name }}</a>
+                                {% else %}
+                                    <span class="breadcrumbs"> {{ breadcrumb.name }}</span> 
+                                {% endif %}
+                                {% if not forloop.last %}
+                                    <span class="separador"> > </span> 
+                                {% endif %}
+                        {% endfor %}
+                
+            </div>
+            
+            <div class="container__categoria login-tittle">
+                <h3>Crear cuenta</h3>
+            </div>
+        </div>
+
+        <div class="login-container">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-login">
+                    <label for="{{ form.username.id_for_label }}">Usuario</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                    <div class="error">
+                        {% for error in form.username.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                </div>
+    
+                <div class="form-login">
+                    <label for="{{ form.first_name.id_for_label }}">Nombre</label>
+                    {{ form.first_name }}
+                    {% if form.first_name.errors %}
+                    <div class="error">
+                        {% for error in form.first_name.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                </div>
+
+                <div class="form-login">
+                    <label for="{{ form.last_name.id_for_label }}">Apellido</label>
+                    {{ form.last_name }}
+                    {% if form.last_name.errors %}
+                    <div class="error">
+                        {% for error in form.last_name.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                </div>
+
+                <div class="form-login">
+                    <label for="{{ form.email.id_for_label }}">Email</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                    <div class="error">
+                        {% for error in form.email.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                </div>
+
+                <div class="form-login">
+                    <label for="{{ perfil_form.direccion_de_entrega.id_for_label }}">Direccion de entrega <span>(opcional)</span></label>
+                    {{ perfil_form.direccion_de_entrega }}
+                </div>
+
+                <div class="form-login">
+                    <label for="{{ perfil_form.birth_date.id_for_label }}">Fecha de nacimiento <span>(opcional)</span></label>
+                    {{ perfil_form.birth_date }}
+                </div>
+
+                <div class="form-login">
+                    <label for="{{ perfil_form.phone_number.id_for_label }}">Numero de telefono <span>(opcional)</span></label>
+                    {{ perfil_form.phone_number }}
+                </div>
+
+                <div class="form-login">
+                    <label for="{{ form.password1.id_for_label }}">Contraseña</label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                    <div class="error">
+                        {% for error in form.password1.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <p class="label-caracteres">La contraseña debe tener al menos 8 caracteres</p>
+                </div>
+
+                <div class="form-login">
+                    <label for="{{ form.password2.id_for_label }}">Repetir contraseña</label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                    <div class="error">
+                        {% for error in form.password2.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <p class="label-caracteres">La contraseña debe tener al menos 8 caracteres</p>
+                </div>
+
+                <button type="submit" class="button-login">Crear Cuenta</button>
+            </form>
+    
+            <div class="links-register">
+                <p>¿Ya tenes una cuenta?</p>
+                <a href="{% url 'login:login' %}">Iniciar sesion</a>
+            </div>
+        </div>
+
+{% endblock content %}

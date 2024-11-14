@@ -42,7 +42,7 @@
     <div class="container__filtro">
         <h3>Talles</h3>
         {% for talle in talles_con_cantidad %}
-            {% if forloop.counter <= 8 %}  {# Muestra solo los primeros 8 #}
+            {% if forloop.counter <= 8 %}  
             <label>
                 <div class="label-content">
                     <input type="checkbox" name="talles" value="{{ talle.talle.id }}" {% if talle.id|stringformat:"d" in request.GET.talles %}checked{% endif %}>

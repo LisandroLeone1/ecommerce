@@ -1,0 +1,56 @@
+{% extends 'ecommerce/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="main__container">
+    <div class="intro__container">
+            <!-- Uso las migas de pan -->
+            <div class="rutas__container">
+                        {% for breadcrumb in breadcrumbs %}
+                                {% if breadcrumb.url %}
+                                    <a href="{{ breadcrumb.url }}"> {{ breadcrumb.name }}</a>
+                                {% else %}
+                                    <span class="breadcrumbs"> {{ breadcrumb.name }}</span> 
+                                {% endif %}
+                                {% if not forloop.last %}
+                                    <span class="separador"> > </span> 
+                                {% endif %}
+                        {% endfor %}
+                
+            </div>
+            
+            <div class="container__categoria login-tittle">
+                <h3>Mi cuenta</h3>
+            </div>
+
+            <div class="account-container">
+                <h3>Tus datos</h3>
+                <div class="account-data">
+                    <ul>
+                        <li>{{ user.first_name }} {{ user.last_name }}</li>
+                        <li><span>Usuario:</span>{{ user.username }}</li>
+                        <li><span>Email:</span>{{ user.email }}</li>
+                        {% if perfil %}
+                        <li><span>Direccion de entrega:</span>{{ perfil.direccion_de_entrega }}</li>
+                        <li><span>Telefono:</span> {% if perfil.phone_number %}{{ perfil.phone_number }}{% else %}- Sin completar -{% endif %}</li>
+                        {% else %}
+                        <p>No has completado tu perfil aún.</p>
+                        {% endif %}
+                    </ul>
+                    <button>Editar</button>
+                </div>
+                <h3>Tus compras</h3>
+                <div class="account-shop">
+                    
+                    <div class="account-compra">
+                        <i class="bi bi-cart"></i>
+                        <p>¡Hace tu primer comprar!</p>
+                    </div>
+                    <a href="{% url 'ecommerce:index' %}" class="account-button">Ir a la tienda</a>
+                </div>
+    
+            </div>
+    </div>
+</div>
+{% endblock %}

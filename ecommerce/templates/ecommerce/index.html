@@ -10,7 +10,7 @@
             <h2>Novedades</h2>
         </div>
         <div class="container__grid-index">
-
+            <!-- muestro los productos en estado novedades, que son los ultimos 8 productos cargados(esto definido en las vistas)) -->
             {% for novedad in novedades  %}
                 <div class="card__container index" id="card">
                     <img src="{{novedad.imagen_principal.url}}" class="card-img-top" data-secondary="{% if novedad.imagen_secundaria_1 %}{{ novedad.imagen_secundaria_1.url }}{% else %}{{ novedad.imagen_principal.url }}{% endif %}">
@@ -35,7 +35,7 @@
             {% endfor %}
         </div>  
 
-
+        <!-- Carrusel de imagenes de todas las marcas disponibles -->
         <div class="carrousel">
             <div class="slick-list" id="slick-list">
                 <button class="slick-arrow slick-prev" id="button-prev"><i class="bi bi-caret-left-fill"></i></button>
@@ -59,10 +59,11 @@
 
 
         <div class="container__estados">
-            <a href="{% url 'ecommerce:lista_sale' %}"><h2>!Ofertas 2024!</h2></a>
+            <a  href="{% url 'ecommerce:lista_sale' %}"><h2>!Ofertas 2024!</h2></a> 
         </div>
         <div class="container__grid-index">
-
+            <!--  Muestro los primeros 8 productos en sale -->
+            <!-- Mas arriba dejo el link para ver los demas -->
             {% for sale in sales  %}
                 {% if forloop.counter <= 8 %}
                 <div class="card__container index" id="card">
@@ -94,7 +95,7 @@
             {% endfor %}
         </div>  
 
-
+        <!-- Imagenes con links de las tres categorias disponibles -->
         <div class="categorias__container">
             <div class="categorias__container-item">
                 <a href="{% url 'ecommerce:lista_indumentaria' %}">
@@ -129,7 +130,7 @@
             <h2>Destacados</h2>
         </div>
         <div class="container__grid-index">
-
+            <!-- Muestro los productos destacados -->
             {% for destacado in destacados  %}
             <div class="card__container index" id="card">
                 <img src="{{destacado.imagen_principal.url}}" class="card-img-top" 

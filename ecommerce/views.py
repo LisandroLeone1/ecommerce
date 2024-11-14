@@ -113,8 +113,8 @@ def index_list(request):
             Q(categoria__nombre__icontains=busqueda)  
         )
 
-    novedades = Producto.objects.order_by('-created')[:8]
-    destacados = Producto.objects.filter(estado='destacados').order_by('-created')[:8]
+    novedades = Producto.objects.order_by('-created')[:8] # los ultimos 8 productos cargados en la BD son las novedades
+    destacados = Producto.objects.filter(estado='destacados').order_by('-created')[:8] # ultimos 8 productos cargados con estado "destacados"
     sales = Producto.objects.filter(estado='sale').order_by('-created')
 
     calcular_cuotas(novedades)
@@ -142,7 +142,7 @@ def indumentaria_view(request, genero=None):
     indumentarias = Producto.objects.filter(tipo_producto='indumentaria').order_by('-created')
 
     indumentarias = filtrar_productos(
-        indumentarias,   # Usa el género de la URL o el del formulario
+        indumentarias,   
         filtros['color_ids'],
         filtros['talle_ids'],
         filtros['marca_ids'],
@@ -189,7 +189,6 @@ def indumentaria_view(request, genero=None):
         {'name': 'Inicio', 'url': reverse('ecommerce:index')},
         {'name': 'Indumentaria', 'url': reverse('ecommerce:lista_indumentaria')}
     ]
-
     if genero:
         breadcrumbs.append({'name': genero.capitalize(), 'url': None })
 
@@ -223,7 +222,7 @@ def calzados_view(request, genero=None):
         filtros['color_ids'], 
         filtros['talle_ids'], 
         filtros['marca_ids'], 
-        'calzado'  # Pasar tipo de producto
+        'calzado'  # paso el tipo de producto
     )
 
     # Obtener listas de marcas y colores para el formulario
@@ -272,23 +271,20 @@ def calzados_view(request, genero=None):
 def accesorios_view(request, genero=None):
     filtros = obtener_filtros(request)
     
-    # Filtrar productos de calzado
     accesorios = Producto.objects.filter(tipo_producto='accesorios').order_by('-created')
     
-    # Filtrar por tipo de producto
     accesorios = filtrar_productos(accesorios, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], genero, 'accesorios')
 
     ordenar = request.GET.get('ordenar')
     accesorios = ordenar_productos(ordenar, accesorios)
 
-    # Calcular cuotas para cada calzado
     calcular_cuotas(accesorios)
 
     filtros_aplicados = construir_filtros_aplicados(
         filtros['color_ids'], 
         filtros['talle_ids'], 
         filtros['marca_ids'], 
-        'accesorios'  # Pasar tipo de producto
+        'accesorios'  
     )
 
     marcas_disponibles = accesorios.values_list('marca', flat= True).distinct()
@@ -330,13 +326,12 @@ def accesorios_view(request, genero=None):
         'breadcrumbs': breadcrumbs,
     })
 
+
 def sale_view(request, genero=None, tipo_producto = None):
     filtros = obtener_filtros(request)
-    
-    # Filtrar productos de calzado
+    # Filtro los productos en estado sale
     sales = Producto.objects.filter(estado='sale').order_by('-created')
-    print("Talles seleccionados:", filtros['talle_ids'])
-    # Filtrar por tipo de producto
+
     sales = filtrar_productos(sales, filtros['color_ids'], filtros['talle_ids'], filtros['marca_ids'], genero, tipo_producto)
 
     ordenar = request.GET.get('ordenar')
@@ -356,7 +351,7 @@ def sale_view(request, genero=None, tipo_producto = None):
         filtros['color_ids'], 
         filtros['talle_ids'], 
         filtros['marca_ids'], 
-        None,  # Pasar tipo de producto
+        None,  
     )
 
     marcas_disponibles = sales.values_list('marca', flat= True).distinct()
