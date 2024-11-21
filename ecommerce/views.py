@@ -373,7 +373,7 @@ def sale_view(request, genero=None, tipo_producto = None):
     talles_ind_disponibles = sales.values_list('talles_indumentaria', flat=True).distinct()
     talles_ind_disponibles = TalleIndumentaria.objects.filter(id__in=talles_ind_disponibles)
 
-    # Unificamos ambos conjuntos de talles
+    # Unifico ambos conjuntos de talles
     todos_los_talles = list(talles_ind_disponibles) + list(talles_cal_disponibles)
 
     breadcrumbs = [
@@ -408,88 +408,14 @@ def producto_detalle(request, producto_id):
     elif producto.tipo_producto == 'accesorios':
         talles = producto.talles_accesorios.all()
     else:
-        talles = []  # En caso de que no sea ni indumentaria ni calzado, se puede ajustar según necesidad
+        talles = [] 
     
     cuota = cuotas_sin_interes(producto.precio, 3)
 
     return render(request, 'ecommerce/producto.html', {'producto': producto, 'talles': talles, 'colores': colores, 'cuota': cuota})
 
 
-"""
-def productos_lista(request):
-    filtros = obtener_filtros(request)
 
-    # Filtrar productos
-    productos = Producto.objects.all()
-
-    # Manejar búsqueda
-    busqueda = request.GET.get('busqueda', '')
-    if busqueda:
-        productos = productos.filter(
-            Q(nombre__icontains=busqueda) | 
-            Q(marca__nombre__icontains=busqueda) | 
-            Q(genero__icontains=busqueda) |         
-            Q(categoria__nombre__icontains=busqueda)  
-        )
-
-    
-    # Filtrar por otros filtros
-    productos = filtrar_productos(
-        productos,
-        filtros['genero'],
-        filtros['color_ids'],
-        filtros['talle_ids'],
-        filtros['marca_ids'],
-        filtros['categoria_id'],
-        None
-    )
-    print(f"Talle IDs en productos_lista: {filtros['talle_ids']}")
-
-    #Ordenar productos
-    ordenar = request.GET.get('ordenar')
-    if ordenar == 'precio_asc':
-        productos = productos.order_by('precio')
-    elif ordenar == 'precio_desc':
-        productos = productos.order_by('-precio')
-    elif ordenar == 'nombre_asc':
-        productos = productos.order_by('nombre')
-    elif ordenar == 'nombre_desc':
-        productos = productos.order_by('-nombre')
-
-    # Calcular cuotas
-    for producto in productos:
-        producto.cuota = cuotas_sin_interes(producto.precio, 3)
-
-    filtros_aplicados = construir_filtros_aplicados(
-        filtros['genero'],
-        filtros['color_ids'],
-        filtros['talle_ids'],
-        filtros['marca_ids'],
-        filtros['categoria_id'],
-        filtros['tipo_producto']
-    )
-
-    checked_marcas = request.GET.getlist('marca_ids')
-
-    # Obtener listas de marcas y colores para el formulario
-    marcas = Marca.objects.all()
-    colores = Color.objects.all()
-    talles_ind = TalleIndumentaria.objects.all()
-    talles_cal = TalleCalzado.objects.all()
-
-    # Combinar talles y asegurarse de que no haya duplicados
-    talles_all = list(set(list(talles_ind) + list(talles_cal)))
-
-    return render(request, 'ecommerce/index.html', {
-        'productos': productos,
-        'filtros_aplicados': filtros_aplicados,
-        'marcas': marcas,
-        'colores': colores,
-        'talles_all': talles_all,
-        'busqueda': busqueda,  
-        'checked_marcas': checked_marcas,
-    })
-"""
 
 """
 def indumentaria_view(request):
@@ -551,38 +477,3 @@ def indumentaria_view(request):
     })
 """
 
-
-"""
-def producto_detalle(request, producto_id):
-    producto = Producto.objects.get(id=producto_id)
-    talles = producto.talles.all()  # Suponiendo que tienes una relación ManyToMany
-    colores = producto.colores.all()
-    cuota = cuotas_sin_interes(producto.precio, 3)
-    return render(request, 'ecommerce/producto.html', {'producto': producto, 'talles': talles, 'colores': colores, 'cuota': cuota})
-"""
-
-
-"""def construir_filtros_aplicados(color_ids, talle_ids, marca_ids, categoria_id, tipo_producto):
-    filtros_aplicados = {}
-
-    if color_ids:
-        colores = Color.objects.filter(id__in=color_ids)
-        filtros_aplicados['Colores'] = ', '.join([color.nombre for color in colores])
-
-    if talle_ids:
-        if tipo_producto == 'indumentaria':
-            talles = TalleIndumentaria.objects.filter(id__in=talle_ids)  # Filtrar talles de indumentaria
-            filtros_aplicados['Talles'] = ', '.join([talle.nombre for talle in talles])
-        elif tipo_producto == 'calzado':
-            talles = TalleCalzado.objects.filter(id__in=talle_ids)  # Filtrar talles de calzado
-            filtros_aplicados['Talles'] = ', '.join([talle.nombre for talle in talles])
-
-    if marca_ids:
-        marcas = Marca.objects.filter(id__in=marca_ids)
-        filtros_aplicados['Marcas'] = ', '.join([marca.nombre for marca in marcas])
-
-    if categoria_id:
-        categoria = get_object_or_404(Categoria, id=categoria_id)
-        filtros_aplicados['Categoría'] = categoria.nombre
-
-    return filtros_aplicados"""

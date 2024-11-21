@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from .models import PerfilUsuario
 
 class CustomAuthenticationForm(AuthenticationForm):
-    class Mete:
+    class Meta:
         model = User
         fields = ["username", "password"]
 
@@ -15,14 +15,14 @@ class PerfilUsuarioForm(forms.ModelForm):
         fields = ['direccion_de_entrega', 'phone_number', 'birth_date']
         
         widgets = {
-            'birth_date': forms.DateInput(attrs={'type': 'date'}),  # Para que 'birth_date' sea un campo de tipo fecha
+            'birth_date': forms.DateInput(attrs={'type': 'date'}),  # para que 'birth_date' sea un campo de tipo fecha
         }
 
 class CustomUserCreationForm(UserCreationForm):
     # Añadir los campos de PerfilUsuario
     direccion_de_entrega = forms.CharField(max_length=255, required=False, widget=forms.TextInput(attrs={'placeholder': 'Dirección de entrega'}))
     phone_number = forms.CharField(max_length=20, required=False, widget=forms.TextInput(attrs={'placeholder': 'Número de teléfono'}))
-    birth_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))  # Se muestra como un selector de fecha
+    birth_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))  # se muestra como un selector de fecha
 
     class Meta:
         model = User

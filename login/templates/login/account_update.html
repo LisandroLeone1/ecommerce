@@ -1,0 +1,56 @@
+{% extends 'ecommerce/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="main__container">
+    <div class="intro__container">
+
+        <div class="rutas__container">
+            {% for breadcrumb in breadcrumbs %}
+                    {% if breadcrumb.url %}
+                        <a href="{{ breadcrumb.url }}"> {{ breadcrumb.name }}</a>
+                    {% else %}
+                        <span class="breadcrumbs"> {{ breadcrumb.name }}</span> 
+                    {% endif %}
+                    {% if not forloop.last %}
+                        <span class="separador"> > </span> 
+                    {% endif %}
+            {% endfor %}
+    
+        </div>
+
+        <div class="container__categoria login-tittle">
+            <h3>Editar datos</h3>
+        </div>
+    </div>
+
+    <div class="login-container">
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-login">
+                <label for="{{ form.direccion_de_entrega.id_for_label }}">Dirección de entrega <span>(opcional)</span></label>
+                {{ form.direccion_de_entrega }}
+            </div>
+
+            <div class="form-login">
+                <label for="{{ form.birth_date.id_for_label }}">Fecha de nacimiento <span>(opcional)</span></label>
+                {{ form.birth_date }}
+            </div>
+
+            <div class="form-login">
+                <label for="{{ form.phone_number.id_for_label }}">Número de teléfono <span>(opcional)</span></label>
+                {{ form.phone_number }}
+            </div>
+
+            <button type="submit" class="button-login">Editar datos</button>
+        </form>
+
+        <div class="links-register">
+            <p>¿Ya tienes una cuenta?</p>
+            <a href="{% url 'login:login' %}">Iniciar sesión</a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

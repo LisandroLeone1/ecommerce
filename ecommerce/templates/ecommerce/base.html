@@ -40,7 +40,7 @@
                     <a href=""><i class="bi bi-envelope-at icon"></i> sportdigital@gmail.com</a>
                 </div>
                 {% if user.is_authenticated %}
-                <a href="#" class="header__extra-item"  id="account"><i class="bi bi-person-fill"></i>! Hola, {{user.username}} ¡</a>
+                <a href="#" class="header__extra-item"  id="account"><i class="bi bi-person-fill"></i>!Hola, {{user.username}}¡</a>
                 <div class="ventana-emergente account" id="ventana">
                     <a href="{% url 'login:tucuenta' %}">Tu cuenta</a>
                     <form action="{% url 'login:logout' %}" method="post">

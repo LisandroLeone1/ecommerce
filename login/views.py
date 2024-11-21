@@ -3,8 +3,9 @@ from django.contrib.auth.views import LoginView
 from .forms import CustomAuthenticationForm, CustomUserCreationForm, PerfilUsuarioForm
 from django.http import HttpResponse, HttpRequest
 from django.contrib.auth import logout, login
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from .models import PerfilUsuario
+from django.views.generic import UpdateView
 
 
 
@@ -13,23 +14,22 @@ class CustomLoginViews(LoginView):
     template_name = "login/login.html"
 
     def get(self, request):
-        # Definir las breadcrumbs directamente
         breadcrumbs = [
             {'name': 'Inicio', 'url': reverse('ecommerce:index')},
             {'name': 'Mi Cuenta', 'url': reverse('login:login')},
             {'name': 'Login', 'url': None}
         ]
         
-        # Obtener el formulario de autenticación
+        # obtener el formulario de autenticación
         form = self.get_form()
 
-        # Pasar tanto las breadcrumbs como el formulario al contexto
+        # paso tanto las breadcrumbs como el formulario al contexto
         context = {
             'breadcrumbs': breadcrumbs,
             'form': form,
         }
 
-        # Renderizar la plantilla con el contexto
+        # renderizar la plantilla con el contexto
         return self.render_to_response(context)
 
 
@@ -38,21 +38,21 @@ def register(request: HttpRequest):
         form = CustomUserCreationForm(request.POST)
         perfil_form = PerfilUsuarioForm(request.POST)
         if form.is_valid() and perfil_form.is_valid():
-            # Guardar el usuario
+            # guardar el usuario
             user = form.save()
             
-            # Crear el perfil del usuario
+            # crear el perfil del usuario
             perfil = perfil_form.save(commit=False)
-            perfil.user = user  # Asociar el perfil al usuario recién creado
+            perfil.user = user  # asociar el perfil al usuario recién creado
             perfil.save()
             
-            # Iniciar sesión al usuario y redirigir a la página principal o a donde necesites
+            # iniciar sesión al usuario 
             login(request, user)
 
             return render(request, "ecommerce/index.html", {"mensaje": f"Usuario '{user.username}' creado correctamente"})
     else:
-        form = CustomUserCreationForm()  # Inicializar formulario de creación de usuario
-        perfil_form = PerfilUsuarioForm()  # Inicializar formulario de perfil
+        form = CustomUserCreationForm()  # inicializar formulario de creación de usuario
+        perfil_form = PerfilUsuarioForm()  # inicializar formulario de perfil
 
     breadcrumbs = [
         {'name': 'Inicio', 'url': reverse('ecommerce:index')},
@@ -68,10 +68,10 @@ def register(request: HttpRequest):
 
 
 def tucuenta(request):
-    # Acceder al usuario autenticado
+    # acceder al usuario autenticado
     user = request.user
 
-    # Obtener el perfil del usuario si existe
+    # obtener el perfil del usuario si existe
     try:
         perfil = PerfilUsuario.objects.get(user=user)
     except PerfilUsuario.DoesNotExist:
@@ -91,7 +91,33 @@ def tucuenta(request):
     })
 
 
+class CuentaUpdate(UpdateView):
+    model = PerfilUsuario
+    template_name = "login/account_update.html"
+    form_class = PerfilUsuarioForm
+
+    def get_object(self, queryset=None):
+        # Obtener el perfil del usuario actual
+        return PerfilUsuario.objects.get(user=self.request.user)
+
+    def get_success_url(self):
+        # redirige a la página de la cuenta tras la actualización
+        return reverse_lazy('login:tucuenta')
+
+    def get_context_data(self, **kwargs):
+        # obtiene el contexto de la vista, incluyendo los breadcrumbs
+        context = super().get_context_data(**kwargs)
+        
+        context['breadcrumbs'] = [
+            {'name': 'Inicio', 'url': reverse('ecommerce:index')},
+            {'name': 'Tus Datos', 'url': reverse('login:tucuenta')},
+            {'name': 'Editar Datos', 'url': None}
+        ]
+        
+        return context
+
+
+
 def cerrar_sesion(request):
     logout(request)
-    
     return redirect("ecommerce:index")

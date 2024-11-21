@@ -209,7 +209,9 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
     padding: 10px;
     font-size: 15px;
     z-index: 10;
-    display: none;
+    opacity: 0;  /* Inicialmente invisible */
+    visibility: hidden; /* Oculto en el flujo */
+    transition: opacity 0.5s ease, visibility 0s 0.3s; /* Transición de opacidad */
 }
 
 .account {
@@ -223,7 +225,9 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
 }
 
 .ventana-emergente.activa {
-    display: block;
+    opacity: 1;  /* Visible */
+    visibility: visible; /* Asegura que sea visible */
+    transition: opacity 0.5s ease, visibility 0s 0s; /* Sin retraso en la visibilidad */
 }
 
 .ventana-emergente a {
@@ -1633,18 +1637,20 @@ input[type="checkbox"]:checked::after {
     margin-right: 4px;
 }
 
-.account-data button {
-    height: 35px;
+.account-data a {
+    height: 19px;
+    font-size: 14px;
     align-self: flex-end;
     border-radius: 10px;
     background-color: var(--color-septimo);
     border: none;
     color: beige;
-    padding: 10px;
+    padding: 8px;
     cursor: pointer;
+    text-decoration: none;
 }
 
-.account-data button:hover {
+.account-data a:hover {
     background-color: var(--color-principal);
 }
 
