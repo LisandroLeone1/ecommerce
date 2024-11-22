@@ -1,16 +1,180 @@
+ESPAÑOL
 
-- carrito
-- optimizacion a views
-- header fijo
-- agregar proyecto a pagina web
-- hacer un readme
-- agregar proyecto a linkedin
+Este repositorio contiene un proyecto de e-commerce desarrollado utilizando la librería Django de Python. Los estilos se implementaron con CSS y JavaScript, logrando un diseño completamente responsive.
 
+El proyecto está enfocado en una tienda de ropa deportiva, pero puede adaptarse a cualquier tipo de producto.
 
+PRODUCTOS
 
+Los productos se gestionan desde el panel de administración que proporciona Django. Cada producto incluye las siguientes características:
+- Nombre
+- Precio
+- Descuento: permite aplicar un porcentaje de descuento al producto y calcular automáticamente el precio final mediante   una función.
+- Marca
+- Género
+- Tipo de producto: indumentaria, calzado o accesorios.
+- Talle: adaptado según el tipo de producto.
+- Color
+- Categoría
+- Estado: los productos pueden estar en uno de tres estados: "Sale", "Destacados" o "Novedades".
+- Fecha de creación: indica cuándo se creó el producto.
+- Imágenes: se pueden cargar hasta cuatro imágenes por producto.
 
-mejorar futuras:
-- footer
-- arreglar buscador
-- arreglar migas de pan
--
+Los productos se presentan en forma de tarjetas interactivas que muestran:
+- Una imagen principal (cambia al pasar el mouse por encima).
+- Detalles clave, incluyendo el precio en 3 cuotas sin interés.
+- Un botón "Comprar" que redirige a la sección de detalles del producto.
+
+PÁGINA PRINCIPAL
+
+La página principal incluye:
+- Novedades: muestra los últimos 8 productos añadidos con este estado.
+- Carrusel de marcas: contiene imágenes de todas las marcas disponibles.
+- Ofertas 2024: presenta los últimos 8 productos con estado "Sale". Al hacer clic en "Ofertas 2024", se accede a la sección "Sale".
+- Categorías: muestra imágenes de las tres categorías principales (indumentaria, calzado y accesorios). Cada imagen redirige a su respectiva sección.
+- Novedades (repetición): nuevamente, los últimos 8 productos con estado "Novedades".
+
+SECCIONES
+
+El sitio está organizado en varias secciones:
+- Categorías: indumentaria, calzado y accesorios.
+- Ofertas (Sale): muestra productos con descuentos aplicados.
+
+En cada sección, los usuarios pueden:
+- Filtrar por género.
+- Aplicar filtros avanzados (marca, color, talle). Cada filtro muestra la cantidad de productos disponibles.
+- Ordenar los productos por precio o nombre.
+
+En la sección "Sale", los productos muestran el precio original, el descuento aplicado y el precio final con descuento.
+La sección de contacto está en desarrollo.
+
+SECCIÓN PRODUCTO
+
+Al hacer clic en "Comprar" en cualquier producto, se accede a la sección de detalle del producto, donde se puede:
+- Visualizar todas las imágenes disponibles del producto, con opción para cambiar entre ellas.
+- Ver detalles como:
+ Marca 
+ Nombre 
+ Precio
+ Precio con descuento (si aplica)
+ Precio en cuotas
+ Opciones de color y talle
+ Agregar el producto al carrito de compras (en desarrollo).
+
+CARRITO
+
+El carrito de compras está en desarrollo.
+
+USUARIOS
+
+El sistema permite a los usuarios:
+1. Registrarse mediante un formulario que solicita:
+- Nombre de usuario
+- Contraseña
+- Nombre y apellido
+- Correo electrónico
+- Dirección de entrega
+- Teléfono
+- Fecha de nacimiento
+2. Iniciar sesión una vez creada la cuenta.
+3. Mi cuenta:
+- Permite ver y editar datos personales.
+- (Futuro): mostrará un historial de compras realizadas.
+
+MEJORAS EN DESARROLLO
+
+- Footer.
+- Sección carrito.
+- Sección contacto.
+- Corrección del buscador.
+
+ENGLISH
+
+This repository contains an e-commerce project developed using Python's Django library. Styles were implemented with CSS and JavaScript, resulting in a completely responsive design.
+
+The project is focused on a sportswear store but can be adapted to any type of product.
+
+PRODUCTS
+
+Products are managed through Django's admin panel. Each product includes the following features:
+- Name
+- Price
+- Discount: allows applying a percentage discount to the product and automatically calculates the final price using a - function.
+- Brand
+- Gender
+- Product type: clothing, footwear, or accessories.
+- Size: tailored to the type of product.
+- Color
+- Category
+- Status: products can have one of three statuses: "Sale," "Featured," or "New."
+- Creation date: indicates when the product was created.
+- Images: up to four images can be uploaded per product.
+
+Products are displayed as interactive cards that include:
+- A main image (changes when hovering over it).
+- Key details, including the price in 3 interest-free installments.
+- A "Buy" button that redirects to the product details section.
+
+HOME PAGE
+
+The home page includes:
+- New arrivals: displays the last 8 products marked as "New."
+- Brand carousel: shows images of all available brands.
+- 2024 Offers: displays the last 8 products marked as "Sale." Clicking "2024 Offers" leads to the "Sale" section.
+- Categories: displays images of the three main categories (clothing, footwear, and accessories). Each image redirects to its corresponding section.
+- New arrivals (repeat): again shows the last 8 products marked as "New."
+
+SECTIONS
+
+The site is organized into several sections:
+- Categories: clothing, footwear, and accessories.
+- Offers (Sale): displays products with applied discounts.
+
+In each section, users can:
+- Filter by gender.
+- Apply advanced filters (brand, color, size). Each filter shows the number of available products.
+- Sort products by price or name.
+
+In the "Sale" section, products display the original price, the applied discount, and the final price after the discount.
+The contact section is under development.
+
+PRODUCT SECTION
+
+Clicking "Buy" on any product redirects to the product detail section, where users can:
+
+- View all available images of the product, with the option to switch between them.
+- See details such as:
+ Brand 
+ Name 
+ Price
+ Discounted price (if applicable)
+ Installment price
+ Color and size options
+- Add the product to the shopping cart (under development).
+
+CART
+
+The shopping cart is under development.
+
+USERS
+
+The system allows users to:
+1. Register using a form that requires:
+- Username
+- Password
+- First and last name
+- Email
+- Delivery address
+- Phone number
+- Date of birth
+2. Log in after creating an account.
+3. My Account:
+- View and edit personal data.
+- (Future): display a purchase history.
+
+IMPROVEMENTS IN DEVELOPMENT
+
+- Footer.
+- Cart section.
+- Contact section.
+- Search bar improvements.
