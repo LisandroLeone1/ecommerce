@@ -1,9 +1,14 @@
 
 from django.shortcuts import render, get_object_or_404
-from .models import Producto, Marca, Color, TalleCalzado, TalleIndumentaria, Categoria
+from .models import Producto, Marca, Color, TalleCalzado, TalleIndumentaria, Categoria, TalleAccesorio
 from .utils import cuotas_sin_interes
 from django.db.models import Q
 from django.urls import reverse
+from rest_framework import viewsets
+from .serializers import (
+    TalleIndumentariaSerializer, TalleCalzadoSerializer, TalleAccesorioSerializer,
+    MarcaSerializer, CategoriaSerializer, ColorSerializer, ProductoSerializer
+)
 
 def Home(request):
     return render(request,"ecommerce/index.html")
@@ -415,6 +420,36 @@ def producto_detalle(request, producto_id):
     return render(request, 'ecommerce/producto.html', {'producto': producto, 'talles': talles, 'colores': colores, 'cuota': cuota})
 
 
+
+
+class TalleIndumentariaViewSet(viewsets.ModelViewSet):
+    queryset = TalleIndumentaria.objects.all()
+    serializer_class = TalleIndumentariaSerializer
+
+class TalleCalzadoViewSet(viewsets.ModelViewSet):
+    queryset = TalleCalzado.objects.all()
+    serializer_class = TalleCalzadoSerializer
+
+class TalleAccesorioViewSet(viewsets.ModelViewSet):
+    queryset = TalleAccesorio.objects.all()
+    serializer_class = TalleAccesorioSerializer
+
+class MarcaViewSet(viewsets.ModelViewSet):
+    queryset = Marca.objects.all()
+    serializer_class = MarcaSerializer
+
+class CategoriaViewSet(viewsets.ModelViewSet):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+
+class ColorViewSet(viewsets.ModelViewSet):
+    queryset = Color.objects.all()
+    serializer_class = ColorSerializer
+    
+class ProductoViewSet(viewsets.ModelViewSet):
+    queryset = Producto.objects.all()
+    serializer_class = ProductoSerializer
+    lookup_field = 'id' 
 
 
 """

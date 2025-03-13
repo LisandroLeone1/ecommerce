@@ -104,7 +104,9 @@
                             <p>Envio gratis</p>
                         </div>
                         <div class="card-footer">
-                            <button class="boton-compra" id="boton-compra"><a href="{% url 'ecommerce:producto_detalle' calzado.id %}">comprar</a></button>
+                            <button class="boton-compra">
+                                <a href="/producto/{{ calzado.id }}">comprar</a>
+                            </button>
                         </div>
                     </div>
                 </div>

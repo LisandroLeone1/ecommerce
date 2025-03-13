@@ -1,0 +1,256 @@
+
+.container__producto {
+    display: grid;
+    width: 80%;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    justify-content: center;
+    min-height: 100vh;
+    gap: 20px;
+    padding: 40px 0px 60px 0px;
+    margin: auto;
+    margin-bottom: 50px;
+    box-sizing: border-box;
+    position: relative; 
+}
+
+.producto__img {
+    display: flex;
+    gap: 20px;
+}
+
+.container__main-img {
+    width: 550px;
+    height: 500px;   
+}
+
+.thumbail__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 60px;
+    height: 500px;
+}
+
+.thumbail {
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    opacity: .7;
+    aspect-ratio: 16 / 9;
+    transition: .3s;
+}
+
+.thumbail:hover {
+    opacity: 1;
+}
+
+.active {
+    opacity: 1 !important; 
+    box-shadow: 0 5px 5px rgba(1, 23, 46, 0.6);
+}
+
+.main__img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 5px;
+    box-shadow: 0 5px 5px rgba(1, 23, 46, 0.6);
+}
+
+.producto__data {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.producto__data i {
+    font-size: 18px;
+}
+
+  /* separamos la marca y el descuento */
+.producto__sale {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.producto__data h4 {
+    font-weight: 400;
+    color: var(--color-principal);
+    font-size: 18px;
+    margin-bottom: 7px;
+    text-transform: uppercase;
+}
+
+.producto__data h3 {
+    font-size: 33px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.producto-precio {
+    color: var(--color-terciario);
+    font-size: 30px;
+    margin-top: 15px;
+    font-size: 700;
+    }
+
+/* le agregamos esta clase ademas de precio__descuento(definida en section cards)*/
+.producto-desc {
+    font-size: 20px;
+    margin-top: 15px;
+}
+
+.container__cuotas {
+    margin-top: 15px;
+}
+
+.cuotas {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgb(218, 13, 13);
+}
+
+.cuotas i {
+    margin-right: 5px;
+}
+
+.cuotas span {
+    font-weight: 400;
+    color: black;
+}
+
+.container__options {
+    margin-top: 20px; 
+    display: flex;
+    gap: 10px;
+}
+
+.form-group {
+    width: 100%;
+}
+    
+.container__options label {
+    display: block; 
+    margin-bottom: 5px;
+    font-size: 11px; 
+}
+
+.container__options select {
+    width: 100%;
+    padding: 10px; 
+    border: 1px solid #ccc;
+    border-radius: 5px; 
+    font-size:14px; 
+    background-color: #f9f9f9;
+}
+    
+.container__options option {
+    padding: 5px; 
+    background-color: #f9f9f9; 
+}
+
+.boton-carrito {
+    margin: auto;
+    margin-top: 20px;
+    padding: 8px;
+    border-radius: 15px;
+    border: none;
+    background-color: var(--color-principal);
+    color:beige;
+    font-size: 17px;
+    font-weight: bold;
+    width: 90%;
+    cursor: pointer;
+}
+    
+.envios__container {
+    display: flex;
+    gap: 5px;
+    margin-top: 25px;
+}
+    
+.envios__container h5 {
+    font-size: 13px;
+    margin-top: 0px;
+    font-weight: 600;
+}
+    
+.envios__container p {
+    font-size: 11px;
+}
+    
+.button-locales {
+    border: none;
+    font-size: 12px;
+    color: var(--color-terciario);
+    font-weight: 600;
+    cursor: pointer;
+}
+    
+.button-locales i {
+    font-size: 12px;
+}
+
+  /* ventana oculta que se muestra con javascript */
+.ventana-locales {
+    box-shadow: 0 0 5px rgba(1, 23, 46, 0.6);
+    padding: 10px;
+    font-size: 15px;
+    z-index: 10;
+    margin-right: 25px;
+    margin-top: 7px;
+    display: none;
+}
+    
+.ventana-locales p {
+    padding: 7px;
+    
+}
+    
+.ventana-locales p:first-child {
+    border-bottom: 1px solid rgba(1, 23, 46, 0.2);
+}
+    
+@media screen and (max-width:1050px) {
+    .container__producto {
+        width: 90%;
+    }
+    .producto__img {
+        flex-direction: column;
+    }
+    .thumbail__container {
+        flex-direction: row;
+        width: 400px;
+        height: auto;
+        gap: 20px;
+    }
+    .container__main-img {
+        width: 400px;
+        height: 400px;
+    }
+}
+    
+@media screen and (max-width:800px) {
+    .container__producto {
+        grid-template-columns: minmax(300px, 500px);
+        grid-template-rows: 1fr 1fr;
+    }
+    .producto__img {
+        flex-direction: column;
+    }
+    .thumbail__container {
+        flex-direction: row;
+        width: 420px;
+        height: auto;
+        gap: 40px;
+    }
+    .container__main-img {
+        width: 450px;
+        height: 450px;
+    }
+}
+    
+

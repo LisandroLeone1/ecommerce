@@ -1,9 +1,20 @@
-from django.urls import path
-from ecommerce.views import Home, index_list, indumentaria_view, calzados_view, producto_detalle, sale_view, accesorios_view
+from django.urls import path, include
+from ecommerce.views import Home, index_list, indumentaria_view, calzados_view, producto_detalle, sale_view, accesorios_view,     TalleIndumentariaViewSet, TalleCalzadoViewSet, TalleAccesorioViewSet, MarcaViewSet, CategoriaViewSet, ColorViewSet, ProductoViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'talles-indumentaria', TalleIndumentariaViewSet)
+router.register(r'talles-calzado', TalleCalzadoViewSet)
+router.register(r'talles-accesorios', TalleAccesorioViewSet)
+router.register(r'marcas', MarcaViewSet)
+router.register(r'categorias', CategoriaViewSet)
+router.register(r'colores', ColorViewSet)
+router.register(r'producto', ProductoViewSet)
 
 app_name = "ecommerce"
 urlpatterns = [
     path('',index_list,name="index"),
+    path('api/v1/', include(router.urls)),
     path('indumentaria/',indumentaria_view,name="lista_indumentaria"),
     path('indumentaria/<str:genero>/', indumentaria_view, name='indumentaria_por_genero'),
     path('calzados/',calzados_view,name="lista_calzados"),
