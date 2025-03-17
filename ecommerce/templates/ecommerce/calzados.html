@@ -105,7 +105,7 @@
                         </div>
                         <div class="card-footer">
                             <button class="boton-compra">
-                                <a href="/producto/{{ calzado.id }}">comprar</a>
+                                <a href="{% url 'ecommerce:producto_detalle' calzado.id %}">comprar</a>
                             </button>
                         </div>
                     </div>

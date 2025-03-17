@@ -2,100 +2,10 @@
 {% load static %}
 
 {% block content %}
-<div class="container__producto">
-    <div class="producto__img">
-        <div class="thumbail__container">
-            <img src="{{producto.imagen_principal.url}}" alt="" class="thumbail active">
-            {% if producto.imagen_secundaria_1 %}
-            <img src="{{ producto.imagen_secundaria_1.url }}" alt="" class="thumbail">
-        {% endif %}
-            {% if producto.imagen_secundaria_2 %}
-            <img src="{{ producto.imagen_secundaria_2.url }}" alt="" class="thumbail">
-        {% endif %}
-        {% if producto.imagen_secundaria_3 %}
-            <img src="{{ producto.imagen_secundaria_3.url }}" alt="" class="thumbail">
-        {% endif %}
-        
-        </div>
-        <div class="container__main-img">
-            <img src="{{producto.imagen_principal.url}}" alt="" class="main__img">
-        </div>
-    </div>
-    <div class="producto__data">
-            {% if producto.estado == 'sale' %}
-            <div class="producto__sale">
-                <h4>{{producto.marca}}</h4>
-                <div class="container__sale">
-                    <p>{{producto.descuento}}%</p>
-                    <p>OFF</p>
-                </div>
-            </div>
-            <h3>{{producto.nombre}}</h3>
-            <div class="container__descuento">
-                <h5 class="precio__descuento producto-desc">${{producto.precio}}</h5>
-                <h5 class="producto-precio"> ${{producto.precio_con_descuento}}</h5>
-            </div>
-            {% else %}
-            <h4>{{producto.marca}}</h4>
-            <h3>{{producto.nombre}}</h3>
-            <h5 class="producto-precio">${{producto.precio}}</h5>
-            {% endif %}
-            <div class="container__cuotas">
-                <p class="cuotas"><i class="bi bi-cash"></i> 3 cuotas de ${{cuota}}</p>
-                <p class="cuotas"><i class="bi bi-credit-card-2-back"></i>10% de descuento <span>pagando con deposito o transferencia</span></p>
-            </div>
-            <div class="container__options">
-                <div class="form-group">
-                    <label for="color">Color</label>
-                    <select name="color" id="color"> 
-                        {% for color in colores  %}
-                        <option value="{{color.nombre}}">{{color.nombre}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            
-                <div class="form-group">
-                    <label for="talle">Talle</label>
-                    <select name="talle" id="talle"> 
-                        {% for talle in talles  %}
-                        <option value="{{talle.nombre}}">{{talle.nombre}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>    
-            <form action="{% url 'carro:agregar' producto.id %}" method="post">
-                {% csrf_token %}
-                <button type="submit" class="boton-carrito">Agregar al carrito</button>
-            </form>
-            
-            {% if mensaje %}
-                <div class="alert alert-success">{{ mensaje }}</div>
-            {% endif %}
-            <div class="envios__container">
-                <i class="bi bi-house-up"></i>
-                <div>
-                    <h5>Retiro gratis por nuestro locales</h5>
-                    <button class="button-locales"><span class="texto-boton">Ver opciones</span> <i class="bi bi-chevron-down"></i></button>
-                    <div class="ventana-locales" id="ventana-locales" style="display: none;">
-                        <p>Retiro en Local Junin  - Junin 5643 Horario de atención: Lunes a Viernes de 8.30 a 12.30 y 16.30 a 20.30 hs // Sábados de 9 a 13 y 16:30 A 20:30 hs</p>
-                        <p>Retiro en Local Avenida General Paz - Avenida General Paz 660 Horario de atención: Lunes a Sábados de 9 a 13 y 16.00 a 20.00hs</p>
-                    </div>
-                </div>
-            </div>
-            <div class="envios__container">
-                <i class="bi bi-box-seam"></i>
-                <div>
-                    <h5>Envios Gratis</h5>
-                    <p>Las compras superiores a $ 99..999 tienen ENVIO GRATIS. Si no llegas a ese monto para acceder al beneficio, podés agregar otro producto al carrito o retirar por Nuestros Locales</p>
-                </div>
-            </div>
-            <div class="envios__container">
-                <i class="bi bi-box-seam"></i>
-                <div>
-                    <h5>Envios</h5>
-                    <p>Envios por Correo Andrean</p>
-                </div>
-            </div>
-    </div>
-</div>
+<div id="root"></div>
+<script>
+    window.PRODUCTO_ID = "{{ producto.id }}"; 
+</script>
+<script src="{% static 'ecommerce/assets/index-D1V-Zr9Q.js' %}"></script>
+
 {% endblock content %}

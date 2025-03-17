@@ -24,6 +24,11 @@
     height: 500px;   
 }
 
+.container__main-img h1 {
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
 .thumbail__container {
     display: flex;
     flex-direction: column;
@@ -45,8 +50,8 @@
     opacity: 1;
 }
 
-.active {
-    opacity: 1 !important; 
+.thumbail.active {
+    opacity: 1; 
     box-shadow: 0 5px 5px rgba(1, 23, 46, 0.6);
 }
 
@@ -78,7 +83,7 @@
 
 .producto__data h4 {
     font-weight: 400;
-    color: var(--color-principal);
+    color: rgb(51, 52, 53);
     font-size: 18px;
     margin-bottom: 7px;
     text-transform: uppercase;
@@ -91,7 +96,7 @@
 }
 
 .producto-precio {
-    color: var(--color-terciario);
+    color: rgb(188, 191, 197);
     font-size: 30px;
     margin-top: 15px;
     font-size: 700;
@@ -151,21 +156,21 @@
     padding: 5px; 
     background-color: #f9f9f9; 
 }
-
+/*
 .boton-carrito {
     margin: auto;
     margin-top: 20px;
     padding: 8px;
     border-radius: 15px;
     border: none;
-    background-color: var(--color-principal);
+    background-color: rgb(51, 52, 53);
     color:beige;
     font-size: 17px;
     font-weight: bold;
     width: 90%;
     cursor: pointer;
 }
-    
+*/   
 .envios__container {
     display: flex;
     gap: 5px;
@@ -185,7 +190,7 @@
 .button-locales {
     border: none;
     font-size: 12px;
-    color: var(--color-terciario);
+    color: rgb(188, 191, 197);
     font-weight: 600;
     cursor: pointer;
 }
@@ -203,6 +208,10 @@
     margin-right: 25px;
     margin-top: 7px;
     display: none;
+}
+
+.ventana-locales.visible {
+    display: block; 
 }
     
 .ventana-locales p {
@@ -249,7 +258,7 @@
     }
     .container__main-img {
         width: 450px;
-        height: 450px;
+        height: auto;
     }
 }
     

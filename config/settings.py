@@ -78,8 +78,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5175",  # URL del frontend en Vite
+    "http://localhost:5176",  # URL del frontend en Vite
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
