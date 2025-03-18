@@ -1,4 +1,4 @@
-class Carro:
+"""class Carro:
     def __init__(self, request):
         self.request = request
         self.session = request.session
@@ -47,4 +47,4 @@ class Carro:
 
     def limpar_carro(self):
         self.session["carro"] = {}
-        self.session.modified = True
+        self.session.modified = True"""

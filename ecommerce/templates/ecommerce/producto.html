@@ -6,6 +6,10 @@
 <script>
     window.PRODUCTO_ID = "{{ producto.id }}"; 
 </script>
-<script src="{% static 'ecommerce/assets/index-D1V-Zr9Q.js' %}"></script>
+<script src="{% static 'ecommerce/assets/index-C4G5TYeK.js' %}"></script>
+<form action="{% url 'carro:agregar_a_carro' producto.id %}" method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Agregar al Carrito</button>
+</form>
 
 {% endblock content %}

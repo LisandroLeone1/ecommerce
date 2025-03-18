@@ -2,28 +2,35 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import './ProductoDetail.css';
 import Contador from './componentes/Contador.jsx';
+import axios from "axios";
+
+const api = axios.create({
+    baseURL: "http://127.0.0.1:8000/api/v1/", // ✅ Se pasa dentro de un objeto
+    headers: {
+        "Content-Type": "application/json",
+    },
+});
 
 const ProductDetail = () => {
     const { id } = useParams();
     const [producto, setProducto] = useState(null);
+    const [error, setError] = useState(null);
     const [imagenActual, setImagenActual] = useState(null);
     const [VentanaVisible, setVentanaVisible] = useState(false);
 
+
     useEffect(() => {
-        fetch(`http://127.0.0.1:8000/api/v1/producto/${id}/`)
-        .then((response) => {
-        if (!response.ok) {
-            throw new Error("Error al obtener el producto");
-        }
-        return response.json();
-        })
-        .then((data) => {
-            setProducto(data);
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
-    }, [id]);
+        const fetchProducto = async () => {
+            try {
+                const response = await api.get(`/producto/${id}/`);
+                setProducto(response.data);
+            } catch (error) {
+                setError('error al obetener el producto');
+                console.error("Error", error);
+            }
+        };
+        fetchProducto()
+    },[id]);
 
     useEffect(() => {
         if (producto) {
@@ -34,6 +41,7 @@ const ProductDetail = () => {
     if (!producto) {
         return <p>Cargando...</p>;
     }
+    if (error) return <p>{error}</p>;
 
     const talles = [
         ...producto.talles_indumentaria,
@@ -169,3 +177,21 @@ return (<div>
 };
 
 export default ProductDetail;
+
+
+
+    {/*useEffect(() => {
+        fetch(`http://127.0.0.1:8000/api/v1/producto/${id}/`)
+        .then((response) => {
+        if (!response.ok) {
+            throw new Error("Error al obtener el producto");
+        }
+        return response.json();
+        })
+        .then((data) => {
+            setProducto(data);
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+    }, [id]);*/}

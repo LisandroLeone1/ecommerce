@@ -5,14 +5,19 @@
 
 
 <div class="carro__grid">
-    {% for key, item in carro.items %}
+    {% for item in carro %}
         <div class="carro__item">
-            <img src="{{ item.imagen }}" alt="{{ item.nombre }}">
+            <img src="{{ item.producto.imagen_principal.url }}" alt="{{ item.producto.imagen_principal }}"></img>
             <div class="carro__data">
-                <h3>{{ item.nombre }}</h3>
+                <h3>{{ item.producto.nombre }}</h3>
+                <form action="{% url 'carro:actualizar_carro' item.producto.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="number" name="cantidad" value="{{ item.cantidad }}" min="1">
+                    <button type="submit">Actualizar</button>
+                </form>
                 <p>Cantidad: {{ item.cantidad }}</p>
-                <h4>Precio: ${{ item.precio|floatformat:2 }}</h4>
-                <button class="eliminar" data-id="{{ key }}">Eliminar</button>
+                <p>Precio: ${{ item.producto.precio }}</p>
+                <a href="{% url 'carro:eliminar_del_carro' item.producto.id %}">Eliminar</a>
             </div>
         </div>
     {% empty %}
@@ -23,7 +28,7 @@
 <div class="container-precio">
     <div class="total">
         <p>Total:</p>
-        <p id="total-precio">$0.00</p> <!-- Actualiza esto con JavaScript si es necesario -->
+        <p id="total-precio">${{total}}</p> <!-- Actualiza esto con JavaScript si es necesario -->
     </div>
     <div class="comprar">
         <button>Comprar</button>
