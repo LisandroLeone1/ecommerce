@@ -63,6 +63,7 @@ class Producto(models.Model):
     precio = models.IntegerField()
     descuento = models.IntegerField(default=0)
     marca = models.ForeignKey('Marca', on_delete=models.CASCADE)
+    descripcion = models.TextField(null=True, blank=True)
     stock = models.PositiveIntegerField(default=0)
     genero = models.CharField(max_length=20, choices=GENERO_CHOICES)
     tipo_producto = models.CharField(max_length=20, choices=TIPO_PRODUCTO_CHOICES, default='indumentaria')

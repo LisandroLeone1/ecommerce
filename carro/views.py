@@ -7,10 +7,12 @@ from django.contrib.auth.decorators import login_required
 def agregar_a_carro(request, producto_id):
     producto = Producto.objects.get(id=producto_id)
     cantidad = int(request.POST.get('cantidad', 1))
+    color = request.POST.get('color', '')
+    talle = request.POST.get('talle', '')
 
     if producto.stock >=cantidad:
         carro, _ = Carro.objects.get_or_create(user=request.user)
-        carro_item, created = CarroItem.objects.get_or_create(carro=carro, producto=producto)
+        carro_item, created = CarroItem.objects.get_or_create(carro=carro, producto=producto, talle=talle, color=color)
         if not created:
             carro_item.cantidad += cantidad
         else:
@@ -39,8 +41,10 @@ def ver_carro(request):
 def eliminar_del_carro(request, producto_id):
     producto = Producto.objects.get(id=producto_id)
     carro = get_object_or_404(Carro, user=request.user)
+    color = request.GET.get('color', '')
+    talle = request.GET.get('talle', '')
     try:
-        item = CarroItem.objects.get(carro=carro, producto__id=producto_id)
+        item = CarroItem.objects.get(carro=carro, producto__id=producto_id, color=color, talle=talle)
         producto.sumar_stock(item.cantidad)
         item.delete()
     except CarroItem.DoesNotExist:

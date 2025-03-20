@@ -21,6 +21,8 @@ class CarroItem(models.Model):
     carro = models.ForeignKey(Carro, on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField(default=1)
+    color = models.CharField(max_length=50, blank=True, null=True)  # Nuevo campo
+    talle = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
         return f"{self.cantidad}x {self.producto.nombre} en el carrito de {self.carro.user.username}"

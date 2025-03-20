@@ -20,19 +20,29 @@
                     <div class="carro__data">
                         <div class="sub-carro__data">
                             <div class="data">
-                                <h4>{{ item.producto.marca }}</h4>
                                 <h3>{{ item.producto.nombre }}</h3>
-                                <h5>{{ item.producto.colores.nombre }}</h5>
-                                <div>
-                                    <a href="{% url 'carro:eliminar_del_carro' item.producto.id %}">Eliminar</a>
+                                <h4>{{ item.producto.marca }}</h4>
+                                <h5 class="carro-stock">Color: {{ item.color }}</h5>
+                                <h5 class="carro-stock">Talle: {{ item.talle }}</h5>
+                                
+                                <div style="margin-top: 5px;">
+                                    <a href="{% url 'carro:eliminar_del_carro' item.producto.id %}?color={{ item.color }}&talle={{ item.talle }}">Eliminar</a>
                                     <a href="{% url 'ecommerce:producto_detalle' item.producto.id %}">modificar</a>
                                 </div>
                             </div>
-                            <form action="{% url 'carro:actualizar_carro' item.producto.id %}" method="POST">
-                                {% csrf_token %}
-                                <input class="input-carro" type="number" name="cantidad" value="{{ item.cantidad }}" min="1">
-                                <button type="submit" class="cantidad-boton">Actualizar</button>
-                            </form>
+                            <div>
+                                <form action="{% url 'carro:actualizar_carro' item.producto.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <input class="input-carro" type="number" name="cantidad" value="{{ item.cantidad }}" min="1">
+                                    <button type="submit" class="cantidad-boton">Actualizar</button>
+                                </form>
+                                {% if item.producto.stock > 5 %}
+                                    <span class="carro-stock">+ 5 disponibles</span>
+                                {% else %}
+                                    <span class="carro-stock">{{item.producto.stock}} disponibles</span>
+                                {% endif %}
+                            </div>
+
                             <div class="sub-carro__data">
                                 <p>${{ item.total_producto }}</p>
                             </div>
@@ -45,7 +55,7 @@
                         <h5>Envio</h5>
                         <h4>Gratis</h4>
                     </div>
-                    <a href="{% url 'ecommerce:index' %}">Ver mas productos</a>
+                    <a href="{% url 'ecommerce:index' %}">Ver mas productos<i class="bi bi-chevron-right"></i></a>
                 </div>
     
             </div>
@@ -59,7 +69,7 @@
                         <p>Para obtener envío gratis sumá productos de un mismo vendedor.</p>
                     </div>
                 </div>
-                <a href="{% url 'ecommerce:lista_sale'%}">Descubri productos</a>
+                <a href="{% url 'ecommerce:lista_sale'%}">Descubri productos<i class="bi bi-chevron-right"></i></a>
             </div>
             
         {% endfor %}
