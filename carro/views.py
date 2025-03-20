@@ -1,49 +1,75 @@
-from django.shortcuts import render, redirect
-from .models import Carro
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from .models import Carro, CarroItem
 from ecommerce.models import Producto
 from django.contrib.auth.decorators import login_required
 
-# Agregar producto al carrito
 @login_required
 def agregar_a_carro(request, producto_id):
     producto = Producto.objects.get(id=producto_id)
-    carro, created = Carro.objects.get_or_create(user=request.user, producto=producto)
+    cantidad = int(request.POST.get('cantidad', 1))
 
-    if not created:
-        carro.cantidad += 1
-        carro.save()
+    if producto.stock >=cantidad:
+        carro, _ = Carro.objects.get_or_create(user=request.user)
+        carro_item, created = CarroItem.objects.get_or_create(carro=carro, producto=producto)
+        if not created:
+            carro_item.cantidad += cantidad
+        else:
+            carro_item.cantidad = cantidad
+        
+        carro_item.save()
 
-    return redirect('carro:carro')
+        producto.restar_stock(cantidad)
 
-# Ver carrito de compras
+        return redirect('carro:carro')
+    
+    else:
+        return HttpResponse("No hay suficiente stock para esta cantidad.", status=400)
+
 @login_required
 def ver_carro(request):
-    carro = Carro.objects.filter(user=request.user)
-    total = sum(item.producto.precio * item.cantidad for item in carro)
-    return render(request, 'carro/carro.html', {'carro': carro, 'total': total})
+    carro, _ = Carro.objects.get_or_create(user=request.user)  # Asegura que haya un carrito
+    items = CarroItem.objects.filter(carro=carro)
+    total = sum(item.producto.precio * item.cantidad for item in items)
+    cantidad_total_productos = sum(item.cantidad for item in items)
+
+    return render(request, 'carro/carro.html', {'carro': items, 'total': total, 'cantidad_total_productos': cantidad_total_productos})
 
 # Eliminar producto del carrito
 @login_required
 def eliminar_del_carro(request, producto_id):
+    producto = Producto.objects.get(id=producto_id)
+    carro = get_object_or_404(Carro, user=request.user)
     try:
-        carro = Carro.objects.get(user=request.user, producto__id=producto_id)
-        carro.delete()
-    except Carro.DoesNotExist:
-        pass
+        item = CarroItem.objects.get(carro=carro, producto__id=producto_id)
+        producto.sumar_stock(item.cantidad)
+        item.delete()
+    except CarroItem.DoesNotExist:
+        pass  # Si el producto no existe en el carrito, no hacer nada
+
     return redirect('carro:carro')
 
 # Actualizar cantidad de producto
 @login_required
 def actualizar_carro(request, producto_id):
+    producto = Producto.objects.get(id=producto_id)
+    carro = get_object_or_404(Carro, user=request.user)
     nuevo_cantidad = request.POST.get('cantidad')
-    carro = Carro.objects.get(user=request.user, producto__id=producto_id)
+
     if nuevo_cantidad.isdigit() and int(nuevo_cantidad) > 0:
-        carro.cantidad = int(nuevo_cantidad)
-        carro.save()
+        item = get_object_or_404(CarroItem, carro=carro, producto__id=producto_id)
+        cantidad_anterior = item.cantidad
+        cantidad_nueva = int(nuevo_cantidad)
+
+        if producto.stock + cantidad_anterior >= cantidad_nueva:
+            item.cantidad = cantidad_nueva
+            item.save()
+
+            diferencia_cantidad = cantidad_nueva - cantidad_anterior
+            producto.restar_stock(diferencia_cantidad)
+        else:
+            return HttpResponse("No hay suficiente stock para esta cantidad.", status=400)
+
     return redirect('carro:carro')
-
-
-
 
 
 

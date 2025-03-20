@@ -63,6 +63,7 @@ class Producto(models.Model):
     precio = models.IntegerField()
     descuento = models.IntegerField(default=0)
     marca = models.ForeignKey('Marca', on_delete=models.CASCADE)
+    stock = models.PositiveIntegerField(default=0)
     genero = models.CharField(max_length=20, choices=GENERO_CHOICES)
     tipo_producto = models.CharField(max_length=20, choices=TIPO_PRODUCTO_CHOICES, default='indumentaria')
     talles_indumentaria = models.ManyToManyField(TalleIndumentaria, blank=True, null=True)
@@ -82,5 +83,16 @@ class Producto(models.Model):
             return int(self.precio * (1 - self.descuento / 100))
         return self.precio  # Retorna el precio original si no hay descuento
 
+    def restar_stock(self, cantidad):
+        if self.stock >= cantidad:
+            self.stock -= cantidad
+            self.save()
+        else:
+            raise ValueError("No hay suficiente stock disponible")
+    
+    def sumar_stock(self, cantidad):
+        self.stock = self.stock + cantidad
+        self.save()
+    
     def __str__(self):
         return self.nombre

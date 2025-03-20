@@ -329,7 +329,7 @@ body, header, nav, h1, div, ul, li, main, h1, h2, h3, h4, h5, h6, p, section {
 
 .intro__container {
     background-color: var(--color-secundario);
-    margin: 20px 0px;
+    margin: 10px 0px;
 }
 
 .rutas__container {
@@ -1239,38 +1239,86 @@ input[type="checkbox"]:checked::after {
 /* CARRO DE COMPRAS */
 
 .carro__grid {
-    width: 100%;
+    width: 90%;
     margin: auto;
     display: grid;
-    grid-template-columns: minmax(300px, 500px);
-    align-items: center;
-    justify-content: center;
-    background-color: #f8f8f8;
-    gap: 20px;
-    border: 1px solid red;
+    grid-template-columns: minmax(500px, 800px) 350px;
+    background-color: var(--color-secundario);
+    gap: 50px;
+    padding: 20px 0px;
 }
 
 .carro__item{
-    border-bottom: 1px solid black;
+    border: 1px solid #a8a5a5;
+    width: 95%;
+    background-color: white;
+    padding: 5px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.grid-item-product {
     display: flex;
-    width: 100%;
+    border-bottom: 1px solid #a8a5a5;
+    padding: 0px 10px;
+    gap: 20px;
 }
 
 .carro__img {
-    width: 100px;
-    height: 100px;
+    width: 130px;
+    height: 130px;
 }
 .carro__data {
-    width: 100%;
-    
+    width: 100%; 
+    font-weight: bold;
 }
 
 .sub-carro__data {
+    height: 100%;
     display: flex;
-    width: 90%;
-    margin: auto;
     justify-content: space-between;
-    margin-bottom: 10px;
+    align-items: center;
+}
+
+.sub-carro__data p {
+    font-size: 19px;
+    font-weight: 500;
+}
+
+.data h4 {
+    font-size: 13px;
+}
+
+.data h3 {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.data a {
+    font-size: 12px;
+    font-weight: 700;
+    color: rgb(57, 57, 180);
+    text-decoration: none;
+    margin-right: 10px;
+    
+}
+
+.input-carro {
+    width: 30px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9; 
+}
+
+.cantidad-boton {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9; 
+    font-size: 13px;
+    font-weight: 300;
+    cursor: pointer;
 }
 
 .carro__boton {
@@ -1301,12 +1349,120 @@ input[type="checkbox"]:checked::after {
 }
 .comprar button {
     border-radius: 10px;
-    padding: 5px;
+    padding: 10px;
+    font-size: 17px;
+    background-color:rgb(57, 57, 180);
+    color: white;
+    font-weight: 700;
+    border: none;
+    text-decoration: none;
 }
-.comprar a {
-    margin: auto;
-    margin-top: 10px;
+
+
+.grid-item-envio {
+    padding: 10px;
 }
+
+.grid-item-envio a {
+    font-size: 14px;
+    font-weight: 600;
+    color:rgb(57, 57, 180);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.grid-item-envio-sub {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.grid-item-envio-sub h4 {
+    color: rgb(64, 163, 64);
+}
+
+.grid-item-envio-sub h5 {
+    font-weight: 500;
+    font-size: 15px;
+}
+
+
+.container-totalcompra {
+    background-color: #fff;
+    border: 1px solid #a8a5a5;
+    padding: 10px;
+    height: 250px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.container-totalcompra-tittle {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #a8a5a5;
+}
+
+.container-totalcompra-precios {
+    height: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.container-totalcompra-flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.container-totalcompra-flex p {
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.container-totalcompra-flex a {
+    font-size: 13px;
+    color: rgb(57, 57, 180);
+}
+
+.empty {
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-secundario);
+    border: none;
+    gap: 30px;
+}
+.empty a {
+    font-size: 15px;
+    color: rgb(57, 57, 180);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.emptycarro {
+    display: flex;
+    gap: 20px;
+}
+
+.emptycarro i {
+    font-size: 50px;
+}
+
+.emptycarro h3 {
+    font-size: 17px;
+}
+
+.emptycarro p {
+    font-size: 14px;
+}
+
+
+
 
 /* CARRUSEL IMAGENES DEL TEMPLATE INDEX */
 
@@ -1460,16 +1616,11 @@ input[type="checkbox"]:checked::after {
 }
 
 
-
-
-
-
-
 /* login.css */
 
 .login-tittle {
     display: block;
-    margin-top: 35px;
+    margin-top: 15px;
 }
 
 .login-tittle h3 {
