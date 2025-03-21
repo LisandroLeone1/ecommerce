@@ -2,33 +2,114 @@
 {% load static %}
 
 {% block content %}
+<div class="main__container">
+    <div class="intro__container">
+        <div class="container__categoria login-tittle">
+            <h3>Carro De Compras</h3>
+        </div>
+    </div>
 
+    <div class="carro__grid">
+        <div class="product-cards">
+        {% for item in carro %}
+            <div class="carro__item">
+                <div class="grid-item-product">
+                    <div>
+                        <img class="carro__img" src="{{ item.producto.imagen_principal.url }}" alt="{{ item.producto.nombre }}">
+                    </div>
+                    <div class="carro__data">
+                        <div class="sub-carro__data">
+                            <div class="data">
+                                <h3>{{ item.producto.nombre }}</h3>
+                                <h4>{{ item.producto.marca }}</h4>
+                                <h5 class="carro-stock">Color: {{ item.color }}</h5>
+                                <h5 class="carro-stock">Talle: {{ item.talle }}</h5>
+                                
+                                <div style="margin-top: 5px;">
+                                    <a href="{% url 'carro:eliminar_del_carro' item.producto.id %}?color={{ item.color }}&talle={{ item.talle }}">Eliminar</a>
+                                    <a href="{% url 'ecommerce:producto_detalle' item.producto.id %}">modificar</a>
+                                </div>
+                            </div>
+                            <div>
+                                <form action="{% url 'carro:actualizar_carro' item.producto.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <input class="input-carro" type="number" name="cantidad" value="{{ item.cantidad }}" min="1">
+                                    <button type="submit" class="cantidad-boton">Actualizar</button>
+                                </form>
+                                {% if item.producto.stock > 5 %}
+                                    <span class="carro-stock">+ 5 disponibles</span>
+                                {% else %}
+                                    <span class="carro-stock">{{item.producto.stock}} disponibles</span>
+                                {% endif %}
+                            </div>
 
-<div class="carro__grid">
-    {% for key, item in carro.items %}
-        <div class="carro__item">
-            <img src="{{ item.imagen }}" alt="{{ item.nombre }}">
-            <div class="carro__data">
-                <h3>{{ item.nombre }}</h3>
-                <p>Cantidad: {{ item.cantidad }}</p>
-                <h4>Precio: ${{ item.precio|floatformat:2 }}</h4>
-                <button class="eliminar" data-id="{{ key }}">Eliminar</button>
+                            <div class="">
+                                {% if item.producto.estado == 'sale' %}
+                                <div class="sub-carro__data-descuento">
+                                    <span>-{{item.producto.descuento}}%</span>
+                                    <h5>${{ item.total_producto }}</h5>
+                                </div>
+                                <p>${{ item.precio_unitario_con_descuento }}</p>
+                                {% else %}
+                                <p class="">${{ item.total_producto }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+                <div class="grid-item-envio">
+                    <div class="grid-item-envio-sub">
+                        <h5>Envio</h5>
+                        <h4>Gratis</h4>
+                    </div>
+                    <a href="{% url 'ecommerce:index' %}">Ver mas productos<i class="bi bi-chevron-right"></i></a>
+                </div>
+    
+            </div>
+    
+        {% empty %}
+            <div class="carro__item empty">
+                <div class="emptycarro">
+                    <i class="bi bi-cart4"></i>
+                    <div>
+                        <h3>Agregá productos y conseguí envío gratis</h3>
+                        <p>Para obtener envío gratis sumá productos de un mismo vendedor.</p>
+                    </div>
+                </div>
+                <a href="{% url 'ecommerce:lista_sale'%}">Descubri productos<i class="bi bi-chevron-right"></i></a>
+            </div>
+            
+        {% endfor %}
+        </div>
+        <div class="container-totalcompra">
+            <div class="container-totalcompra-tittle">
+                <h3>Resumen de compra</h3>
+            </div>
+            <div class="container-totalcompra-precios">
+                <div class="container-totalcompra-flex">
+                    <p>Productos ({{ cantidad_total_productos }})</p>
+                    <p>${{ total }}</p>
+                </div>
+                <div class="container-totalcompra-flex">
+                    <p>Envios ({{carro|length}})</p>
+                    <p style="color: rgb(64, 163, 64); font-weight: 600;">Gratis</p>
+                </div>
+                <div class="container-totalcompra-flex">
+                    <a href="{% url 'ecommerce:index' %}">Seguir comprando</a>
+                </div>
+                <div class="container-totalcompra-flex">
+                    <h3>Total</h3>
+                    <h3>${{ total }}</h3>
+                </div>
+            </div>
+            <div class="comprar">
+                <button>Comprar</button>
             </div>
         </div>
-    {% empty %}
-        <p>No hay productos en el carrito.</p>
-    {% endfor %}
-</div>
+    </div>
+    
 
-<div class="container-precio">
-    <div class="total">
-        <p>Total:</p>
-        <p id="total-precio">$0.00</p> <!-- Actualiza esto con JavaScript si es necesario -->
-    </div>
-    <div class="comprar">
-        <button>Comprar</button>
-        <a href="">Ver más productos</a>
-    </div>
 </div>
 
 

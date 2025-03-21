@@ -59,11 +59,43 @@ Al hacer clic en "Comprar" en cualquier producto, se accede a la sección de det
  Precio con descuento (si aplica)
  Precio en cuotas
  Opciones de color y talle
- Agregar el producto al carrito de compras (en desarrollo).
+ Cantidad de productos a agregar
+ Agregar el producto al carrito de compras.
 
-CARRITO
+CARRO DE COMPRAS
 
-El carrito de compras está en desarrollo.
+El carrito de compras permite a los usuarios agregar productos y gestionar sus compras.
+
+- Características del Carrito:
+
+ Cada usuario tiene un carrito asociado a su cuenta.
+ El usuario debe crearse una cuenta para poder acceder al carro de compras.
+ Los productos en el carrito incluyen cantidad, talle y color seleccionados.
+ Los precios se actualizan automáticamente en función de la cantidad y los descuentos aplicados.
+ Se muestra el total de la compra en tiempo real.
+
+- Funcionamiento
+
+1. Agregar Productos:
+    Los usuarios pueden agregar productos desde la página de detalles del producto.
+    Si el producto ya está en el carrito, se incrementa la cantidad en lugar de duplicarlo.
+
+2. Visualización del Carrito:
+    Se presentan los productos en tarjetas interactivas que incluyen:
+    - Imagen del producto.
+    - Nombre, marca, color y talle del producto elegido.
+    - Precio unitario y precio con descuento si aplica.
+    - Cantidad seleccionada con opción de modificarla.
+    - Precio total del producto en función de la cantidad.
+
+3. Cálculo del Precio:
+    Si el producto está en oferta (estado == 'sale'), se aplica el descuento correspondiente.
+    Se muestra el precio original tachado y el nuevo precio con descuento.
+    El total del carrito refleja el precio real de los productos seleccionados.
+
+4. Eliminar o Modificar Productos:
+    Se pueden eliminar productos individualmente.
+    La cantidad de cada producto se puede modificar y el total se actualiza dinámicamente.
 
 USUARIOS
 
@@ -83,8 +115,8 @@ El sistema permite a los usuarios:
 
 MEJORAS EN DESARROLLO
 
+- Implementacion de un frontend desarrollado con React.
 - Footer.
-- Sección carrito.
 - Sección contacto.
 - Corrección del buscador.
 

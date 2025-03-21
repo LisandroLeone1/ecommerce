@@ -1,3 +1,4 @@
+/*
 document.addEventListener("DOMContentLoaded", function() {
     const botonesAgregar = document.querySelectorAll(".boton-carrito");
 
@@ -74,5 +75,5 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-
+*/
 

@@ -1,9 +1,11 @@
 
-from django.shortcuts import render, get_object_or_404
-from .models import Producto, Marca, Color, TalleCalzado, TalleIndumentaria, Categoria
+from django.shortcuts import render
+from .models import Producto, Marca, Color, TalleCalzado, TalleIndumentaria, Categoria, TalleAccesorio
 from .utils import cuotas_sin_interes
 from django.db.models import Q
 from django.urls import reverse
+
+
 
 def Home(request):
     return render(request,"ecommerce/index.html")
@@ -410,9 +412,11 @@ def producto_detalle(request, producto_id):
     else:
         talles = [] 
     
-    cuota = cuotas_sin_interes(producto.precio, 3)
+    cuota = cuotas_sin_interes(producto.precio_con_descuento(), 3)
 
     return render(request, 'ecommerce/producto.html', {'producto': producto, 'talles': talles, 'colores': colores, 'cuota': cuota})
+
+
 
 
 

@@ -5,7 +5,7 @@
 <div class="container__producto">
     <div class="producto__img">
         <div class="thumbail__container">
-            <img src="{{producto.imagen_principal.url}}" alt="" class="thumbail active">
+            <img src="{{producto.imagen_principal.url}}" alt="" class="active thumbail">
             {% if producto.imagen_secundaria_1 %}
             <img src="{{ producto.imagen_secundaria_1.url }}" alt="" class="thumbail">
         {% endif %}
@@ -19,8 +19,20 @@
         </div>
         <div class="container__main-img">
             <img src="{{producto.imagen_principal.url}}" alt="" class="main__img">
+            <div class="container__description">
+                <h2>{{producto.nombre}}</h2>
+                <p>{{producto.descripcion}}</p>
+                <div>
+                    <ul class="profile__social-media">
+                        <li class="social-media"><a class="social-media-icons" href="https://www.linkedin.com/in/leone-lisandro/" title="Ir a Linkedin"><i class="bi bi-facebook"></i></a> </li>
+                        <li class="social-media"><a class="social-media-icons" href="https://wa.me/+5493416721105" title="Compartir por Whatsapp"><i class="bi bi-whatsapp"></i></a></li>
+                        <li class="social-media"><a class="social-media-icons" href="https://www.instagram.com/lisandro.leone/" title="Compartir en instagram"><i class="bi bi-instagram"></i></a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
+    
     <div class="producto__data">
             {% if producto.estado == 'sale' %}
             <div class="producto__sale">
@@ -35,6 +47,15 @@
                 <h5 class="precio__descuento producto-desc">${{producto.precio}}</h5>
                 <h5 class="producto-precio"> ${{producto.precio_con_descuento}}</h5>
             </div>
+            {% elif producto.estado == 'novedades'%}
+            <div class="producto__sale">
+                <h4>{{producto.marca}}</h4>
+                <div class="container__new product">
+                    <p>Nuevo</p>
+                </div>
+            </div>
+            <h3>{{producto.nombre}}</h3>
+            <h5 class="producto-precio">${{producto.precio}}</h5>
             {% else %}
             <h4>{{producto.marca}}</h4>
             <h3>{{producto.nombre}}</h3>
@@ -42,32 +63,53 @@
             {% endif %}
             <div class="container__cuotas">
                 <p class="cuotas"><i class="bi bi-cash"></i> 3 cuotas de ${{cuota}}</p>
-                <p class="cuotas"><i class="bi bi-credit-card-2-back"></i>10% de descuento <span>pagando con deposito o transferencia</span></p>
+                <div>
+                    <p class="cuotas"><i class="bi bi-credit-card-2-back"></i>10% de descuento </p>
+                    <span>Pagando con deposito o transferencia</span>
+                </div>
+                
+                <div>
+                    <p class="cuotas"> Devolucion gratis</p>
+                    <span>Tenes 30 dias desde que lo recibis</span>
+                </div>
+                
             </div>
-            <div class="container__options">
-                <div class="form-group">
-                    <label for="color">Color</label>
-                    <select name="color" id="color"> 
-                        {% for color in colores  %}
-                        <option value="{{color.nombre}}">{{color.nombre}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            
-                <div class="form-group">
-                    <label for="talle">Talle</label>
-                    <select name="talle" id="talle"> 
-                        {% for talle in talles  %}
-                        <option value="{{talle.nombre}}">{{talle.nombre}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>    
-            <form action="{% url 'carro:agregar' producto.id %}" method="post">
+            <form action="{% url 'carro:agregar_a_carro' producto.id %}" method="POST">
                 {% csrf_token %}
-                <button type="submit" class="boton-carrito">Agregar al carrito</button>
+                
+                <div class="container__options">
+                    <div class="form-group">
+                        <label for="color">Color</label>
+                        <select name="color" id="color"> 
+                            {% for color in colores  %}
+                            <option value="{{color.nombre}}">{{color.nombre}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="talle">Talle</label>
+                        <select name="talle" id="talle"> 
+                            {% for talle in talles  %}
+                            <option value="{{talle.nombre}}">{{talle.nombre}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>    
+                {% if producto.stock > 5 %}
+                <p class="stock">+ 5 disponibles</p>
+                {% else %}
+                <p class="stock">{{producto.stock}} disponibles</p>
+                {% endif %}
+                <div class="container__buy">
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad</label>
+                        <input type="number" name="cantidad" id="cantidad" min="1" value="1">
+                    </div>
+                    <button type="submit" class="boton-carrito">Agregar al carrito</button>
+                </div>
+                                
             </form>
-            
             {% if mensaje %}
                 <div class="alert alert-success">{{ mensaje }}</div>
             {% endif %}
@@ -97,5 +139,10 @@
                 </div>
             </div>
     </div>
+
 </div>
+
+</form>
+
+
 {% endblock content %}

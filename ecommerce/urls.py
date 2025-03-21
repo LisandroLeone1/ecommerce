@@ -1,5 +1,6 @@
-from django.urls import path
+from django.urls import path, include
 from ecommerce.views import Home, index_list, indumentaria_view, calzados_view, producto_detalle, sale_view, accesorios_view
+
 
 app_name = "ecommerce"
 urlpatterns = [
