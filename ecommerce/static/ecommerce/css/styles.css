@@ -1359,11 +1359,31 @@ input[type="checkbox"]:checked::after {
     align-items: center;
 }
 
-.sub-carro__data p {
-    font-size: 19px;
-    font-weight: 500;
+.sub-carro__data-descuento {
+    display: flex;
+    gap: 5px;
 }
 
+.sub-carro__data-descuento span {
+    font-size: 12px;
+    color: var(--color-decimo);
+    font-weight: 600;
+}
+
+.sub-carro__data-descuento h5 {
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: line-through;
+}
+
+.sub-carro__data p  {
+    font-size: 21px;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+.data {
+    max-width: 230px;
+}
 .data h4 {
     font-size: 13px;
     margin-bottom: 5px;

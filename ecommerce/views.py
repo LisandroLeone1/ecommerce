@@ -412,7 +412,7 @@ def producto_detalle(request, producto_id):
     else:
         talles = [] 
     
-    cuota = cuotas_sin_interes(producto.precio, 3)
+    cuota = cuotas_sin_interes(producto.precio_con_descuento(), 3)
 
     return render(request, 'ecommerce/producto.html', {'producto': producto, 'talles': talles, 'colores': colores, 'cuota': cuota})
 

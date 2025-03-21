@@ -29,3 +29,7 @@ class CarroItem(models.Model):
     
     def total_producto(self):
         return self.producto.precio * self.cantidad 
+    
+    def precio_unitario_con_descuento(self):
+        return self.producto.precio_con_descuento() * self.cantidad
+    """Precio total del producto por la cantidad que el usuario agregue"""

@@ -31,10 +31,19 @@ def agregar_a_carro(request, producto_id):
 def ver_carro(request):
     carro, _ = Carro.objects.get_or_create(user=request.user)  # Asegura que haya un carrito
     items = CarroItem.objects.filter(carro=carro)
-    total = sum(item.producto.precio * item.cantidad for item in items)
+    total = sum((item.precio_unitario_con_descuento()) for item in items) 
+    #en la funcion precio_con_descuento de la clase Producto ya manejo un condicional que si el producto no esta en sale
+    # entonces devolvera el precio original. Osea con "total" calculo el precio total de todos los productos del carro
+    # tanto si tienen descuento como si no tienen
     cantidad_total_productos = sum(item.cantidad for item in items)
+    
 
-    return render(request, 'carro/carro.html', {'carro': items, 'total': total, 'cantidad_total_productos': cantidad_total_productos})
+    return render(request, 
+                'carro/carro.html', 
+                {'carro': items,
+                'total': total, 
+                'cantidad_total_productos': cantidad_total_productos
+                })
 
 # Eliminar producto del carrito
 @login_required

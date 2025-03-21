@@ -43,8 +43,16 @@
                                 {% endif %}
                             </div>
 
-                            <div class="sub-carro__data">
-                                <p>${{ item.total_producto }}</p>
+                            <div class="">
+                                {% if item.producto.estado == 'sale' %}
+                                <div class="sub-carro__data-descuento">
+                                    <span>-{{item.producto.descuento}}%</span>
+                                    <h5>${{ item.total_producto }}</h5>
+                                </div>
+                                <p>${{ item.precio_unitario_con_descuento }}</p>
+                                {% else %}
+                                <p class="">${{ item.total_producto }}</p>
+                                {% endif %}
                             </div>
                         </div>
     
