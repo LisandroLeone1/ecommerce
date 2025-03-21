@@ -125,39 +125,38 @@ MEJORAS EN DESARROLLO
 
 ENGLISH
 
-This repository contains an e-commerce project developed using Python's Django library. Styles were implemented with CSS and JavaScript, resulting in a completely responsive design.
-
-The project is focused on a sportswear store but can be adapted to any type of product.
+This repository contains an e-commerce project developed using Python's Django library. The styles are implemented with CSS and JavaScript, achieving a fully responsive design.
+The project focuses on a sportswear store but can be adapted to any type of product.
 
 PRODUCTS
 
-Products are managed through Django's admin panel. Each product includes the following features:
+Products are managed from the Django admin panel. Each product includes the following features:
 - Name
 - Price
-- Discount: allows applying a percentage discount to the product and automatically calculates the final price using a - function.
+- Discount: allows applying a percentage discount to the product and automatically calculating the final price through a function.
 - Brand
 - Gender
 - Product type: clothing, footwear, or accessories.
-- Size: tailored to the type of product.
+- Size: adapted based on the product type.
 - Color
 - Category
-- Status: products can have one of three statuses: "Sale," "Featured," or "New."
+- Status: products can be in one of three statuses: "Sale," "Featured," or "New Arrivals."
 - Creation date: indicates when the product was created.
-- Images: up to four images can be uploaded per product.
+- Images: up to four images can be uploaded for each product.
 
-Products are displayed as interactive cards that include:
-- A main image (changes when hovering over it).
+Products are presented as interactive cards that display:
+- A main image (changes when hovered over).
 - Key details, including the price in 3 interest-free installments.
-- A "Buy" button that redirects to the product details section.
+- A "Buy" button that redirects to the product detail section.
 
 HOME PAGE
 
-The home page includes:
-- New arrivals: displays the last 8 products marked as "New."
-- Brand carousel: shows images of all available brands.
-- 2024 Offers: displays the last 8 products marked as "Sale." Clicking "2024 Offers" leads to the "Sale" section.
-- Categories: displays images of the three main categories (clothing, footwear, and accessories). Each image redirects to its corresponding section.
-- New arrivals (repeat): again shows the last 8 products marked as "New."
+The homepage includes:
+- New Arrivals: displays the last 8 products added with this status.
+- Brand Carousel: contains images of all available brands.
+- Offers 2024: presents the last 8 products with the "Sale" status. Clicking on "Offers 2024" redirects to the "Sale" section.
+- Categories: shows images of the three main categories (clothing, footwear, and accessories). Each image redirects to its respective section.
+- New Arrivals (repetition): again, the last 8 products with the "New Arrivals" status.
 
 SECTIONS
 
@@ -170,46 +169,76 @@ In each section, users can:
 - Apply advanced filters (brand, color, size). Each filter shows the number of available products.
 - Sort products by price or name.
 
-In the "Sale" section, products display the original price, the applied discount, and the final price after the discount.
+In the "Sale" section, products show the original price, the applied discount, and the final discounted price.
 The contact section is under development.
 
 PRODUCT SECTION
 
-Clicking "Buy" on any product redirects to the product detail section, where users can:
-
+By clicking "Buy" on any product, the user accesses the product detail section, where they can:
 - View all available images of the product, with the option to switch between them.
-- See details such as:
- Brand 
- Name 
- Price
- Discounted price (if applicable)
- Installment price
- Color and size options
-- Add the product to the shopping cart (under development).
+- View details such as:
+    Brand
+    Name
+    Price
+    Discounted price (if applicable)
+    Price in installments
+    Color and size options
+    Quantity to add
+    Add the product to the shopping cart.
 
-CART
+SHOPPING CART
 
-The shopping cart is under development.
+The shopping cart allows users to add products and manage their purchases.
+
+- Cart Features:
+
+ Each user has a cart associated with their account. 
+ The user must create an account to access the shopping cart.
+ The products in the cart include the selected quantity, size, and color.
+ Prices are updated automatically based on the quantity and applied discounts.
+ The total purchase amount is shown in real-time.
+
+- How It Works:
+
+1. Add Products:
+    Users can add products from the product detail page. If the product is already in the cart, the quantity is incremented instead of duplicating it.
+
+2. View Cart:
+    The products are displayed as interactive cards that include:
+    - Product image
+    - Product name, brand, color, and size
+    - Unit price and price with discount if applicable
+    - Selected quantity with the option to modify it
+    - Total price of the product based on quantity
+
+3. Price Calculation:
+    If the product is on sale (status == 'sale'), the corresponding discount is applied.
+    The original price is shown strikethrough, and the new discounted price is displayed.
+    The cart total reflects the actual price of the selected products.
+
+4. Remove or Modify Products:
+    Products can be removed individually.
+    The quantity of each product can be modified, and the total is updated dynamically.
 
 USERS
 
-The system allows users to:
-1. Register using a form that requires:
+The system allows users to: 
+1. Register via a form that asks for:
 - Username
 - Password
 - First and last name
-- Email
-- Delivery address
+- Email address
+- Shipping address
 - Phone number
 - Date of birth
-2. Log in after creating an account.
+2. Log in once the account is created.
 3. My Account:
-- View and edit personal data.
-- (Future): display a purchase history.
+- Allows viewing and editing personal information.
+- (Future feature): Will display a purchase history.
 
-IMPROVEMENTS IN DEVELOPMENT
+DEVELOPING IMPROVEMENTS
 
+- Implementation of a frontend developed with React.
 - Footer.
-- Cart section.
 - Contact section.
-- Search bar improvements.
+- Search functionality correction.
